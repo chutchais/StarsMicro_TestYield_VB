@@ -1,5 +1,6 @@
 Type=Exe
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
+Reference=*\G{420B2830-E718-11CF-893D-00A0C9054228}#1.0#0#..\..\..\..\..\..\Windows\SysWOW64\scrrun.dll#Microsoft Scripting Runtime
 Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0; COMDLG32.OCX
 Form=frmMain.frm
 Class=clsTMT; clsTMT.cls
@@ -10,6 +11,8 @@ Class=clsEPRO; clsEPRO.cls
 Class=clsETS; clsETS.cls
 Class=clsMAV; clsMAV.cls
 Module=mdlExcel; mdlExcel.bas
+Class=clsIniFile; clsIniFile.cls
+Module=mdlFolder; ..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\VB98\mdlFolder.bas
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""
