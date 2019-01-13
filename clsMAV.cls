@@ -166,15 +166,13 @@ Public Property Get SystemId() As String
     SystemId = vSystemId
 End Property
 '
-'Public Property Get HardwareBins() As Collection
-'
-'    Set HardwareBins = objHwBins
-'
-'End Property
-'
-'Public Property Get SoftwareBins() As Collection
-'    Set SoftwareBins = objSwBins
-'End Property
+Public Property Get HardwareBins() As Collection
+    Set HardwareBins = objIBBins
+End Property
+
+Public Property Get SoftwareBins() As Collection
+    Set SoftwareBins = objDBBins
+End Property
 
 Public Property Get UnitBins() As Collection
     Set UnitBins = objUnitBins
@@ -193,8 +191,18 @@ Friend Sub Init(ByVal file_name As String)
   Dim vArray() As String
   vArray = Split(file_name, "\")
   vAssy = Split(vArray(UBound(vArray)), "_")(0)
-  vSeq = Split(vArray(UBound(vArray)), "_")(2)
+'  vSeq = Split(vArray(UBound(vArray)), "_")(2)
+'  vSeq = Replace(vSeq, ".txt", "")
+  
+  'Get Seq from file Name
+  Dim vFileSplited() As String
+  vFileSplited = Split(vLogfileName, "_")
+  For i = 2 To UBound(vFileSplited)
+    vSeq = vSeq + "_" + vFileSplited(i)
+  Next
   vSeq = Replace(vSeq, ".txt", "")
+  vSeq = Mid(vSeq, 2)
+  '----------------------------------
   
   process_file
 End Sub

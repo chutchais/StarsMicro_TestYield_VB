@@ -1,49 +1,125 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmMain 
    Caption         =   "Tester Yield Report"
-   ClientHeight    =   5295
+   ClientHeight    =   8565
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   14505
+   ClientWidth     =   17190
    LinkTopic       =   "Form1"
-   ScaleHeight     =   5295
-   ScaleWidth      =   14505
+   ScaleHeight     =   8565
+   ScaleWidth      =   17190
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton cmdRefresh 
-      Caption         =   "Refresh"
-      Height          =   495
-      Left            =   12510
-      TabIndex        =   19
-      Top             =   450
-      Width           =   1455
-   End
-   Begin VB.ListBox lstFile 
-      Height          =   3765
+   Begin TabDlg.SSTab SSTab1 
+      Height          =   7170
       Left            =   90
-      TabIndex        =   18
+      TabIndex        =   10
       Top             =   1350
-      Width           =   5370
+      Width           =   17010
+      _ExtentX        =   30004
+      _ExtentY        =   12647
+      _Version        =   393216
+      Tabs            =   2
+      TabsPerRow      =   5
+      TabHeight       =   520
+      TabCaption(0)   =   "Summary Report"
+      TabPicture(0)   =   "frmMain.frx":0000
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "Frame1"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "Frame2"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "Frame3"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).ControlCount=   3
+      TabCaption(1)   =   "File list"
+      TabPicture(1)   =   "frmMain.frx":001C
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "lstFile"
+      Tab(1).ControlCount=   1
+      Begin VB.Frame Frame3 
+         Caption         =   "QA Summarize"
+         Height          =   1275
+         Left            =   135
+         TabIndex        =   15
+         Top             =   1845
+         Width           =   16620
+         Begin MSFlexGridLib.MSFlexGrid fGridQa 
+            Height          =   735
+            Left            =   135
+            TabIndex        =   17
+            Top             =   360
+            Width           =   16440
+            _ExtentX        =   28998
+            _ExtentY        =   1296
+            _Version        =   393216
+         End
+      End
+      Begin VB.Frame Frame2 
+         Caption         =   "FT Summarize"
+         Height          =   1275
+         Left            =   135
+         TabIndex        =   14
+         Top             =   495
+         Width           =   16620
+         Begin MSFlexGridLib.MSFlexGrid fGridFT 
+            Height          =   735
+            Left            =   135
+            TabIndex        =   16
+            Top             =   360
+            Width           =   16440
+            _ExtentX        =   28998
+            _ExtentY        =   1296
+            _Version        =   393216
+         End
+      End
+      Begin VB.ListBox lstFile 
+         Height          =   4350
+         Left            =   -74775
+         TabIndex        =   12
+         Top             =   495
+         Width           =   5460
+      End
+      Begin VB.Frame Frame1 
+         Caption         =   "Summary Table"
+         Height          =   3885
+         Left            =   135
+         TabIndex        =   11
+         Top             =   3195
+         Width           =   16665
+         Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
+            Height          =   3525
+            Left            =   135
+            TabIndex        =   13
+            Top             =   270
+            Width           =   16440
+            _ExtentX        =   28998
+            _ExtentY        =   6218
+            _Version        =   393216
+         End
+      End
    End
    Begin VB.CommandButton cmdGenerate 
-      Caption         =   "Generate"
+      Caption         =   "Generate Report"
       Height          =   495
-      Left            =   10530
-      TabIndex        =   16
-      Top             =   1215
+      Left            =   12510
+      TabIndex        =   8
+      Top             =   450
       Width           =   1455
    End
    Begin VB.TextBox txtFolder 
       Height          =   375
       Left            =   1170
-      TabIndex        =   15
+      TabIndex        =   7
       Top             =   540
       Width           =   9780
    End
    Begin VB.TextBox txtLotNumber 
       Height          =   375
       Left            =   4365
-      TabIndex        =   14
+      TabIndex        =   6
       Top             =   90
       Width           =   2580
    End
@@ -51,18 +127,18 @@ Begin VB.Form frmMain
       Caption         =   "Export Excel"
       Enabled         =   0   'False
       Height          =   495
-      Left            =   12420
-      TabIndex        =   12
-      Top             =   4770
+      Left            =   14400
+      TabIndex        =   4
+      Top             =   495
       Width           =   1455
    End
    Begin VB.ComboBox cbTester 
       Height          =   315
-      ItemData        =   "frmMain.frx":0000
+      ItemData        =   "frmMain.frx":0038
       Left            =   1185
-      List            =   "frmMain.frx":0010
+      List            =   "frmMain.frx":0048
       Style           =   2  'Dropdown List
-      TabIndex        =   11
+      TabIndex        =   3
       Top             =   120
       Width           =   1575
    End
@@ -72,114 +148,6 @@ Begin VB.Form frmMain
       _ExtentX        =   847
       _ExtentY        =   847
       _Version        =   393216
-   End
-   Begin VB.Frame Frame4 
-      Caption         =   "Yield"
-      Height          =   1695
-      Left            =   8865
-      TabIndex        =   4
-      Top             =   3510
-      Width           =   2655
-      Begin VB.Label lblYield 
-         Alignment       =   2  'Center
-         Caption         =   "0"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   27.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FF0000&
-         Height          =   615
-         Left            =   240
-         TabIndex        =   8
-         Top             =   600
-         Width           =   2175
-      End
-   End
-   Begin VB.Frame Frame3 
-      Caption         =   "Total Failed"
-      Height          =   1695
-      Left            =   5850
-      TabIndex        =   3
-      Top             =   3825
-      Width           =   2655
-      Begin VB.Label lblFailed 
-         Alignment       =   2  'Center
-         Caption         =   "0"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   27.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FF0000&
-         Height          =   615
-         Left            =   240
-         TabIndex        =   7
-         Top             =   600
-         Width           =   2175
-      End
-   End
-   Begin VB.Frame Frame2 
-      Caption         =   "Total Passed"
-      Height          =   1695
-      Left            =   8595
-      TabIndex        =   2
-      Top             =   1980
-      Width           =   2655
-      Begin VB.Label lblPassed 
-         Alignment       =   2  'Center
-         Caption         =   "0"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   27.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FF0000&
-         Height          =   615
-         Left            =   240
-         TabIndex        =   6
-         Top             =   600
-         Width           =   2175
-      End
-   End
-   Begin VB.Frame Frame1 
-      Caption         =   "Total Tested"
-      Height          =   1695
-      Left            =   11925
-      TabIndex        =   1
-      Top             =   1800
-      Width           =   2655
-      Begin VB.Label lblTested 
-         Alignment       =   2  'Center
-         Caption         =   "0"
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   27.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FF0000&
-         Height          =   615
-         Left            =   240
-         TabIndex        =   5
-         Top             =   600
-         Width           =   2175
-      End
    End
    Begin VB.CommandButton cmdBrowse 
       Caption         =   "Select Folder"
@@ -193,7 +161,7 @@ Begin VB.Form frmMain
       Caption         =   "0 File(s)"
       Height          =   255
       Left            =   1170
-      TabIndex        =   17
+      TabIndex        =   9
       Top             =   945
       Width           =   3195
    End
@@ -210,7 +178,7 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   285
       Left            =   2880
-      TabIndex        =   13
+      TabIndex        =   5
       Top             =   180
       Width           =   1455
    End
@@ -218,7 +186,7 @@ Begin VB.Form frmMain
       Caption         =   "Tester :"
       Height          =   255
       Left            =   120
-      TabIndex        =   10
+      TabIndex        =   2
       Top             =   120
       Width           =   855
    End
@@ -226,7 +194,7 @@ Begin VB.Form frmMain
       Caption         =   "Folder name :"
       Height          =   255
       Left            =   90
-      TabIndex        =   9
+      TabIndex        =   1
       Top             =   630
       Width           =   1035
    End
@@ -236,7 +204,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 Dim objIni As clsIniFile
 Dim objEPRO As clsEPRO
@@ -246,6 +214,7 @@ Dim objTMT As clsTMT
 
 Dim objFiles As New Collection
 Dim colFiles As New Collection
+Dim colLots As New Collection
 
 'Tester Log file and Ext
 Dim vCurrentFolder As String
@@ -284,14 +253,15 @@ Sub clearContains()
        
     Set colFiles = New Collection
     lstFile.Clear
+    initial_Grid_Summary
     txtLotNumber.Text = ""
     cmdExport.Enabled = False
     'lblFileName.Caption = ""
     txtFolder.Text = ""
-    lblTested.Caption = "0"
-    lblPassed.Caption = "0"
-    lblFailed.Caption = "0"
-    lblYield.Caption = "0"
+'    lblTested.Caption = "0"
+'    lblPassed.Caption = "0"
+'    lblFailed.Caption = "0"
+'    lblYield.Caption = "0"
 End Sub
 
 Private Sub cmdBrowse_Click()
@@ -302,7 +272,7 @@ Private Sub cmdBrowse_Click()
      
      Me.MousePointer = 11
     clearContains
-    txtFolder.Text = BrowseForFolder(hwnd, "Please select a Server folder.")
+    txtFolder.Text = BrowseForFolder(hWnd, "Please select a Server folder.")
     showFileCountInFolder txtFolder.Text, vCurrentFileExt
     Me.MousePointer = 0
 End Sub
@@ -364,9 +334,11 @@ End Sub
 'File Count
 Sub filterFileByLot(lotNumber As String)
     lstFile.Clear
+    Set colLots = New Collection
     For Each f In colFiles
         If f Like "*" & lotNumber & "*" Then
             lstFile.AddItem f
+            colLots.Add f
         End If
         
     Next
@@ -515,23 +487,277 @@ Sub showDetail(vObject As Object)
             End With
 End Sub
 
-Private Sub cmdRefresh_Click()
-     Me.MousePointer = 11
-         Set colFiles = New Collection
-        lstFile.Clear
-        txtLotNumber.Text = ""
-        vCurrentFileExt = txtFolder.Text
-        showFileCountInFolder txtFolder.Text, vCurrentFileExt
-    Me.MousePointer = 0
+Private Sub cmdGenerate_Click()
+
+initial_Grid_Summary
+
+Select Case cbTester.Text
+        Case "EPRO":
+        Case "ETS":
+        Dim objETS As New clsETS
+            For i = 0 To lstFile.ListCount - 1
+                Set objETS = New clsETS
+                objETS.Init vCurrentFolder & "\" & lstFile.List(i)
+                If objETS.Completed Then
+                    add_data_to_Grid_Summary objETS, lstFile.List(i)
+                End If
+            Next
+        Case "MAV":
+            For i = 0 To lstFile.ListCount - 1
+                Set objMAV = New clsMAV
+                objMAV.Init vCurrentFolder & "\" & lstFile.List(i)
+                If objMAV.Completed Then
+                    add_data_to_Grid_Summary objMAV, lstFile.List(i)
+                End If
+            Next
+        Case "TMT":
+            For i = 0 To lstFile.ListCount - 1
+                Set objTMT = New clsTMT
+                objTMT.Init vCurrentFolder & "\" & lstFile.List(i)
+                If objTMT.Completed Then
+                    add_data_to_Grid_Summary objTMT, lstFile.List(i)
+                End If
+            Next
+End Select
+    
+    
 End Sub
+
+
+
+'Private Sub cmdRefresh_Click()
+'     Me.MousePointer = 11
+'         Set colFiles = New Collection
+'        lstFile.Clear
+'        txtLotNumber.Text = ""
+'        vCurrentFileExt = txtFolder.Text
+'        showFileCountInFolder txtFolder.Text, vCurrentFileExt
+'    Me.MousePointer = 0
+'End Sub
 
 Private Sub Form_Load()
     Me.Caption = Me.Caption & " version : " & App.Major & "." & App.Minor & "." & App.Revision
+    '
+    initial_Grid_Summary
+    initial_Grid_FT
+    initial_Grid_QA
+End Sub
+Sub initial_Grid_Summary()
+        With MSFlexGrid1
+    
+        .Rows = 2
+        .Row = 1
+        .Clear
+        
+    .Cols = 19
+    .ColWidth(0) = 3200
+    For i = 1 To .Cols - 1
+        .ColWidth(i) = 700
+    Next
+    
+    .Row = 0
+    .Text = "Lot"
+    .col = 1
+    .Text = "Step"
+    .col = 2
+    .Text = "Temp"
+    .col = 3
+    .Text = "Total"
+    .col = 4
+    .Text = "Pass"
+    .col = 5
+    .Text = "Fail"
+    'Hardware Bin
+    .col = 6
+    .Text = "HBin2"
+    .col = 7
+    .Text = "HBin3"
+    .col = 8
+    .Text = "HBin4"
+    .col = 9
+    .Text = "HBin5"
+    .col = 10
+    .Text = "HBin6"
+    .col = 11
+    .Text = "HBin7"
+    .col = 12
+    .Text = "HBin8"
+    
+    .col = 13
+    .Text = "DB1"
+    .col = 14
+    .Text = "DB2"
+    .col = 15
+    .Text = "DB3"
+    .col = 16
+    .Text = "DB4"
+    .col = 17
+    .Text = "DB5"
+    .col = 18
+    .Text = "DB6"
+    
+    End With
+End Sub
 
+Sub initial_Grid_FT()
+        With fGridFT
+    
+        .Rows = 2
+        .Row = 1
+        .Clear
+        
+    .Cols = 13
+    .ColWidth(0) = 3200
+    For i = 1 To .Cols - 1
+        .ColWidth(i) = 1000
+    Next
+    
+    .Row = 0
+    .Text = "Lot"
+    .col = 1
+    .Text = "Step"
+    .col = 2
+    .Text = "Temp"
+    .col = 3
+    .Text = "Total"
+    .col = 4
+    .Text = "Pass"
+    .col = 5
+    .Text = "Fail"
+    'Hardware Bin
+    .col = 6
+    .Text = "HBin2"
+    .col = 7
+    .Text = "HBin3"
+    .col = 8
+    .Text = "HBin4"
+    .col = 9
+    .Text = "HBin5"
+    .col = 10
+    .Text = "HBin6"
+    .col = 11
+    .Text = "HBin7"
+    .col = 12
+    .Text = "HBin8"
+    
+    
+    End With
+End Sub
+
+Sub initial_Grid_QA()
+        With fGridQa
+    
+        .Rows = 2
+        .Row = 1
+        .Clear
+        
+    .Cols = 13
+    .ColWidth(0) = 3200
+    For i = 1 To .Cols - 1
+        .ColWidth(i) = 1000
+    Next
+    
+    .Row = 0
+    .Text = "Lot"
+    .col = 1
+    .Text = "Step"
+    .col = 2
+    .Text = "Temp"
+    .col = 3
+    .Text = "Total"
+    .col = 4
+    .Text = "Pass"
+    .col = 5
+    .Text = "Fail"
+    'Hardware Bin
+    .col = 6
+    .Text = "HBin2"
+    .col = 7
+    .Text = "HBin3"
+    .col = 8
+    .Text = "HBin4"
+    .col = 9
+    .Text = "HBin5"
+    .col = 10
+    .Text = "HBin6"
+    .col = 11
+    .Text = "HBin7"
+    .col = 12
+    .Text = "HBin8"
+    
+    
+    End With
+End Sub
+
+Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
+    Dim i As Integer
+    
+    With MSFlexGrid1
+    If .Row = 0 Then
+        .Row = 1
+        .col = 0
+        .Text = vFileName 'obj.Lot
+        .col = 1
+        .Text = obj.Seq
+        .col = 2
+        .Text = obj.Temperature
+        .col = 3
+        .Text = obj.Tested
+        .col = 4
+        .Text = obj.Passed
+        .col = 5
+        .Text = obj.Failed
+        
+'        .col = 6
+'        .Text = objEts.Failed
+    Else
+        .AddItem vFileName 'obj.Lot
+        .Row = .Row + 1
+        .col = 0
+        .Text = vFileName 'obj.Lot
+        .col = 1
+        .Text = obj.Seq
+        .col = 2
+        .Text = obj.Temperature
+        .col = 3
+        .Text = obj.Tested
+        .col = 4
+        .Text = obj.Passed
+        .col = 5
+        .Text = obj.Failed
+    End If
+    
+    Dim ixCol As Integer
+    Dim objFind As Object
+    'Hardware Bin
+    ixCol = 2
+    For i = 6 To 12
+        .col = i
+        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.HardwareBins)
+        If Not objFind Is Nothing Then
+            .Text = objFind.Total
+        End If
+        ixCol = ixCol + 1
+    Next
+    
+    'Software Bin
+    ixCol = 1
+    For i = 13 To 18
+        .col = i
+        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
+        If Not objFind Is Nothing Then
+            .Text = objFind.Total
+        End If
+        ixCol = ixCol + 1
+    Next
+    
+    
+    End With
 End Sub
 
 Private Sub txtLotNumber_Change()
     lstFile.Clear
+    initial_Grid_Summary
 End Sub
 
 Private Sub txtLotNumber_KeyPress(KeyAscii As Integer)

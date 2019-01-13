@@ -137,11 +137,9 @@ Public Property Get SystemId() As String
     SystemId = vSystemId
 End Property
 '
-'Public Property Get HardwareBins() As Collection
-'
-'    Set HardwareBins = objHwBins
-'
-'End Property
+Public Property Get HardwareBins() As Collection
+    Set HardwareBins = objHwBins
+End Property
 '
 Public Property Get SoftwareBins() As Collection
     Set SoftwareBins = objSwBins
@@ -155,6 +153,17 @@ Friend Sub Init(ByVal file_name As String)
   'Init object state here
   vLogfileName = file_name
   vFileContains = FileToString(vLogfileName)
+  
+    'Get Seq from file Name
+  Dim vFileSplited() As String
+  vFileSplited = Split(vLogfileName, "_")
+  For i = 1 To IIf(UBound(vFileSplited) = 1, 1, UBound(vFileSplited) - 1)
+    vSeq = vSeq + "_" + vFileSplited(i)
+  Next
+  vSeq = Replace(vSeq, ".txt", "")
+  vSeq = Mid(vSeq, 2)
+  '----------------------------------
+  
   process_file
 End Sub
 
@@ -305,7 +314,7 @@ Private Sub getLot(vLineData As String)
     vLotArry = Split(vData(1), "_")
     'vAssy = Trim(vLotArry(0))
     vLot = Trim(vLotArry(0))
-    vSeq = Trim(Mid(vLotArry(1), 1, 2))
+    'vSeq = Trim(Mid(vLotArry(1), 1, 2))
 End Sub
 
 Private Sub getOperator(vLineData As String)
@@ -563,8 +572,12 @@ Private Sub getHwBin(vLineData As String)
     If Not IsNumeric(vBinNumber) Then Exit Sub
     
     Dim vBinDescription As String
+    Dim ixTotal As Integer
     For i = ixDescStart To UBound(vData)
-        If IsNumeric(vData(i)) Then Exit For
+        If IsNumeric(vData(i)) Then
+            ixTotal = i
+            Exit For
+        End If
         vBinDescription = vBinDescription & " " & vData(i)
     Next
     vBinDescription = Trim(vBinDescription)
@@ -574,8 +587,8 @@ Private Sub getHwBin(vLineData As String)
         With objBin
             .Name = vBinNumber
             .Description = vBinDescription
-            .Total = 0
-            .Yield = 0
+            .Total = vData(ixTotal)
+            .Yield = Replace(vData(UBound(vData)), "%", "")
         End With
         objHwBins.Add objBin
 End Sub

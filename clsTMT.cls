@@ -32,6 +32,7 @@ Dim vAutocorrelation As String
 Dim vNextSerial As String
 Dim vStartDate As String
 Dim vStopDate As String
+Dim vTemperature As String
 
 Dim objHwBins As New Collection
 Dim objSwBins As New Collection
@@ -134,6 +135,9 @@ End Property
 Public Property Get SoftwareBins() As Collection
     Set SoftwareBins = objSwBins
 End Property
+Public Property Get Temperature() As String
+    Temperature = vTemperature
+End Property
 
 
 'End Property
@@ -143,6 +147,16 @@ Friend Sub Init(ByVal file_name As String)
   'Init object state here
   vLogfileName = file_name
   vFileContains = FileToString(vLogfileName)
+  
+  'Get Seq from file Name
+  Dim vFileSplited() As String
+  vFileSplited = Split(vLogfileName, "_")
+  For i = 2 To UBound(vFileSplited)
+    vSeq = vSeq + "_" + vFileSplited(i)
+  Next
+  vSeq = Replace(vSeq, ".lsr", "")
+  vSeq = Mid(vSeq, 2)
+  '----------------------------------
   process_file
 End Sub
 
@@ -252,7 +266,7 @@ Private Sub getLot(vLineData As String)
     vLotArry = Split(vData(ixColon + 1), "_")
     vAssy = vLotArry(0)
     vLot = vLotArry(1)
-    vSeq = Mid(vLotArry(2), 1, 2)
+    'vSeq = Mid(vLotArry(2), 1, 2)
     
     'get Failed
     ixColon = getColonPosition(vLineData, ixColon + 1)
@@ -449,6 +463,18 @@ End Sub
 
 
 'Common function for Class
+Public Function getBin(key As String, col As Collection) As Object
+  On Error GoTo errhandler
+  For Each c In col
+        If c.Name = key Then
+            Set getBin = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getBin = Nothing
+End Function
 
 Private Function TryGet(key As String, col As Collection) As clsBin
   On Error GoTo errhandler
