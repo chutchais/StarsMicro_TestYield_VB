@@ -950,11 +950,3 @@ Private Function getPercentPosition(vDataString As String, Optional start As Int
     Next
 End Function
 
-
-
-
-
-
-
-
-

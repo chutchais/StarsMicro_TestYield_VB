@@ -204,7 +204,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 Dim objIni As clsIniFile
 Dim objEPRO As clsEPRO
@@ -272,7 +272,7 @@ Private Sub cmdBrowse_Click()
      
      Me.MousePointer = 11
     clearContains
-    txtFolder.Text = BrowseForFolder(hWnd, "Please select a Server folder.")
+    txtFolder.Text = BrowseForFolder(hwnd, "Please select a Server folder.")
     showFileCountInFolder txtFolder.Text, vCurrentFileExt
     Me.MousePointer = 0
 End Sub
@@ -490,6 +490,10 @@ End Sub
 Private Sub cmdGenerate_Click()
 
 initial_Grid_Summary
+initial_Grid_FT
+initial_Grid_QA
+
+Dim objFileReport As New Collection
 
 Select Case cbTester.Text
         Case "EPRO":
@@ -499,14 +503,18 @@ Select Case cbTester.Text
                 Set objETS = New clsETS
                 objETS.Init vCurrentFolder & "\" & lstFile.List(i)
                 If objETS.Completed Then
+                    objFileReport.Add objETS
+                    'each file
                     add_data_to_Grid_Summary objETS, lstFile.List(i)
                 End If
             Next
+
         Case "MAV":
             For i = 0 To lstFile.ListCount - 1
                 Set objMAV = New clsMAV
                 objMAV.Init vCurrentFolder & "\" & lstFile.List(i)
                 If objMAV.Completed Then
+                    objFileReport.Add objMAV
                     add_data_to_Grid_Summary objMAV, lstFile.List(i)
                 End If
             Next
@@ -515,10 +523,14 @@ Select Case cbTester.Text
                 Set objTMT = New clsTMT
                 objTMT.Init vCurrentFolder & "\" & lstFile.List(i)
                 If objTMT.Completed Then
+                    objFileReport.Add objTMT
                     add_data_to_Grid_Summary objTMT, lstFile.List(i)
                 End If
             Next
 End Select
+ 'summary file
+            add_data_to_FT_Grid_Summary objFileReport
+            add_data_to_QA_Grid_Summary objFileReport
     
     
 End Sub
@@ -606,7 +618,7 @@ Sub initial_Grid_FT()
         .Row = 1
         .Clear
         
-    .Cols = 13
+    .Cols = 14
     .ColWidth(0) = 3200
     For i = 1 To .Cols - 1
         .ColWidth(i) = 1000
@@ -624,20 +636,22 @@ Sub initial_Grid_FT()
     .Text = "Pass"
     .col = 5
     .Text = "Fail"
-    'Hardware Bin
     .col = 6
-    .Text = "HBin2"
+    .Text = "Yield"
+    'Hardware Bin
     .col = 7
-    .Text = "HBin3"
+    .Text = "HBin2"
     .col = 8
-    .Text = "HBin4"
+    .Text = "HBin3"
     .col = 9
-    .Text = "HBin5"
+    .Text = "HBin4"
     .col = 10
-    .Text = "HBin6"
+    .Text = "HBin5"
     .col = 11
-    .Text = "HBin7"
+    .Text = "HBin6"
     .col = 12
+    .Text = "HBin7"
+    .col = 13
     .Text = "HBin8"
     
     
@@ -651,7 +665,7 @@ Sub initial_Grid_QA()
         .Row = 1
         .Clear
         
-    .Cols = 13
+    .Cols = 14
     .ColWidth(0) = 3200
     For i = 1 To .Cols - 1
         .ColWidth(i) = 1000
@@ -669,20 +683,23 @@ Sub initial_Grid_QA()
     .Text = "Pass"
     .col = 5
     .Text = "Fail"
-    'Hardware Bin
+    
     .col = 6
-    .Text = "HBin2"
+    .Text = "Yield"
+    'Hardware Bin
     .col = 7
-    .Text = "HBin3"
+    .Text = "HBin2"
     .col = 8
-    .Text = "HBin4"
+    .Text = "HBin3"
     .col = 9
-    .Text = "HBin5"
+    .Text = "HBin4"
     .col = 10
-    .Text = "HBin6"
+    .Text = "HBin5"
     .col = 11
-    .Text = "HBin7"
+    .Text = "HBin6"
     .col = 12
+    .Text = "HBin7"
+    .col = 13
     .Text = "HBin8"
     
     
@@ -750,6 +767,292 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
         End If
         ixCol = ixCol + 1
     Next
+    
+    
+    End With
+End Sub
+
+
+Sub add_data_to_FT_Grid_Summary(objs As Collection)
+    Dim i As Integer
+    Dim vLot As String
+    Dim vTested As Long
+    Dim vPassed As Long
+    Dim vFailed As Long
+    Dim vRetestPassed As Long
+    
+    Dim vHWBin1 As Long
+    Dim vHWBin2 As Long
+    Dim vHWBin3 As Long
+    Dim vHWBin4 As Long
+    Dim vHWBin5 As Long
+    Dim vHWBin6 As Long
+    Dim vHWBin7 As Long
+    
+    Dim vTemp As String
+
+    
+    
+    For Each obj In objs
+        Dim vSeq As String
+        vSeq = obj.Seq
+        vLot = obj.Lot
+        'Functional
+        If Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "F" Then
+            vFailed = vFailed + obj.Failed
+            vTested = vTested + obj.Tested
+            vPassed = vPassed + obj.Passed
+            Dim objHWBins As Object
+            Set objHWBin = obj.getBin("1", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin1 = vHWBin1 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("2", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin2 = vHWBin2 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("3", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin3 = vHWBin3 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("4", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin4 = vHWBin4 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("5", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin5 = vHWBin5 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("6", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin6 = vHWBin6 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("7", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin7 = vHWBin7 + objHWBin.Total
+            End If
+        End If
+        
+        
+        'Retest
+        If Len(vSeq) >= 2 And Mid(vSeq, 1, 1) = "R" Then
+            vRetestPassed = obj.Passed
+        End If
+        
+        vTemp = obj.Temperature
+                
+    Next
+    
+    vPassed = vPassed + vRetestPassed
+    
+    
+    
+    With fGridFT
+    If .Row = 0 Then
+        .Row = 1
+        .col = 0
+        .Text = vLot
+        .col = 1
+        .Text = "F" 'obj.Seq
+        .col = 2
+        .Text = vTemp 'obj.Temperature
+        .col = 3
+        .Text = vTested 'obj.Tested
+        .col = 4
+        .Text = vPassed 'obj.Passed
+        .col = 5
+        .Text = (vTested - vPassed) 'obj.Failed
+        
+        .col = 6
+        If vPassed <> 0 And vTested <> 0 Then
+            .Text = Format((vPassed / vTested) * 100, "#0.00") 'obj.Failed
+        Else
+            .Text = "0"
+        End If
+        'Hardware Bin (start bin2)
+        .col = 7
+        .Text = vHWBin2
+        .col = 8
+        .Text = vHWBin3
+        .col = 9
+        .Text = vHWBin4
+        .col = 10
+        .Text = vHWBin5
+        .col = 11
+        .Text = vHWBin6
+        .col = 12
+        .Text = vHWBin7
+    End If
+    
+'    Dim ixCol As Integer
+'    Dim objFind As Object
+'    'Hardware Bin
+'    ixCol = 2
+'    For i = 6 To 12
+'        .col = i
+'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.HardwareBins)
+'        If Not objFind Is Nothing Then
+'            .Text = objFind.Total
+'        End If
+'        ixCol = ixCol + 1
+'    Next
+'
+'    'Software Bin
+'    ixCol = 1
+'    For i = 13 To 18
+'        .col = i
+'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
+'        If Not objFind Is Nothing Then
+'            .Text = objFind.Total
+'        End If
+'        ixCol = ixCol + 1
+'    Next
+    
+    
+    End With
+End Sub
+
+Sub add_data_to_QA_Grid_Summary(objs As Collection)
+    Dim i As Integer
+    Dim vLot As String
+    Dim vTested As Long
+    Dim vPassed As Long
+    Dim vFailed As Long
+    
+    Dim vHWBin1 As Long
+    Dim vHWBin2 As Long
+    Dim vHWBin3 As Long
+    Dim vHWBin4 As Long
+    Dim vHWBin5 As Long
+    Dim vHWBin6 As Long
+    Dim vHWBin7 As Long
+
+    Dim vTemp As String
+    Dim vFirstTested As Boolean
+    vFirstTested = True
+    
+    For Each obj In objs
+        Dim vSeq As String
+        vSeq = obj.Seq
+        vLot = obj.Lot
+        'Functional
+        If Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "Q" Then
+            If vFirstTested Then
+                vTested = vTested + obj.Tested
+                vFirstTested = False
+            End If
+            
+            vPassed = vPassed + obj.Passed
+            
+            
+            Dim objHWBins As Object
+            Set objHWBin = obj.getBin("1", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin1 = vHWBin1 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("2", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin2 = vHWBin2 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("3", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin3 = vHWBin3 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("4", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin4 = vHWBin4 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("5", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin5 = vHWBin5 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("6", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin6 = vHWBin6 + objHWBin.Total
+            End If
+            
+            Set objHWBin = obj.getBin("7", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                vHWBin7 = vHWBin7 + objHWBin.Total
+            End If
+        End If
+        vTemp = obj.Temperature
+    Next
+    
+    vFailed = vTested - vPassed
+    
+    
+    With fGridQa
+    If .Row = 0 Then
+        .Row = 1
+        .col = 0
+        .Text = vLot
+        .col = 1
+        .Text = "Q" 'obj.Seq
+        .col = 2
+        .Text = vTemp 'obj.Temperature
+        .col = 3
+        .Text = vTested 'obj.Tested
+        .col = 4
+        .Text = vPassed 'obj.Passed
+        .col = 5
+        .Text = vFailed 'obj.Failed
+        
+        .col = 6
+        If vPassed <> 0 And vTested <> 0 Then
+            .Text = Format((vPassed / vTested) * 100, "#0.00") 'obj.Failed
+        Else
+            .Text = "0"
+        End If
+        'Hardware Bin (start bin2)
+        .col = 7
+        .Text = vHWBin2
+        .col = 8
+        .Text = vHWBin3
+        .col = 9
+        .Text = vHWBin4
+        .col = 10
+        .Text = vHWBin5
+        .col = 11
+        .Text = vHWBin6
+        .col = 12
+        .Text = vHWBin7
+    End If
+    
+'    Dim ixCol As Integer
+'    Dim objFind As Object
+'    'Hardware Bin
+'    ixCol = 2
+'    For i = 6 To 12
+'        .col = i
+'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.HardwareBins)
+'        If Not objFind Is Nothing Then
+'            .Text = objFind.Total
+'        End If
+'        ixCol = ixCol + 1
+'    Next
+'
+'    'Software Bin
+'    ixCol = 1
+'    For i = 13 To 18
+'        .col = i
+'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
+'        If Not objFind Is Nothing Then
+'            .Text = objFind.Total
+'        End If
+'        ixCol = ixCol + 1
+'    Next
     
     
     End With
