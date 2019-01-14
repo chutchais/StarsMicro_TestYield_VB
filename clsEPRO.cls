@@ -57,6 +57,14 @@ Public Property Get DBs() As Collection
     Set DBs = objDBBins
 End Property
 
+Public Property Get HardwareBins() As Collection
+    Set HardwareBins = objIBBins
+End Property
+
+Public Property Get SoftwareBins() As Collection
+    Set SoftwareBins = objDBBins
+End Property
+
 Public Property Get DataBins() As Collection
     Set DataBins = objDataBins
 End Property
@@ -278,7 +286,7 @@ Private Sub getLot(vLineData As String)
     vAssy = Trim(vLotArry(0))
     If UBound(vLotArry) = 0 Then Exit Sub
     vLot = Trim(vLotArry(1))
-    vSeq = Trim(Mid(vLotArry(2), 1, 2))
+    vSeq = Trim(Mid(vLotArry(2), 1))
 End Sub
 
 Private Sub getOperator(vLineData As String)

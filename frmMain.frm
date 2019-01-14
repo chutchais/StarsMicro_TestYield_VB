@@ -11,7 +11,7 @@ Begin VB.Form frmMain
    LinkTopic       =   "Form1"
    ScaleHeight     =   8565
    ScaleWidth      =   17190
-   StartUpPosition =   3  'Windows Default
+   StartUpPosition =   2  'CenterScreen
    Begin TabDlg.SSTab SSTab1 
       Height          =   7170
       Left            =   90
@@ -76,7 +76,7 @@ Begin VB.Form frmMain
          End
       End
       Begin VB.ListBox lstFile 
-         Height          =   4350
+         Height          =   6495
          Left            =   -74775
          TabIndex        =   12
          Top             =   495
@@ -103,13 +103,14 @@ Begin VB.Form frmMain
    End
    Begin VB.CommandButton cmdGenerate 
       Caption         =   "Generate Report"
-      Height          =   495
-      Left            =   12510
+      Height          =   405
+      Left            =   6975
       TabIndex        =   8
-      Top             =   450
+      Top             =   90
       Width           =   1455
    End
    Begin VB.TextBox txtFolder 
+      Enabled         =   0   'False
       Height          =   375
       Left            =   1170
       TabIndex        =   7
@@ -130,6 +131,7 @@ Begin VB.Form frmMain
       Left            =   14400
       TabIndex        =   4
       Top             =   495
+      Visible         =   0   'False
       Width           =   1455
    End
    Begin VB.ComboBox cbTester 
@@ -345,6 +347,25 @@ Sub filterFileByLot(lotNumber As String)
     
 End Sub
 
+Sub filterFileByLotForEPRO(lotNumber As String)
+    lstFile.Clear
+    
+    Dim vObjEPRO As clsEPRO
+    Set colLots = New Collection
+    
+    For Each f In colFiles
+        'load file to EPRO object
+        Set vObjEPRO = New clsEPRO
+            vObjEPRO.Init vCurrentFolder & "\" & f
+        If vObjEPRO.Lot Like "*" & lotNumber & "*" Then
+            lstFile.AddItem f
+            colLots.Add f
+        End If
+        
+    Next
+    
+End Sub
+
 Function CountFiles(strDirectory As String, Optional strExt As String = "*.*") As Double
 '   then count only files of that type, otherwise return a count of all files.
     Dim objFso As Object
@@ -488,6 +509,10 @@ Sub showDetail(vObject As Object)
 End Sub
 
 Private Sub cmdGenerate_Click()
+Me.MousePointer = 11
+If txtLotNumber.Text = "" Then
+    Exit Sub
+End If
 
 initial_Grid_Summary
 initial_Grid_FT
@@ -495,8 +520,27 @@ initial_Grid_QA
 
 Dim objFileReport As New Collection
 
+'Only EPRO ,can not using file name to filter Lot number (must read in file content)
+    If cbTester.Text <> "EPRO" Then
+        filterFileByLot txtLotNumber.Text
+    Else
+        filterFileByLotForEPRO txtLotNumber.Text
+    End If
+
+
 Select Case cbTester.Text
         Case "EPRO":
+        Dim objEPRO As New clsEPRO
+            For i = 0 To lstFile.ListCount - 1
+                Set objEPRO = New clsEPRO
+                objEPRO.Init vCurrentFolder & "\" & lstFile.List(i)
+                If objEPRO.Completed Then
+                    objFileReport.Add objEPRO
+                    'each file
+                    add_data_to_Grid_Summary objEPRO, lstFile.List(i)
+                End If
+            Next
+            
         Case "ETS":
         Dim objETS As New clsETS
             For i = 0 To lstFile.ListCount - 1
@@ -532,7 +576,7 @@ End Select
             add_data_to_FT_Grid_Summary objFileReport
             add_data_to_QA_Grid_Summary objFileReport
     
-    
+ Me.MousePointer = 0
 End Sub
 
 
@@ -802,7 +846,7 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
             vFailed = vFailed + obj.Failed
             vTested = vTested + obj.Tested
             vPassed = vPassed + obj.Passed
-            Dim objHWBins As Object
+            Dim objHwBins As Object
             Set objHWBin = obj.getBin("1", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
                 vHWBin1 = vHWBin1 + objHWBin.Total
@@ -951,7 +995,7 @@ Sub add_data_to_QA_Grid_Summary(objs As Collection)
             vPassed = vPassed + obj.Passed
             
             
-            Dim objHWBins As Object
+            Dim objHwBins As Object
             Set objHWBin = obj.getBin("1", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
                 vHWBin1 = vHWBin1 + objHWBin.Total
@@ -1061,10 +1105,13 @@ End Sub
 Private Sub txtLotNumber_Change()
     lstFile.Clear
     initial_Grid_Summary
+    initial_Grid_FT
+    initial_Grid_QA
 End Sub
 
 Private Sub txtLotNumber_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         filterFileByLot txtLotNumber.Text
+        cmdGenerate_Click
     End If
 End Sub
