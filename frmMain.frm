@@ -605,7 +605,7 @@ Sub initial_Grid_Summary()
         .Row = 1
         .Clear
         
-    .Cols = 19
+    .Cols = 12 + 32
     .ColWidth(0) = 3200
     For i = 1 To .Cols - 1
         .ColWidth(i) = 700
@@ -639,18 +639,22 @@ Sub initial_Grid_Summary()
     .col = 12
     .Text = "HBin8"
     
-    .col = 13
-    .Text = "DB1"
-    .col = 14
-    .Text = "DB2"
-    .col = 15
-    .Text = "DB3"
-    .col = 16
-    .Text = "DB4"
-    .col = 17
-    .Text = "DB5"
-    .col = 18
-    .Text = "DB6"
+    For i = 1 To 31
+        .col = 12 + i
+        .Text = "DB" & Trim(i)
+    Next
+'    .col = 13
+'    .Text = "DB1"
+'    .col = 14
+'    .Text = "DB2"
+'    .col = 15
+'    .Text = "DB3"
+'    .col = 16
+'    .Text = "DB4"
+'    .col = 17
+'    .Text = "DB5"
+'    .col = 18
+'    .Text = "DB6"
     
     End With
 End Sub
@@ -793,17 +797,34 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
     'Hardware Bin
     ixCol = 2
     For i = 6 To 12
+        Dim vSeqArry() As String
+        Dim vBinNumber As Integer
+        vSeqArry = Split(obj.Seq, "_")
+        If UBound(vSeqArry) > 0 Then
+            If vSeqArry(0) Like "R*" Then
+                If vSeqArry(1) Like "B*" Then
+                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
+                End If
+            End If
+            'MsgBox ("ssds")
+        End If
+    
         .col = i
         Set objFind = obj.getBin(Trim(Str(ixCol)), obj.HardwareBins)
         If Not objFind Is Nothing Then
             .Text = objFind.Total
+            
+            
+        End If
+        If vBinNumber = i - 4 Then
+                .CellBackColor = vbRed
         End If
         ixCol = ixCol + 1
     Next
     
     'Software Bin
     ixCol = 1
-    For i = 13 To 18
+    For i = 13 To 13 + 30
         .col = i
         Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
         If Not objFind Is Nothing Then
@@ -841,45 +862,98 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
         Dim vSeq As String
         vSeq = obj.Seq
         vLot = obj.Lot
+        
+        Dim vSeqArry() As String
+        Dim vBinNumber As Integer
+        vSeqArry = Split(obj.Seq, "_")
+        If UBound(vSeqArry) > 0 Then
+            If vSeqArry(0) Like "R*" Then
+                If vSeqArry(1) Like "B*" Then
+                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
+                End If
+            End If
+        End If
+        
         'Functional
-        If Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "F" Then
+        Dim vFunctionTest As Boolean
+        vFunctionTest = IIf(Mid(vSeq, 1, 1) = "F", True, False)
+        If (Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "F") Or Mid(vSeq, 1, 1) = "R" Then
             vFailed = vFailed + obj.Failed
             vTested = vTested + obj.Tested
             vPassed = vPassed + obj.Passed
             Dim objHwBins As Object
             Set objHWBin = obj.getBin("1", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin1 = vHWBin1 + objHWBin.Total
+'                End If
                 vHWBin1 = vHWBin1 + objHWBin.Total
             End If
             
             Set objHWBin = obj.getBin("2", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin2 = vHWBin2 + objHWBin.Total
+'                End If
                 vHWBin2 = vHWBin2 + objHWBin.Total
+                If vBinNumber = 2 Then
+                    vHWBin2 = objHWBin.Total
+                End If
             End If
             
             Set objHWBin = obj.getBin("3", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin3 = vHWBin3 + objHWBin.Total
+'                End If
                 vHWBin3 = vHWBin3 + objHWBin.Total
+                If vBinNumber = 3 Then
+                    vHWBin3 = objHWBin.Total
+                End If
             End If
             
             Set objHWBin = obj.getBin("4", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin4 = vHWBin4 + objHWBin.Total
+'                End If
                 vHWBin4 = vHWBin4 + objHWBin.Total
+                If vBinNumber = 4 Then
+                    vHWBin4 = objHWBin.Total
+                End If
             End If
             
             Set objHWBin = obj.getBin("5", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin5 = vHWBin5 + objHWBin.Total
+'                End If
                 vHWBin5 = vHWBin5 + objHWBin.Total
+                If vBinNumber = 5 Then
+                    vHWBin5 = objHWBin.Total
+                End If
             End If
             
             Set objHWBin = obj.getBin("6", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin6 = vHWBin6 + objHWBin.Total
+'                End If
                 vHWBin6 = vHWBin6 + objHWBin.Total
+                If vBinNumber = 6 Then
+                    vHWBin6 = objHWBin.Total
+                End If
             End If
             
             Set objHWBin = obj.getBin("7", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
+'                If vFunctionTest Then
+'                    vHWBin7 = vHWBin7 + objHWBin.Total
+'                End If
                 vHWBin7 = vHWBin7 + objHWBin.Total
+                If vBinNumber = 7 Then
+                    vHWBin7 = objHWBin.Total
+                End If
             End If
         End If
         
@@ -895,6 +969,7 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
     
     vPassed = vPassed + vRetestPassed
     
+                   
     
     
     With fGridFT
@@ -922,16 +997,34 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
         'Hardware Bin (start bin2)
         .col = 7
         .Text = vHWBin2
+            If vBinNumber = 2 Then
+                .CellBackColor = vbRed
+            End If
         .col = 8
         .Text = vHWBin3
+            If vBinNumber = 3 Then
+                .CellBackColor = vbRed
+            End If
         .col = 9
         .Text = vHWBin4
+            If vBinNumber = 4 Then
+                .CellBackColor = vbRed
+            End If
         .col = 10
         .Text = vHWBin5
+            If vBinNumber = 5 Then
+                .CellBackColor = vbRed
+            End If
         .col = 11
         .Text = vHWBin6
+            If vBinNumber = 6 Then
+                .CellBackColor = vbRed
+            End If
         .col = 12
         .Text = vHWBin7
+            If vBinNumber = 7 Then
+                .CellBackColor = vbRed
+            End If
     End If
     
 '    Dim ixCol As Integer

@@ -250,6 +250,14 @@ On Error GoTo HasError
         'IB Bins
         vKey = "IB "
         If textContain(vLineStr, vKey) Then getIB vLineStr
+        
+        'Hardware Bin
+        vKey = "Bin  "
+        If textContain(vLineStr, vKey) Then getIB vLineStr
+        
+        
+        
+        
         'DB Bins
         vKey = "DB "
         If textContain(vLineStr, vKey) Then getDB vLineStr
@@ -668,9 +676,21 @@ Private Sub getFailure(vLineData As String)
     Dim k As Integer
     ixYield = getPercentPosition(vLineData)
     
-    vName = IIf(vData(1) <> "", vData(1), vData(2))
-    vName = Trim(vName)
-    k = IIf(Len(vName) = 1, 3, 2)
+  'comment on Jan 18,2019
+  'found many space
+'    vName = IIf(vData(1) <> "", vData(1), vData(2))
+'    vName = Trim(vName)
+'k = IIf(Len(vName) = 1, 3, 2)
+    For i = 1 To ixYield - 1
+        If vData(i) <> "" Then
+            vName = vData(i)
+            k = i + 1
+            Exit For
+        End If
+    Next
+    
+    
+    
     
     For i = k To ixYield - 1
         If vData(i) <> "" Then
@@ -725,9 +745,16 @@ Private Sub getFailure(vLineData As String)
     Dim k As Integer
     ixYield = getPercentPosition(vLineData)
     
-    vName = IIf(vData(1) <> "", vData(1), vData(2))
-    vName = Trim(vName)
-    k = IIf(Len(vName) = 1, 3, 2)
+'    vName = IIf(vData(1) <> "", vData(1), vData(2))
+'    vName = Trim(vName)
+'    k = IIf(Len(vName) = 1, 3, 2)
+    For i = 1 To ixYield - 1
+            If vData(i) <> "" Then
+                vName = vData(i)
+                k = i + 1
+                Exit For
+            End If
+        Next
     
     
     For i = k To ixYield - 1
