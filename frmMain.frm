@@ -4,22 +4,22 @@ Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form frmMain 
    Caption         =   "Tester Yield Report"
-   ClientHeight    =   8565
+   ClientHeight    =   9195
    ClientLeft      =   120
    ClientTop       =   450
    ClientWidth     =   17190
    LinkTopic       =   "Form1"
-   ScaleHeight     =   8565
+   ScaleHeight     =   9195
    ScaleWidth      =   17190
    StartUpPosition =   2  'CenterScreen
    Begin TabDlg.SSTab SSTab1 
-      Height          =   7170
+      Height          =   7755
       Left            =   90
       TabIndex        =   10
       Top             =   1350
       Width           =   17010
       _ExtentX        =   30004
-      _ExtentY        =   12647
+      _ExtentY        =   13679
       _Version        =   393216
       Tabs            =   2
       TabsPerRow      =   5
@@ -41,37 +41,37 @@ Begin VB.Form frmMain
       Tab(1).ControlCount=   1
       Begin VB.Frame Frame3 
          Caption         =   "QA Summarize"
-         Height          =   1275
+         Height          =   1635
          Left            =   135
          TabIndex        =   15
-         Top             =   1845
+         Top             =   2205
          Width           =   16620
          Begin MSFlexGridLib.MSFlexGrid fGridQa 
-            Height          =   735
+            Height          =   1185
             Left            =   135
             TabIndex        =   17
             Top             =   360
             Width           =   16440
             _ExtentX        =   28998
-            _ExtentY        =   1296
+            _ExtentY        =   2090
             _Version        =   393216
          End
       End
       Begin VB.Frame Frame2 
          Caption         =   "FT Summarize"
-         Height          =   1275
+         Height          =   1635
          Left            =   135
          TabIndex        =   14
          Top             =   495
          Width           =   16620
          Begin MSFlexGridLib.MSFlexGrid fGridFT 
-            Height          =   735
+            Height          =   1185
             Left            =   135
             TabIndex        =   16
             Top             =   360
             Width           =   16440
             _ExtentX        =   28998
-            _ExtentY        =   1296
+            _ExtentY        =   2090
             _Version        =   393216
          End
       End
@@ -84,19 +84,19 @@ Begin VB.Form frmMain
       End
       Begin VB.Frame Frame1 
          Caption         =   "Summary Table"
-         Height          =   3885
+         Height          =   3660
          Left            =   135
          TabIndex        =   11
-         Top             =   3195
+         Top             =   3960
          Width           =   16665
          Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
-            Height          =   3525
+            Height          =   3210
             Left            =   135
             TabIndex        =   13
             Top             =   270
             Width           =   16440
             _ExtentX        =   28998
-            _ExtentY        =   6218
+            _ExtentY        =   5662
             _Version        =   393216
          End
       End
@@ -602,16 +602,17 @@ Sub initial_Grid_Summary()
         With MSFlexGrid1
     
         .Rows = 2
-        .Row = 1
+        .row = 1
         .Clear
         
-    .Cols = 12 + 32
-    .ColWidth(0) = 3200
-    For i = 1 To .Cols - 1
+    .cols = 12 + 33
+    .ColWidth(0) = 3200 'file name
+    .ColWidth(1) = 1000 'step
+    For i = 2 To .cols - 1
         .ColWidth(i) = 700
     Next
     
-    .Row = 0
+    .row = 0
     .Text = "Lot"
     .col = 1
     .Text = "Step"
@@ -639,7 +640,7 @@ Sub initial_Grid_Summary()
     .col = 12
     .Text = "HBin8"
     
-    For i = 1 To 31
+    For i = 1 To 32
         .col = 12 + i
         .Text = "DB" & Trim(i)
     Next
@@ -662,17 +663,17 @@ End Sub
 Sub initial_Grid_FT()
         With fGridFT
     
-        .Rows = 2
-        .Row = 1
+        .Rows = 1
+        .row = 0
         .Clear
         
-    .Cols = 14
+    .cols = 14
     .ColWidth(0) = 3200
-    For i = 1 To .Cols - 1
+    For i = 1 To .cols - 1
         .ColWidth(i) = 1000
     Next
     
-    .Row = 0
+    .row = 0
     .Text = "Lot"
     .col = 1
     .Text = "Step"
@@ -709,17 +710,17 @@ End Sub
 Sub initial_Grid_QA()
         With fGridQa
     
-        .Rows = 2
-        .Row = 1
+        .Rows = 1
+        .row = 0
         .Clear
         
-    .Cols = 14
+    .cols = 14
     .ColWidth(0) = 3200
-    For i = 1 To .Cols - 1
+    For i = 1 To .cols - 1
         .ColWidth(i) = 1000
     Next
     
-    .Row = 0
+    .row = 0
     .Text = "Lot"
     .col = 1
     .Text = "Step"
@@ -758,14 +759,14 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
     Dim i As Integer
     
     With MSFlexGrid1
-    If .Row = 0 Then
-        .Row = 1
+    If .row = 0 Then
+        .row = 1
         .col = 0
         .Text = vFileName 'obj.Lot
         .col = 1
-        .Text = obj.Seq
+        .Text = obj.seq
         .col = 2
-        .Text = obj.Temperature
+        .Text = obj.temperature
         .col = 3
         .Text = obj.Tested
         .col = 4
@@ -777,13 +778,13 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
 '        .Text = objEts.Failed
     Else
         .AddItem vFileName 'obj.Lot
-        .Row = .Row + 1
+        .row = .row + 1
         .col = 0
         .Text = vFileName 'obj.Lot
         .col = 1
-        .Text = obj.Seq
+        .Text = obj.seq
         .col = 2
-        .Text = obj.Temperature
+        .Text = obj.temperature
         .col = 3
         .Text = obj.Tested
         .col = 4
@@ -799,14 +800,24 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
     For i = 6 To 12
         Dim vSeqArry() As String
         Dim vBinNumber As Integer
-        vSeqArry = Split(obj.Seq, "_")
+        Dim vBinNumberCol As New Collection
+        vSeqArry = Split(obj.seq, "_")
         If UBound(vSeqArry) > 0 Then
             If vSeqArry(0) Like "R*" Then
-                If vSeqArry(1) Like "B*" Then
-                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
-                End If
+            
+'                If vSeqArry(1) Like "B*" Then
+'                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
+'                End If
+            'Multiple Retest BIN
+                For x = 1 To UBound(vSeqArry)
+                    If vSeqArry(x) Like "B*" Then
+                        vBinNumberCol.Add Val(Replace(vSeqArry(x), "B", ""))
+                    End If
+                Next
+            
+            
             End If
-            'MsgBox ("ssds")
+
         End If
     
         .col = i
@@ -816,15 +827,25 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
             
             
         End If
-        If vBinNumber = i - 4 Then
-                .CellBackColor = vbRed
-        End If
+        
+'        If vBinNumber = i - 4 Then
+'                .CellBackColor = vbGreen
+'        End If
+        If Not vBinNumberCol Is Nothing Then
+            For Each c In vBinNumberCol
+                If c = i - 4 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
+         End If
+        
+        
         ixCol = ixCol + 1
     Next
     
     'Software Bin
     ixCol = 1
-    For i = 13 To 13 + 30
+    For i = 13 To 13 + 31
         .col = i
         Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
         If Not objFind Is Nothing Then
@@ -835,10 +856,32 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
     
     
     End With
+
+
 End Sub
 
 
 Sub add_data_to_FT_Grid_Summary(objs As Collection)
+    'get all Temperature
+    Dim colTemp As Collection
+    Set colTemp = getTemperatureCol(objs)
+    Dim vRow As Integer
+    vRow = 1
+    Dim objTemp As Collection
+    For Each c In colTemp
+        Set objTemp = getCollectionByTemperature(CStr(c), objs)
+        
+        add_data_to_FT_each_Temperature CStr(c), objTemp, vRow
+        vRow = vRow + 1
+    Next
+End Sub
+
+Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, Optional row As Integer = 1)
+    
+    If objs.Count = 0 Then
+        Exit Sub
+    End If
+    
     Dim i As Integer
     Dim vLot As String
     Dim vTested As Long
@@ -856,23 +899,40 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
     
     Dim vTemp As String
 
-    
+    Dim vBinNumberCol As New Collection
     
     For Each obj In objs
         Dim vSeq As String
-        vSeq = obj.Seq
+        vSeq = obj.seq
         vLot = obj.Lot
         
+'        Dim vSeqArry() As String
+'        Dim vBinNumber As Integer
+'        vSeqArry = Split(obj.Seq, "_")
+'        If UBound(vSeqArry) > 0 Then
+'            If vSeqArry(0) Like "R*" Then
+'                If vSeqArry(1) Like "B*" Then
+'                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
+'                End If
+'            End If
+'        End If
+        
+        If vBinNumberCol.Count = 0 Then
         Dim vSeqArry() As String
         Dim vBinNumber As Integer
-        vSeqArry = Split(obj.Seq, "_")
-        If UBound(vSeqArry) > 0 Then
-            If vSeqArry(0) Like "R*" Then
-                If vSeqArry(1) Like "B*" Then
-                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
+        
+            vSeqArry = Split(obj.seq, "_")
+            If UBound(vSeqArry) > 0 Then
+                If vSeqArry(0) Like "R*" Then
+                    For x = 1 To UBound(vSeqArry)
+                        If vSeqArry(x) Like "B*" Then
+                            vBinNumberCol.Add Val(Replace(vSeqArry(x), "B", ""))
+                        End If
+                    Next
                 End If
             End If
         End If
+        
         
         'Functional
         Dim vFunctionTest As Boolean
@@ -896,9 +956,15 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
 '                    vHWBin2 = vHWBin2 + objHWBin.Total
 '                End If
                 vHWBin2 = vHWBin2 + objHWBin.Total
-                If vBinNumber = 2 Then
-                    vHWBin2 = objHWBin.Total
-                End If
+'                If vBinNumber = 2 Then
+'                    vHWBin2 = objHWBin.Total
+'                End If
+                For Each c In vBinNumberCol
+                    If c = 2 Then
+                        vHWBin2 = objHWBin.Total
+                    End If
+                Next
+                
             End If
             
             Set objHWBin = obj.getBin("3", obj.HardwareBins)
@@ -907,9 +973,11 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
 '                    vHWBin3 = vHWBin3 + objHWBin.Total
 '                End If
                 vHWBin3 = vHWBin3 + objHWBin.Total
-                If vBinNumber = 3 Then
-                    vHWBin3 = objHWBin.Total
-                End If
+                For Each c In vBinNumberCol
+                    If c = 3 Then
+                        vHWBin3 = objHWBin.Total
+                    End If
+                Next
             End If
             
             Set objHWBin = obj.getBin("4", obj.HardwareBins)
@@ -918,9 +986,11 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
 '                    vHWBin4 = vHWBin4 + objHWBin.Total
 '                End If
                 vHWBin4 = vHWBin4 + objHWBin.Total
-                If vBinNumber = 4 Then
-                    vHWBin4 = objHWBin.Total
-                End If
+                For Each c In vBinNumberCol
+                    If c = 4 Then
+                        vHWBin4 = objHWBin.Total
+                    End If
+                Next
             End If
             
             Set objHWBin = obj.getBin("5", obj.HardwareBins)
@@ -929,9 +999,11 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
 '                    vHWBin5 = vHWBin5 + objHWBin.Total
 '                End If
                 vHWBin5 = vHWBin5 + objHWBin.Total
-                If vBinNumber = 5 Then
-                    vHWBin5 = objHWBin.Total
-                End If
+                For Each c In vBinNumberCol
+                    If c = 5 Then
+                        vHWBin5 = objHWBin.Total
+                    End If
+                Next
             End If
             
             Set objHWBin = obj.getBin("6", obj.HardwareBins)
@@ -940,9 +1012,11 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
 '                    vHWBin6 = vHWBin6 + objHWBin.Total
 '                End If
                 vHWBin6 = vHWBin6 + objHWBin.Total
-                If vBinNumber = 6 Then
-                    vHWBin6 = objHWBin.Total
-                End If
+                For Each c In vBinNumberCol
+                    If c = 6 Then
+                        vHWBin6 = objHWBin.Total
+                    End If
+                Next
             End If
             
             Set objHWBin = obj.getBin("7", obj.HardwareBins)
@@ -951,9 +1025,11 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
 '                    vHWBin7 = vHWBin7 + objHWBin.Total
 '                End If
                 vHWBin7 = vHWBin7 + objHWBin.Total
-                If vBinNumber = 7 Then
-                    vHWBin7 = objHWBin.Total
-                End If
+                For Each c In vBinNumberCol
+                    If c = 7 Then
+                        vHWBin7 = objHWBin.Total
+                    End If
+                Next
             End If
         End If
         
@@ -963,24 +1039,28 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
             vRetestPassed = obj.Passed
         End If
         
-        vTemp = obj.Temperature
+        vTemp = obj.temperature
                 
     Next
     
     vPassed = vPassed + vRetestPassed
     
+    If vTested = 0 Then
+        Exit Sub
+    End If
                    
     
+    fGridFT.Rows = fGridFT.Rows + 1
     
     With fGridFT
-    If .Row = 0 Then
-        .Row = 1
+    'If .row = 0 Then
+        .row = fGridFT.Rows - 1
         .col = 0
         .Text = vLot
         .col = 1
         .Text = "F" 'obj.Seq
         .col = 2
-        .Text = vTemp 'obj.Temperature
+        .Text = temperature 'vTemp 'obj.Temperature
         .col = 3
         .Text = vTested 'obj.Tested
         .col = 4
@@ -997,35 +1077,56 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
         'Hardware Bin (start bin2)
         .col = 7
         .Text = vHWBin2
-            If vBinNumber = 2 Then
-                .CellBackColor = vbRed
+            For Each c In vBinNumberCol
+                If c = 2 Then
+                .CellBackColor = vbGreen
             End If
+            Next
+            
         .col = 8
         .Text = vHWBin3
-            If vBinNumber = 3 Then
-                .CellBackColor = vbRed
-            End If
+            For Each c In vBinNumberCol
+                If c = 3 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
         .col = 9
         .Text = vHWBin4
-            If vBinNumber = 4 Then
-                .CellBackColor = vbRed
-            End If
+            For Each c In vBinNumberCol
+                If c = 4 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
         .col = 10
         .Text = vHWBin5
-            If vBinNumber = 5 Then
-                .CellBackColor = vbRed
-            End If
+            For Each c In vBinNumberCol
+                If c = 5 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
         .col = 11
         .Text = vHWBin6
-            If vBinNumber = 6 Then
-                .CellBackColor = vbRed
-            End If
+            For Each c In vBinNumberCol
+                If c = 6 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
         .col = 12
         .Text = vHWBin7
-            If vBinNumber = 7 Then
-                .CellBackColor = vbRed
-            End If
-    End If
+            For Each c In vBinNumberCol
+                If c = 7 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
+        
+        .col = 13
+        .Text = vHWBin8
+            For Each c In vBinNumberCol
+                If c = 8 Then
+                    .CellBackColor = vbGreen
+                End If
+            Next
+   ' End If
     
 '    Dim ixCol As Integer
 '    Dim objFind As Object
@@ -1055,7 +1156,57 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
     End With
 End Sub
 
+
+Function temperatureExistInCol(temperature As String, cols As Collection) As Boolean
+    For Each c In cols
+        If c = temperature Then
+            temperatureExistInCol = True
+            Exit Function
+        End If
+    Next
+End Function
+Function getTemperatureCol(objs As Collection) As Collection
+    Set getTemperatureCol = New Collection
+    Dim vPreviousTemp As String
+    Dim vCurrTemp As String
+    For Each o In objs
+        vCurrTemp = o.temperature
+        If Not temperatureExistInCol(vCurrTemp, getTemperatureCol) Then
+            getTemperatureCol.Add vCurrTemp
+            vPreviousTemp = vCurrTemp
+        End If
+    Next
+End Function
+
+Function getCollectionByTemperature(temperature As String, objs As Collection) As Collection
+    Dim tmpCol As New Collection
+    'Set getCollectionByTemperature = New Collection
+    For Each o In objs
+        If temperature = o.temperature Then
+            tmpCol.Add o
+        End If
+    Next
+'    Set tmpCol = SortCollection(tmpCol) 'SortCollection(tmpCol)
+    Set getCollectionByTemperature = tmpCol
+End Function
+
 Sub add_data_to_QA_Grid_Summary(objs As Collection)
+    'get all Temperature
+    Dim colTemp As Collection
+    Set colTemp = getTemperatureCol(objs)
+    Dim vRow As Integer
+    vRow = 1
+    Dim objTemp As Collection
+    For Each c In colTemp
+        Set objTemp = getCollectionByTemperature(CStr(c), objs)
+        
+        add_data_to_QA_each_Temp CStr(c), objTemp, vRow
+        vRow = vRow + 1
+    Next
+End Sub
+
+Sub add_data_to_QA_each_Temp(temperature As String, objs As Collection, Optional row As Integer = 1)
+
     Dim i As Integer
     Dim vLot As String
     Dim vTested As Long
@@ -1069,25 +1220,46 @@ Sub add_data_to_QA_Grid_Summary(objs As Collection)
     Dim vHWBin5 As Long
     Dim vHWBin6 As Long
     Dim vHWBin7 As Long
+    Dim vHWBin8 As Long
+
 
     Dim vTemp As String
     Dim vFirstTested As Boolean
     vFirstTested = True
     
+    If objs Is Nothing Then
+        Exit Sub
+    End If
+    
+    
+    Dim vPreviousTested As Long
+    Dim vPreviousHWBin2 As Long
+    Dim vPreviousHWBin3 As Long
+    Dim vPreviousHWBin4 As Long
+    Dim vPreviousHWBin5 As Long
+    Dim vPreviousHWBin6 As Long
+    Dim vPreviousHWBin7 As Long
+    Dim vPreviousHWBin8 As Long
+    
     For Each obj In objs
         Dim vSeq As String
-        vSeq = obj.Seq
+        vSeq = obj.seq
         vLot = obj.Lot
         'Functional
         If Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "Q" Then
-            If vFirstTested Then
-                vTested = vTested + obj.Tested
-                vFirstTested = False
+            
+            If obj.Tested > vPreviousTested Then
+                vTested = obj.Tested
             End If
+            vPreviousTested = obj.Tested
+            
+'            If vFirstTested Then
+'                vTested = vTested + obj.Tested
+'                vFirstTested = False
+'            End If
             
             vPassed = vPassed + obj.Passed
-            
-            
+
             Dim objHwBins As Object
             Set objHWBin = obj.getBin("1", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
@@ -1096,49 +1268,81 @@ Sub add_data_to_QA_Grid_Summary(objs As Collection)
             
             Set objHWBin = obj.getBin("2", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
-                vHWBin2 = vHWBin2 + objHWBin.Total
+                If vPreviousHWBin2 < objHWBin.Total Then
+                    vHWBin2 = objHWBin.Total
+                    vPreviousHWBin2 = vHWBin2
+                End If
             End If
             
             Set objHWBin = obj.getBin("3", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
-                vHWBin3 = vHWBin3 + objHWBin.Total
+                If vPreviousHWBin3 < objHWBin.Total Then
+                    vHWBin3 = objHWBin.Total
+                    vPreviousHWBin3 = vHWBin3
+                End If
             End If
             
             Set objHWBin = obj.getBin("4", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
-                vHWBin4 = vHWBin4 + objHWBin.Total
+                If vPreviousHWBin4 < objHWBin.Total Then
+                    vHWBin4 = objHWBin.Total
+                    vPreviousHWBin4 = vHWBin4
+                End If
             End If
             
             Set objHWBin = obj.getBin("5", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
-                vHWBin5 = vHWBin5 + objHWBin.Total
+                If vPreviousHWBin5 < objHWBin.Total Then
+                    vHWBin5 = objHWBin.Total
+                    vPreviousHWBin5 = vHWBin5
+                End If
             End If
             
             Set objHWBin = obj.getBin("6", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
-                vHWBin6 = vHWBin6 + objHWBin.Total
+                If vPreviousHWBin6 < objHWBin.Total Then
+                    vHWBin6 = objHWBin.Total
+                    vPreviousHWBin6 = vHWBin6
+                End If
             End If
             
             Set objHWBin = obj.getBin("7", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
-                vHWBin7 = vHWBin7 + objHWBin.Total
+                If vPreviousHWBin7 < objHWBin.Total Then
+                    vHWBin7 = objHWBin.Total
+                    vPreviousHWBin7 = vHWBin7
+                End If
             End If
+            
+            Set objHWBin = obj.getBin("8", obj.HardwareBins)
+            If Not objHWBin Is Nothing Then
+                If vPreviousHWBin8 < objHWBin.Total Then
+                    vHWBin8 = objHWBin.Total
+                    vPreviousHWBin8 = vHWBin8
+                End If
+            End If
+            
         End If
-        vTemp = obj.Temperature
+        vTemp = obj.temperature
     Next
     
     vFailed = vTested - vPassed
     
+    If vTested = 0 Then
+        Exit Sub
+    End If
+    
+    fGridQa.Rows = fGridQa.Rows + 1
     
     With fGridQa
-    If .Row = 0 Then
-        .Row = 1
+    'If .row = 0 Then
+        .row = .Rows - 1
         .col = 0
         .Text = vLot
         .col = 1
         .Text = "Q" 'obj.Seq
         .col = 2
-        .Text = vTemp 'obj.Temperature
+        .Text = temperature 'obj.Temperature
         .col = 3
         .Text = vTested 'obj.Tested
         .col = 4
@@ -1165,33 +1369,9 @@ Sub add_data_to_QA_Grid_Summary(objs As Collection)
         .Text = vHWBin6
         .col = 12
         .Text = vHWBin7
-    End If
-    
-'    Dim ixCol As Integer
-'    Dim objFind As Object
-'    'Hardware Bin
-'    ixCol = 2
-'    For i = 6 To 12
-'        .col = i
-'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.HardwareBins)
-'        If Not objFind Is Nothing Then
-'            .Text = objFind.Total
-'        End If
-'        ixCol = ixCol + 1
-'    Next
-'
-'    'Software Bin
-'    ixCol = 1
-'    For i = 13 To 18
-'        .col = i
-'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
-'        If Not objFind Is Nothing Then
-'            .Text = objFind.Total
-'        End If
-'        ixCol = ixCol + 1
-'    Next
-    
-    
+        .col = 13
+        .Text = vHWBin8
+    'End If
     End With
 End Sub
 
