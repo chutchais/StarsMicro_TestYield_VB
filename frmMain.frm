@@ -275,6 +275,7 @@ Private Sub cmdBrowse_Click()
      Me.MousePointer = 11
     clearContains
     txtFolder.Text = BrowseForFolder(hwnd, "Please select a Server folder.")
+    vCurrentFolder = txtFolder.Text
     showFileCountInFolder txtFolder.Text, vCurrentFileExt
     Me.MousePointer = 0
 End Sub
@@ -764,9 +765,9 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
         .col = 0
         .Text = vFileName 'obj.Lot
         .col = 1
-        .Text = obj.seq
+        .Text = obj.Seq
         .col = 2
-        .Text = obj.temperature
+        .Text = obj.Temperature
         .col = 3
         .Text = obj.Tested
         .col = 4
@@ -782,9 +783,9 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
         .col = 0
         .Text = vFileName 'obj.Lot
         .col = 1
-        .Text = obj.seq
+        .Text = obj.Seq
         .col = 2
-        .Text = obj.temperature
+        .Text = obj.Temperature
         .col = 3
         .Text = obj.Tested
         .col = 4
@@ -801,7 +802,7 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
         Dim vSeqArry() As String
         Dim vBinNumber As Integer
         Dim vBinNumberCol As New Collection
-        vSeqArry = Split(obj.seq, "_")
+        vSeqArry = Split(obj.Seq, "_")
         If UBound(vSeqArry) > 0 Then
             If vSeqArry(0) Like "R*" Then
             
@@ -876,7 +877,7 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
     Next
 End Sub
 
-Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, Optional row As Integer = 1)
+Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, Optional row As Integer = 1)
     
     If objs.Count = 0 Then
         Exit Sub
@@ -903,7 +904,7 @@ Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, O
     
     For Each obj In objs
         Dim vSeq As String
-        vSeq = obj.seq
+        vSeq = obj.Seq
         vLot = obj.Lot
         
 '        Dim vSeqArry() As String
@@ -921,7 +922,7 @@ Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, O
         Dim vSeqArry() As String
         Dim vBinNumber As Integer
         
-            vSeqArry = Split(obj.seq, "_")
+            vSeqArry = Split(obj.Seq, "_")
             If UBound(vSeqArry) > 0 Then
                 If vSeqArry(0) Like "R*" Then
                     For x = 1 To UBound(vSeqArry)
@@ -1039,7 +1040,7 @@ Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, O
             vRetestPassed = obj.Passed
         End If
         
-        vTemp = obj.temperature
+        vTemp = obj.Temperature
                 
     Next
     
@@ -1060,7 +1061,7 @@ Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, O
         .col = 1
         .Text = "F" 'obj.Seq
         .col = 2
-        .Text = temperature 'vTemp 'obj.Temperature
+        .Text = Temperature 'vTemp 'obj.Temperature
         .col = 3
         .Text = vTested 'obj.Tested
         .col = 4
@@ -1157,9 +1158,9 @@ Sub add_data_to_FT_each_Temperature(temperature As String, objs As Collection, O
 End Sub
 
 
-Function temperatureExistInCol(temperature As String, cols As Collection) As Boolean
+Function temperatureExistInCol(Temperature As String, cols As Collection) As Boolean
     For Each c In cols
-        If c = temperature Then
+        If c = Temperature Then
             temperatureExistInCol = True
             Exit Function
         End If
@@ -1170,7 +1171,7 @@ Function getTemperatureCol(objs As Collection) As Collection
     Dim vPreviousTemp As String
     Dim vCurrTemp As String
     For Each o In objs
-        vCurrTemp = o.temperature
+        vCurrTemp = o.Temperature
         If Not temperatureExistInCol(vCurrTemp, getTemperatureCol) Then
             getTemperatureCol.Add vCurrTemp
             vPreviousTemp = vCurrTemp
@@ -1178,11 +1179,11 @@ Function getTemperatureCol(objs As Collection) As Collection
     Next
 End Function
 
-Function getCollectionByTemperature(temperature As String, objs As Collection) As Collection
+Function getCollectionByTemperature(Temperature As String, objs As Collection) As Collection
     Dim tmpCol As New Collection
     'Set getCollectionByTemperature = New Collection
     For Each o In objs
-        If temperature = o.temperature Then
+        If Temperature = o.Temperature Then
             tmpCol.Add o
         End If
     Next
@@ -1205,7 +1206,7 @@ Sub add_data_to_QA_Grid_Summary(objs As Collection)
     Next
 End Sub
 
-Sub add_data_to_QA_each_Temp(temperature As String, objs As Collection, Optional row As Integer = 1)
+Sub add_data_to_QA_each_Temp(Temperature As String, objs As Collection, Optional row As Integer = 1)
 
     Dim i As Integer
     Dim vLot As String
@@ -1243,7 +1244,7 @@ Sub add_data_to_QA_each_Temp(temperature As String, objs As Collection, Optional
     
     For Each obj In objs
         Dim vSeq As String
-        vSeq = obj.seq
+        vSeq = obj.Seq
         vLot = obj.Lot
         'Functional
         If Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "Q" Then
@@ -1323,7 +1324,7 @@ Sub add_data_to_QA_each_Temp(temperature As String, objs As Collection, Optional
             End If
             
         End If
-        vTemp = obj.temperature
+        vTemp = obj.Temperature
     Next
     
     vFailed = vTested - vPassed
@@ -1342,7 +1343,7 @@ Sub add_data_to_QA_each_Temp(temperature As String, objs As Collection, Optional
         .col = 1
         .Text = "Q" 'obj.Seq
         .col = 2
-        .Text = temperature 'obj.Temperature
+        .Text = Temperature 'obj.Temperature
         .col = 3
         .Text = vTested 'obj.Tested
         .col = 4
