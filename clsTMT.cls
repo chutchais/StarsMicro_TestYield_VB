@@ -145,12 +145,16 @@ End Property
 Friend Sub Init(ByVal file_name As String)
   If file_name = "" Then Err.Raise 123, , "File name not set"
   'Init object state here
-  vLogfileName = file_name
-  vFileContains = FileToString(vLogfileName)
+  'vLogfileName = file_name
+  vFileContains = FileToString(file_name)
   
   'Get Seq from file Name
+  Dim vOnlyFileName As String
+  vOnlyFileName = get_only_fileName(file_name)
+  vLogfileName = vOnlyFileName
+  
   Dim vFileSplited() As String
-  vFileSplited = Split(vLogfileName, "_")
+  vFileSplited = Split(vOnlyFileName, "_")
   For i = 2 To UBound(vFileSplited)
     vSeq = vSeq + "_" + vFileSplited(i)
   Next
@@ -159,6 +163,16 @@ Friend Sub Init(ByVal file_name As String)
   '----------------------------------
   process_file
 End Sub
+
+Function get_only_fileName(vFullPath As String) As String
+    Dim vFileArray() As String
+    vFileArray = Split(vFullPath, "\")
+    If UBound(vFileArray) > 0 Then
+        get_only_fileName = vFileArray(UBound(vFileArray))
+    Else
+        get_only_fileName = ""
+    End If
+End Function
 
 Private Sub process_file()
 On Error GoTo HasError
