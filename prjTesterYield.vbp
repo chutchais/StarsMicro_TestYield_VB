@@ -30,6 +30,7 @@ RevisionVer=4
 AutoIncrementVer=0
 ServerSupportFiles=0
 VersionComments="Fix incorrect Seq data, due to foder name contains uderscore (_)"
+VersionCompanyName="aja"
 VersionFileDescription="Fix problem on TMT and MAV (not show Functional and QA summary table)"
 CompilationType=0
 OptimizationType=0

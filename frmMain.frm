@@ -7,18 +7,18 @@ Begin VB.Form frmMain
    ClientHeight    =   9195
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   17190
+   ClientWidth     =   16890
    LinkTopic       =   "Form1"
    ScaleHeight     =   9195
-   ScaleWidth      =   17190
+   ScaleWidth      =   16890
    StartUpPosition =   2  'CenterScreen
    Begin TabDlg.SSTab SSTab1 
       Height          =   7755
       Left            =   90
       TabIndex        =   10
       Top             =   1350
-      Width           =   17010
-      _ExtentX        =   30004
+      Width           =   16740
+      _ExtentX        =   29528
       _ExtentY        =   13679
       _Version        =   393216
       Tabs            =   2
@@ -80,7 +80,7 @@ Begin VB.Form frmMain
          Left            =   -74775
          TabIndex        =   12
          Top             =   495
-         Width           =   5460
+         Width           =   16305
       End
       Begin VB.Frame Frame1 
          Caption         =   "Summary Table"
@@ -236,7 +236,7 @@ Private Sub cbTester_Click()
     vCurrentFolder = getSectionString(cbTester.Text, "path")
     vCurrentFileExt = getSectionString(cbTester.Text, "file ext")
     txtFolder.Text = vCurrentFolder
-    showFileCountInFolder vCurrentFolder, vCurrentFileExt
+'    showFileCountInFolder vCurrentFolder, vCurrentFileExt
     Me.MousePointer = 0
 End Sub
 
@@ -276,7 +276,7 @@ Private Sub cmdBrowse_Click()
     clearContains
     txtFolder.Text = BrowseForFolder(hwnd, "Please select a Server folder.")
     vCurrentFolder = txtFolder.Text
-    showFileCountInFolder txtFolder.Text, vCurrentFileExt
+'    showFileCountInFolder txtFolder.Text, vCurrentFileExt
     Me.MousePointer = 0
 End Sub
 
@@ -357,7 +357,8 @@ Sub filterFileByLotForEPRO(lotNumber As String)
     For Each f In colFiles
         'load file to EPRO object
         Set vObjEPRO = New clsEPRO
-            vObjEPRO.Init vCurrentFolder & "\" & f
+            'vObjEPRO.Init vCurrentFolder & "\" & f
+            vObjEPRO.Init f
         If vObjEPRO.Lot Like "*" & lotNumber & "*" Then
             lstFile.AddItem f
             colLots.Add f
@@ -366,6 +367,81 @@ Sub filterFileByLotForEPRO(lotNumber As String)
     Next
     
 End Sub
+
+Sub searchFolder(path As String, strLot As String, strFileExe As String)
+        Dim fso, curFolder, x, lotFolder, fileList As Object
+        Set fso = CreateObject("Scripting.FileSystemObject")
+       
+        'Proceed if folder exists
+        Dim strFolderName As String
+        If fso.FolderExists(path) Then
+            Set curFolder = fso.GetFolder(path)
+            For Each x In curFolder.SubFolders
+            'Label1.Caption = "Working on :" & x: DoEvents
+                iFolderNumber = iFolderNumber + 1
+                strFolderName = x.path
+                    'Check folder that naming correct
+                    Dim arrFolder() As String
+                    arrFolder = Split(strFolderName, "\")
+                    If strFolderName Like "*" & strLot & "*" And UBound(Split(arrFolder(UBound(arrFolder)), "_")) = 2 Then
+                        'Set lotFolder = fso.GetFolder(aPath)
+                        'k = UBound(Split(arrFolder(UBound(arrFolder)), "_"))
+                        Set fileList = Nothing
+                        
+                        Set lotFolder = fso.GetFolder(strFolderName)
+                        'Set fileList = lotFolder.Files
+                        Dim f As Object
+                            For Each f In lotFolder.Files
+                                'Text2.Text = f & vbCrLf
+                                'List1.AddItem f: DoEvents
+                                
+                                    colFiles.Add (f)
+  
+                            Next
+                        
+                        iFoundNumber = iFoundNumber + 1
+                        GoTo next_loop:
+                    End If
+                    
+                    'check sub folder
+                    searchFolder x.path, strLot, strFileExe
+next_loop:
+            Next
+        End If
+        
+    End Sub
+
+Function searchFiles(strDirectory As String, srtLot As String, _
+                    Optional strExt As String = "*") As Double
+'   then count only files of that type, otherwise return a count of all files.
+    Dim objFso As Object
+    Dim objFiles As Object
+    Dim objFile As Object
+
+    'Set Error Handling
+    On Error GoTo EarlyExit
+
+    'Create objects to get a count of files in the directory
+    Set objFso = CreateObject("Scripting.FileSystemObject")
+    Set objFiles = objFso.GetFolder(strDirectory).Files
+
+    'Count files (that match the extension if provided)
+        For Each objFile In objFiles
+            If objFile Like "*" & strLot & "*." & strExt Then
+                colFiles.Add (objFile.Name)
+                'CountFiles = CountFiles + 1
+            End If
+        Next objFile
+
+
+EarlyExit:
+    'Clean up
+    On Error Resume Next
+    Set objFile = Nothing
+    Set objFiles = Nothing
+    Set objFso = Nothing
+    On Error GoTo 0
+End Function
 
 Function CountFiles(strDirectory As String, Optional strExt As String = "*.*") As Double
 '   then count only files of that type, otherwise return a count of all files.
@@ -385,7 +461,7 @@ Function CountFiles(strDirectory As String, Optional strExt As String = "*.*") A
         CountFiles = objFiles.Count
     Else
         For Each objFile In objFiles
-            If UCase(Right(objFile.Path, (Len(objFile.Path) - InStrRev(objFile.Path, ".")))) = UCase(strExt) Then
+            If UCase(Right(objFile.path, (Len(objFile.path) - InStrRev(objFile.path, ".")))) = UCase(strExt) Then
                 colFiles.Add (objFile.Name)
                 CountFiles = CountFiles + 1
             End If
@@ -523,9 +599,15 @@ Dim objFileReport As New Collection
 
 'Only EPRO ,can not using file name to filter Lot number (must read in file content)
     If cbTester.Text <> "EPRO" Then
+        'filterFileByLot txtLotNumber.Text
+        
+        searchFiles vCurrentFolder, txtLotNumber.Text, vCurrentFileExt
         filterFileByLot txtLotNumber.Text
     Else
-        filterFileByLotForEPRO txtLotNumber.Text
+        
+        searchFolder vCurrentFolder, txtLotNumber.Text, vCurrentFileExt
+        'filterFileByLotForEPRO txtLotNumber.Text
+        filterFileByLot txtLotNumber.Text
     End If
 
 
@@ -534,11 +616,11 @@ Select Case cbTester.Text
         Dim objEPRO As New clsEPRO
             For i = 0 To lstFile.ListCount - 1
                 Set objEPRO = New clsEPRO
-                objEPRO.Init vCurrentFolder & "\" & lstFile.List(i)
+                objEPRO.Init lstFile.List(i)
                 If objEPRO.Completed Then
                     objFileReport.Add objEPRO
                     'each file
-                    add_data_to_Grid_Summary objEPRO, lstFile.List(i)
+                    add_data_to_Grid_Summary objEPRO, Replace(lstFile.List(i), vCurrentFolder, "")
                 End If
             Next
             
@@ -598,6 +680,14 @@ Private Sub Form_Load()
     initial_Grid_Summary
     initial_Grid_FT
     initial_Grid_QA
+    
+    'set default Tester
+    Dim vDefaultTester As String
+    vDefaultTester = getSectionString("default", "tester")
+    If vDefaultTester <> "" Then
+        cbTester.Text = vDefaultTester
+        
+    End If
 End Sub
 Sub initial_Grid_Summary()
         With MSFlexGrid1
