@@ -155,6 +155,7 @@ Friend Sub Init(ByVal file_name As String)
   
   Dim vFileSplited() As String
   vFileSplited = Split(vOnlyFileName, "_")
+  vLot = vFileSplited(1)
   For i = 2 To UBound(vFileSplited)
     vSeq = vSeq + "_" + vFileSplited(i)
   Next
@@ -212,8 +213,8 @@ On Error GoTo HasError
         If textContain(vLineStr, vKey) Then getPassed vLineStr
         
         'Assy,Lot and Seq , Failed
-        vKey = "Lot ID          :"
-        If textContain(vLineStr, vKey) Then getLot vLineStr
+'        vKey = "Lot ID          :"
+'        If textContain(vLineStr, vKey) Then getLot vLineStr
         
         'Operator , Most failed Bin
         vKey = "Operator        :"

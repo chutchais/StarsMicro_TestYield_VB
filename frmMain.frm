@@ -90,13 +90,13 @@ Begin VB.Form frmMain
          Top             =   3960
          Width           =   16665
          Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
-            Height          =   3210
+            Height          =   3300
             Left            =   135
             TabIndex        =   13
             Top             =   270
             Width           =   16440
             _ExtentX        =   28998
-            _ExtentY        =   5662
+            _ExtentY        =   5821
             _Version        =   393216
          End
       End
@@ -159,6 +159,14 @@ Begin VB.Form frmMain
       Top             =   450
       Width           =   1455
    End
+   Begin VB.Label lblSearchBy 
+      Caption         =   "..."
+      Height          =   195
+      Left            =   8550
+      TabIndex        =   18
+      Top             =   270
+      Width           =   6225
+   End
    Begin VB.Label lblFilesCount 
       Caption         =   "0 File(s)"
       Height          =   255
@@ -207,6 +215,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function GetTickCount Lib "kernel32" () As Long
 
 Dim objIni As clsIniFile
 Dim objEPRO As clsEPRO
@@ -368,9 +377,15 @@ Sub filterFileByLotForEPRO(lotNumber As String)
     
 End Sub
 
-Sub searchFolder(path As String, strLot As String, strFileExe As String)
+Sub searchFolder(path As String, strLot As String, strFileExe As String, intFile As Variant, Optional appendIndex As Boolean)
+        
+        
+
+
         Dim fso, curFolder, x, lotFolder, fileList As Object
         Set fso = CreateObject("Scripting.FileSystemObject")
+        
+        
        
         'Proceed if folder exists
         Dim strFolderName As String
@@ -383,6 +398,27 @@ Sub searchFolder(path As String, strLot As String, strFileExe As String)
                     'Check folder that naming correct
                     Dim arrFolder() As String
                     arrFolder = Split(strFolderName, "\")
+                    
+                    'create new index
+                    If Not appendIndex Then
+                        If UBound(Split(arrFolder(UBound(arrFolder)), "_")) = 2 Then
+                            Set fileList = Nothing
+                            Set lotFolder = fso.GetFolder(strFolderName)
+                            'Set fileList = lotFolder.Files
+                            Dim f As Object
+                                For Each f In lotFolder.Files
+                                    '--add to index file--
+                                    Print #intFile, f
+                                    '--------------------
+                                    colFiles.Add (f)
+                                Next
+                            iFoundNumber = iFoundNumber + 1
+                            GoTo next_loop:
+                        End If
+                    End If
+                    '--------end create new index-----
+                    
+                    
                     If strFolderName Like "*" & strLot & "*" And UBound(Split(arrFolder(UBound(arrFolder)), "_")) = 2 Then
                         'Set lotFolder = fso.GetFolder(aPath)
                         'k = UBound(Split(arrFolder(UBound(arrFolder)), "_"))
@@ -390,12 +426,12 @@ Sub searchFolder(path As String, strLot As String, strFileExe As String)
                         
                         Set lotFolder = fso.GetFolder(strFolderName)
                         'Set fileList = lotFolder.Files
-                        Dim f As Object
-                            For Each f In lotFolder.Files
-                                'Text2.Text = f & vbCrLf
-                                'List1.AddItem f: DoEvents
-                                
-                                    colFiles.Add (f)
+                        Dim f1 As Object
+                            For Each f1 In lotFolder.Files
+                                    'Append to index file
+                                    Print #intFile, f
+                                    '--------------------
+                                    colFiles.Add (f1)
   
                             Next
                         
@@ -404,19 +440,68 @@ Sub searchFolder(path As String, strLot As String, strFileExe As String)
                     End If
                     
                     'check sub folder
-                    searchFolder x.path, strLot, strFileExe
+                    searchFolder x.path, strLot, strFileExe, intFile
 next_loop:
             Next
         End If
         
     End Sub
 
+Function FileToString(strFilename As String) As String
+  IFile = FreeFile
+  Open strFilename For Input As #IFile
+    FileToString = StrConv(InputB(LOF(IFile), IFile), vbUnicode)
+  Close #IFile
+End Function
+
+Function textContain(vString As String, vText As String) As Boolean
+    Dim position As Integer
+    position = InStr(1, vString, vText)
+    
+    If position > 0 Then
+        textContain = True
+    End If
+End Function
+
 Function searchFiles(strDirectory As String, srtLot As String, _
                     Optional strExt As String = "*") As Double
-'   then count only files of that type, otherwise return a count of all files.
+    
+    
     Dim objFso As Object
     Dim objFiles As Object
     Dim objFile As Object
+    
+    
+    
+    'version 1.0.6 Check in master file first.
+    'if FOund lot existing then add to collection and exit
+    Dim notFoundLot As Boolean
+    Dim vMasterFile As String
+    vMasterFile = App.path & "\index_" & cbTester.Text & ".txt"
+    
+    If Dir(vMasterFile) <> "" Then
+        Dim vFileContains As String
+        vFileContains = FileToString(vMasterFile)
+        Dim lineArray() As String
+        lineArray = Split(vFileContains, vbCrLf)
+        For i = 0 To UBound(lineArray())
+            If textContain(lineArray(i), srtLot) Then
+                colFiles.Add (lineArray(i))
+            End If
+        Next
+        
+        If colFiles.Count > 0 Then
+            lblSearchBy.Caption = "Found in index file.."
+            Exit Function
+        End If
+        notFoundLot = True
+    End If
+    lblSearchBy.Caption = "Re-scan folder..."
+    '-----------------------------------------
+
+
+'   then count only files of that type, otherwise return a count of all files.
+
 
     'Set Error Handling
     On Error GoTo EarlyExit
@@ -424,14 +509,41 @@ Function searchFiles(strDirectory As String, srtLot As String, _
     'Create objects to get a count of files in the directory
     Set objFso = CreateObject("Scripting.FileSystemObject")
     Set objFiles = objFso.GetFolder(strDirectory).Files
-
+    
+    
+    
+    'version 1.0.6 -- Save file name to master file
+    FileNum = FreeFile
+    If notFoundLot Then
+        Open vMasterFile For Append As FileNum
+    Else
+        Open vMasterFile For Output As FileNum
+    End If
+    
+    '--------------
+            
     'Count files (that match the extension if provided)
         For Each objFile In objFiles
-            If objFile Like "*" & strLot & "*." & strExt Then
-                colFiles.Add (objFile.Name)
+            
+            
+            If Not notFoundLot Then
+                Print #FileNum, objFile
+            End If
+            
+            If objFile Like "*" & srtLot & "*." & strExt Then
+                colFiles.Add (objFile)
+                If notFoundLot Then
+                    Print #FileNum, objFile
+                End If
                 'CountFiles = CountFiles + 1
             End If
         Next objFile
+        
+        If Not notFoundLot Then
+                Print #FileNum, vbCrLf
+        End If
+            
+    Close FileNum
 
 
 EarlyExit:
@@ -588,14 +700,23 @@ End Sub
 Private Sub cmdGenerate_Click()
 Me.MousePointer = 11
 If txtLotNumber.Text = "" Then
+    Me.MousePointer = 0
     Exit Sub
 End If
+
+
+Dim lngTime As Long
+  Dim lngIndex As Long
+  'record start
+  lngTime = GetTickCount
 
 initial_Grid_Summary
 initial_Grid_FT
 initial_Grid_QA
 
 Dim objFileReport As New Collection
+
+Set colFiles = New Collection
 
 'Only EPRO ,can not using file name to filter Lot number (must read in file content)
     If cbTester.Text <> "EPRO" Then
@@ -604,12 +725,52 @@ Dim objFileReport As New Collection
         searchFiles vCurrentFolder, txtLotNumber.Text, vCurrentFileExt
         filterFileByLot txtLotNumber.Text
     Else
+    
+        'version 1.0.6 Check in master file first.
+        'if FOund lot existing then add to collection and exit
+        Dim notFoundLot As Boolean
+        Dim vMasterFile As String
+        vMasterFile = App.path & "\index_" & cbTester.Text & ".txt"
         
-        searchFolder vCurrentFolder, txtLotNumber.Text, vCurrentFileExt
-        'filterFileByLotForEPRO txtLotNumber.Text
+        If Dir(vMasterFile) <> "" Then
+            Dim vFileContains As String
+            vFileContains = FileToString(vMasterFile)
+            Dim lineArray() As String
+            lineArray = Split(vFileContains, vbCrLf)
+            For i = 0 To UBound(lineArray())
+                If textContain(lineArray(i), txtLotNumber.Text) Then
+                    colFiles.Add (lineArray(i))
+                End If
+            Next
+            
+            If colFiles.Count > 0 Then
+                lblSearchBy.Caption = "Found in index file.."
+                GoTo process_file
+            End If
+            notFoundLot = True
+        End If
+        lblSearchBy.Caption = "Re-scan folder..."
+        '-----------------------------------------
+            
+        'version 1.0.6 -- Save file name to master file
+        Dim FileName As Integer
+        FileNum = FreeFile
+        If notFoundLot Then
+            Open vMasterFile For Append As FileNum
+        Else
+            Open vMasterFile For Output As FileNum
+        End If
+        
+        '--------------
+    
+        
+        searchFolder vCurrentFolder, txtLotNumber.Text, vCurrentFileExt, FileNum, notFoundLot
+        Close #FileNum
+process_file:
         filterFileByLot txtLotNumber.Text
     End If
-
+lngTime = GetTickCount - lngTime
+lblSearchBy.Caption = lblSearchBy.Caption & ". searching time: " & CStr(lngTime) & " ms"
 
 Select Case cbTester.Text
         Case "EPRO":
@@ -628,30 +789,33 @@ Select Case cbTester.Text
         Dim objETS As New clsETS
             For i = 0 To lstFile.ListCount - 1
                 Set objETS = New clsETS
-                objETS.Init vCurrentFolder & "\" & lstFile.List(i)
+                'objETS.Init vCurrentFolder & "\" & lstFile.List(i)
+                objETS.Init lstFile.List(i)
                 If objETS.Completed Then
                     objFileReport.Add objETS
                     'each file
-                    add_data_to_Grid_Summary objETS, lstFile.List(i)
+                    add_data_to_Grid_Summary objETS, get_only_fileName(lstFile.List(i))
                 End If
             Next
 
         Case "MAV":
             For i = 0 To lstFile.ListCount - 1
                 Set objMAV = New clsMAV
-                objMAV.Init vCurrentFolder & "\" & lstFile.List(i)
+                'objMAV.Init vCurrentFolder & "\" & lstFile.List(i)
+                objMAV.Init lstFile.List(i)
                 If objMAV.Completed Then
                     objFileReport.Add objMAV
-                    add_data_to_Grid_Summary objMAV, lstFile.List(i)
+                    add_data_to_Grid_Summary objMAV, get_only_fileName(lstFile.List(i))
                 End If
             Next
         Case "TMT":
             For i = 0 To lstFile.ListCount - 1
                 Set objTMT = New clsTMT
-                objTMT.Init vCurrentFolder & "\" & lstFile.List(i)
+                'objTMT.Init vCurrentFolder & "\" & lstFile.List(i)
+                objTMT.Init lstFile.List(i)
                 If objTMT.Completed Then
                     objFileReport.Add objTMT
-                    add_data_to_Grid_Summary objTMT, lstFile.List(i)
+                    add_data_to_Grid_Summary objTMT, get_only_fileName(lstFile.List(i))
                 End If
             Next
 End Select
@@ -661,6 +825,17 @@ End Select
     
  Me.MousePointer = 0
 End Sub
+
+
+Function get_only_fileName(vFullPath As String) As String
+    Dim vFileArray() As String
+    vFileArray = Split(vFullPath, "\")
+    If UBound(vFileArray) > 0 Then
+        get_only_fileName = vFileArray(UBound(vFileArray))
+    Else
+        get_only_fileName = ""
+    End If
+End Function
 
 
 
