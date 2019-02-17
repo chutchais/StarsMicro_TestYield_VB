@@ -12,6 +12,14 @@ Begin VB.Form frmMain
    ScaleHeight     =   9195
    ScaleWidth      =   16890
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CheckBox chkUpdateIndex 
+      Caption         =   "update index"
+      Height          =   285
+      Left            =   8460
+      TabIndex        =   19
+      Top             =   135
+      Width           =   1455
+   End
    Begin TabDlg.SSTab SSTab1 
       Height          =   7755
       Left            =   90
@@ -162,10 +170,10 @@ Begin VB.Form frmMain
    Begin VB.Label lblSearchBy 
       Caption         =   "..."
       Height          =   195
-      Left            =   8550
+      Left            =   9990
       TabIndex        =   18
-      Top             =   270
-      Width           =   6225
+      Top             =   180
+      Width           =   4830
    End
    Begin VB.Label lblFilesCount 
       Caption         =   "0 File(s)"
@@ -471,15 +479,39 @@ Function searchFiles(strDirectory As String, srtLot As String, _
     Dim objFiles As Object
     Dim objFile As Object
     
+    Dim bReIndex As Boolean
     
-    
-    'version 1.0.6 Check in master file first.
+        'version 1.0.6 Check in master file first.
     'if FOund lot existing then add to collection and exit
+    
     Dim notFoundLot As Boolean
     Dim vMasterFile As String
     vMasterFile = App.path & "\index_" & cbTester.Text & ".txt"
     
-    If Dir(vMasterFile) <> "" Then
+    
+    'version 1.0.8 -- if Re-index checked , delete index file and recreate file again.
+    If chkUpdateIndex.Value Or Dir(vMasterFile) = "" Then
+        bReIndex = True
+        'Delete file
+        Dim FileSystemObject As Object
+         Set FileSystemObject = CreateObject("Scripting.FileSystemObject")
+        If FileSystemObject.FileExists(vMasterFile) Then
+            FileSystemObject.DeleteFile vMasterFile
+        End If
+     
+        '-----------------
+    End If
+    
+    
+
+    
+    
+    Dim bIndexFileExist As Boolean
+    
+    'Comment on 1.0.8 , regenerate Index file everythome when Re-Index checked.
+        If Not bReIndex Then
+        bIndexFileExist = True
+
         Dim vFileContains As String
         vFileContains = FileToString(vMasterFile)
         Dim lineArray() As String
@@ -489,19 +521,25 @@ Function searchFiles(strDirectory As String, srtLot As String, _
                 colFiles.Add (lineArray(i))
             End If
         Next
-        
+
         If colFiles.Count > 0 Then
-            lblSearchBy.Caption = "Found in index file.."
+            lblSearchBy.Caption = "Found in index file.." & colFiles.Count & " file(s)"
             Exit Function
         End If
         notFoundLot = True
-    End If
+       End If
+    
+    '1.0.7 -- to update index file based on modified date
+    'Re-index master file by checking new file most update than index file
+    
+    
+    
     lblSearchBy.Caption = "Re-scan folder..."
     '-----------------------------------------
 
 
 '   then count only files of that type, otherwise return a count of all files.
-
+ReIndex:
 
     'Set Error Handling
     On Error GoTo EarlyExit
@@ -514,41 +552,32 @@ Function searchFiles(strDirectory As String, srtLot As String, _
     
     'version 1.0.6 -- Save file name to master file
     FileNum = FreeFile
-    If notFoundLot Then
-        Open vMasterFile For Append As FileNum
-    Else
+    If bReIndex Then
         Open vMasterFile For Output As FileNum
+        
+    Else
+        Open vMasterFile For Append As FileNum
     End If
-    
+
     '--------------
             
     'Count files (that match the extension if provided)
+    Dim iNewFile As Integer
         For Each objFile In objFiles
-            
-            
-            If Not notFoundLot Then
-                Print #FileNum, objFile
-            End If
-            
+        
+            Print #FileNum, objFile
             If objFile Like "*" & srtLot & "*." & strExt Then
                 colFiles.Add (objFile)
-                If notFoundLot Then
-                    Print #FileNum, objFile
-                End If
-                'CountFiles = CountFiles + 1
             End If
+next_loop:
         Next objFile
-        
-        If Not notFoundLot Then
-                Print #FileNum, vbCrLf
-        End If
-            
-    Close FileNum
-
+                   
+    Close #FileNum
 
 EarlyExit:
     'Clean up
     On Error Resume Next
+    Close FileNum
     Set objFile = Nothing
     Set objFiles = Nothing
     Set objFso = Nothing
@@ -698,6 +727,7 @@ Sub showDetail(vObject As Object)
 End Sub
 
 Private Sub cmdGenerate_Click()
+
 Me.MousePointer = 11
 If txtLotNumber.Text = "" Then
     Me.MousePointer = 0
@@ -728,11 +758,26 @@ Set colFiles = New Collection
     
         'version 1.0.6 Check in master file first.
         'if FOund lot existing then add to collection and exit
+        Dim bReIndex As Boolean
         Dim notFoundLot As Boolean
         Dim vMasterFile As String
         vMasterFile = App.path & "\index_" & cbTester.Text & ".txt"
         
-        If Dir(vMasterFile) <> "" Then
+        'version 1.0.8 -- if Re-index checked , delete index file and recreate file again.
+        If chkUpdateIndex.Value Or Dir(vMasterFile) = "" Then
+            bReIndex = True
+            'Delete file
+            Dim FileSystemObject As Object
+             Set FileSystemObject = CreateObject("Scripting.FileSystemObject")
+            If FileSystemObject.FileExists(vMasterFile) Then
+                FileSystemObject.DeleteFile vMasterFile
+            End If
+         
+            '-----------------
+        End If
+        
+        
+        If Not bReIndex Then
             Dim vFileContains As String
             vFileContains = FileToString(vMasterFile)
             Dim lineArray() As String
@@ -753,22 +798,22 @@ Set colFiles = New Collection
         '-----------------------------------------
             
         'version 1.0.6 -- Save file name to master file
-        Dim FileName As Integer
-        FileNum = FreeFile
-        If notFoundLot Then
-            Open vMasterFile For Append As FileNum
-        Else
-            Open vMasterFile For Output As FileNum
-        End If
-        
-        '--------------
-    
-        
-        searchFolder vCurrentFolder, txtLotNumber.Text, vCurrentFileExt, FileNum, notFoundLot
-        Close #FileNum
+                Dim FileNameEPRO As Integer
+                FileNameEPRO = FreeFile
+                If bReIndex Then
+                    Open vMasterFile For Output As FileNameEPRO
+                Else
+                    Open vMasterFile For Append As FileNameEPRO
+                End If
+                
+                '--------------
+            
+                
+                searchFolder vCurrentFolder, txtLotNumber.Text, vCurrentFileExt, FileNameEPRO, notFoundLot
+                Close #FileNameEPRO
 process_file:
-        filterFileByLot txtLotNumber.Text
-    End If
+                filterFileByLot txtLotNumber.Text
+            End If
 lngTime = GetTickCount - lngTime
 lblSearchBy.Caption = lblSearchBy.Caption & ". searching time: " & CStr(lngTime) & " ms"
 
@@ -1136,7 +1181,6 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
     Dim objTemp As Collection
     For Each c In colTemp
         Set objTemp = getCollectionByTemperature(CStr(c), objs)
-        
         add_data_to_FT_each_Temperature CStr(c), objTemp, vRow
         vRow = vRow + 1
     Next
@@ -1164,6 +1208,11 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
     Dim vHWBin7 As Long
     
     Dim vTemp As String
+    
+    'Add for 1.0.7 , Feb 13,2019
+    Dim vFailed_Fct As Long
+    Dim vPassed_Retest As Long
+    '----------------------
 
     Dim vBinNumberCol As New Collection
     
@@ -1204,9 +1253,19 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
         Dim vFunctionTest As Boolean
         vFunctionTest = IIf(Mid(vSeq, 1, 1) = "F", True, False)
         If (Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "F") Or Mid(vSeq, 1, 1) = "R" Then
-            vFailed = vFailed + obj.Failed
-            vTested = vTested + obj.Tested
+            
+            'sum all FCT and Retest
             vPassed = vPassed + obj.Passed
+            
+            'version 1.0.7
+            'For Total ,only "F" are calculated.
+            If vFunctionTest Then
+                vTested = vTested + obj.Tested
+                vFailed_Fct = vFailed_Fct + obj.Failed
+            Else
+                vPassed_Retest = vPassed_Retest + obj.Passed
+            End If
+            
             Dim objHwBins As Object
             Set objHWBin = obj.getBin("1", obj.HardwareBins)
             If Not objHWBin Is Nothing Then
@@ -1309,7 +1368,9 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
                 
     Next
     
-    vPassed = vPassed + vRetestPassed
+    'comment for 1.0.7 ,Feb 13,2019
+    'vPassed = vPassed + vRetestPassed
+    vFailed = vFailed_Fct - vPassed_Retest
     
     If vTested = 0 Then
         Exit Sub

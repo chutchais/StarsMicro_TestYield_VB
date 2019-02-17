@@ -185,6 +185,13 @@ Friend Sub Init(ByVal file_name As String)
   If file_name = "" Then Err.Raise 123, , "File name not set"
   'Init object state here
   'vLogfileName = file_name
+  'Check file exist on version 1.0.7
+    If Dir(file_name) = "" Then
+        vDescription = "File Not found!!!"
+        Exit Sub
+    End If
+    '-----------------------------
+    
   vFileContains = FileToString(file_name)
   
   'get Assy and Seq
