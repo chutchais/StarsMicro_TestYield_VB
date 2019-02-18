@@ -221,8 +221,8 @@ On Error GoTo HasError
         If textContain(vLineStr, vKey) Then getPassed vLineStr
         
         'Assy,Lot and Seq , Failed
-'        vKey = "Lot ID          :"
-'        If textContain(vLineStr, vKey) Then getLot vLineStr
+        vKey = "Lot ID          :"
+        If textContain(vLineStr, vKey) Then getLot vLineStr
         
         'Operator , Most failed Bin
         vKey = "Operator        :"
@@ -287,8 +287,8 @@ Private Sub getLot(vLineData As String)
     ixColon = getColonPosition(vLineData)
     Dim vLotArry() As String
     vLotArry = Split(vData(ixColon + 1), "_")
-    vAssy = vLotArry(0)
-    vLot = vLotArry(1)
+'    vAssy = vLotArry(0)
+'    vLot = vLotArry(1)
     'vSeq = Mid(vLotArry(2), 1, 2)
     
     'get Failed
