@@ -26,10 +26,10 @@ HelpContextID="0"
 CompatibleMode="0"
 MajorVer=1
 MinorVer=0
-RevisionVer=9
+RevisionVer=10
 AutoIncrementVer=0
 ServerSupportFiles=0
-VersionComments="Fix Failed=0 on TMT tester"
+VersionComments="Filter file ext and file format (must have atleast 2 under score) to insert into index file. "
 VersionCompanyName="2am"
 VersionFileDescription="Fix problem on TMT and MAV (not show Functional and QA summary table)"
 CompilationType=0

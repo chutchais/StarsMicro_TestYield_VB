@@ -416,9 +416,12 @@ Sub searchFolder(path As String, strLot As String, strFileExe As String, intFile
                             Dim f As Object
                                 For Each f In lotFolder.Files
                                     '--add to index file--
-                                    Print #intFile, f
+                                    If f.Name Like "*." & strFileExe Then
+                                        Print #intFile, f
+                                        colFiles.Add (f)
+                                    End If
                                     '--------------------
-                                    colFiles.Add (f)
+                                    
                                 Next
                             iFoundNumber = iFoundNumber + 1
                             GoTo next_loop:
@@ -437,7 +440,9 @@ Sub searchFolder(path As String, strLot As String, strFileExe As String, intFile
                         Dim f1 As Object
                             For Each f1 In lotFolder.Files
                                     'Append to index file
-                                    Print #intFile, f
+                                    If f.Name Like "*." & strFileExe Then
+                                        Print #intFile, f
+                                    End If
                                     '--------------------
                                     colFiles.Add (f1)
   
@@ -564,8 +569,14 @@ ReIndex:
     'Count files (that match the extension if provided)
     Dim iNewFile As Integer
         For Each objFile In objFiles
-        
-            Print #FileNum, objFile
+            
+            If objFile.Name Like "*." & strExt Then
+                If UBound(Split(objFile.Name, "_")) >= 2 Then
+                    Print #FileNum, objFile
+                End If
+            End If
+            
+            
             If objFile Like "*" & srtLot & "*." & strExt Then
                 colFiles.Add (objFile)
             End If
