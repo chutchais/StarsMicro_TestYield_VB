@@ -136,10 +136,9 @@ Begin VB.Form frmMain
       Caption         =   "Export Excel"
       Enabled         =   0   'False
       Height          =   495
-      Left            =   14400
+      Left            =   12510
       TabIndex        =   4
-      Top             =   495
-      Visible         =   0   'False
+      Top             =   450
       Width           =   1455
    End
    Begin VB.ComboBox cbTester 
@@ -225,6 +224,9 @@ Attribute VB_Exposed = False
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Private Declare Function GetTickCount Lib "kernel32" () As Long
 
+'Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+ 
+
 Dim objIni As clsIniFile
 Dim objEPRO As clsEPRO
 Dim objETS As clsETS
@@ -238,6 +240,10 @@ Dim colLots As New Collection
 'Tester Log file and Ext
 Dim vCurrentFolder As String
 Dim vCurrentFileExt As String
+
+Dim vReportFolder As String
+
+Dim objFileReport As New Collection
 
 Private Sub cbTester_Change()
     cmdExport.Enabled = False
@@ -299,17 +305,49 @@ End Sub
 
 Private Sub cmdExport_Click()
     
-Select Case cbTester.Text
-        Case "EPRO": EPRO_Export_Excel objEPRO
-        Case "ETS": ETS_Export_Excel objETS
-        Case "MAV": MAV_Export_Excel objMAV
-        Case "TMT": TMT_Export_Excel objTMT
-    End Select
-    
-
+'Select Case cbTester.Text
+'        Case "EPRO": EPRO_Export_Excel objEPRO
+'        Case "ETS": ETS_Export_Excel objETS
+'        Case "MAV": MAV_Export_Excel objMAV
+'        Case "TMT": TMT_Export_Excel objTMT
+'    End Select
+'
+export_excel
 
 End Sub
 
+
+Sub export_excel()
+Dim vLotDetailReport As String
+Dim obj As Object
+    'Open file for write
+    '[lot].csv file format
+    Dim iFileNumber As Integer
+    Dim vReportFileName As String
+    vReportFileName = vReportFolder & "\" & cbTester.Text & "\" & txtLotNumber & ".csv"
+    iFileNumber = FreeFile
+    Open vReportFileName For Output As iFileNumber
+    
+    
+    Dim bFirstLine As Boolean
+    bFirstLine = True
+    
+    For Each obj In objFileReport
+        If bFirstLine Then
+'            Write #iFileNumber, "sep=;"
+            Print #iFileNumber, obj.get_report_header
+            bFirstLine = False
+        End If
+        vLotDetailReport = obj.get_all_detail
+        Print #iFileNumber, vLotDetailReport
+    Next
+    
+    Close #iFileNumber
+    
+    MsgBox "Save report finished", vbInformation, "Save file finished"
+    
+    ShellExecute Me.hwnd, "open", vReportFileName, vbNullString, vbNullString, vbNormalFocus
+End Sub
 
 Sub process_files(LogfilePath As String, _
                     FileExt As String, _
@@ -749,13 +787,13 @@ End If
 Dim lngTime As Long
   Dim lngIndex As Long
   'record start
-  lngTime = GetTickCount
+lngTime = GetTickCount
 
 initial_Grid_Summary
 initial_Grid_FT
 initial_Grid_QA
 
-Dim objFileReport As New Collection
+Set objFileReport = New Collection
 
 Set colFiles = New Collection
 
@@ -878,7 +916,7 @@ End Select
  'summary file
             add_data_to_FT_Grid_Summary objFileReport
             add_data_to_QA_Grid_Summary objFileReport
-    
+    cmdExport.Enabled = True
  Me.MousePointer = 0
 End Sub
 
@@ -919,6 +957,48 @@ Private Sub Form_Load()
         cbTester.Text = vDefaultTester
         
     End If
+    
+    'set update index option
+    Dim vUpdateIndex As String
+    vUpdateIndex = getSectionString("default", "update index")
+    vUpdateIndex = UCase(vUpdateIndex)
+    If vUpdateIndex = "YES" Or vUpdateIndex = "Y" Then
+       chkUpdateIndex.Value = 1
+    Else
+       chkUpdateIndex.Value = 0
+    End If
+    '-----------------------
+    
+    'create output folder
+    vReportFolder = getSectionString("output", "path")
+    Dim oFs As New FileSystemObject
+    
+    If vReportFolder = "" Then
+        vReportFolder = App.path & "\output"
+        If Not oFs.FolderExists(vReportFolder) Then
+            oFs.CreateFolder (vReportFolder)
+        End If
+    Else
+        If Not oFs.FolderExists(vReportFolder) Then
+            oFs.CreateFolder (vReportFolder)
+        End If
+    End If
+    
+    'create sub folder
+        If Not oFs.FolderExists(vReportFolder & "\ETS") Then
+            oFs.CreateFolder (vReportFolder & "\ETS")
+        End If
+        If Not oFs.FolderExists(vReportFolder & "\TMT") Then
+            oFs.CreateFolder (vReportFolder & "\TMT")
+        End If
+        If Not oFs.FolderExists(vReportFolder & "\MAV") Then
+            oFs.CreateFolder (vReportFolder & "\MAV")
+        End If
+        If Not oFs.FolderExists(vReportFolder & "\EPRO") Then
+            oFs.CreateFolder (vReportFolder & "\EPRO")
+        End If
+    '-----------------------
+    
 End Sub
 Sub initial_Grid_Summary()
         With MSFlexGrid1

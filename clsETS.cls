@@ -14,6 +14,7 @@ Attribute VB_Exposed = False
 Dim vFileContains As String
 Dim vLogfileName As String
 Dim vTestProgram As String
+Dim vTestProgramRev As String
 Dim vTested As Double
 Dim vPassed As Double
 Dim vFailed As Double
@@ -32,9 +33,13 @@ Dim vTester As String
 Dim vHandler As String
 Dim vStartDate As String
 Dim vStartTime As String
-'Dim vStopDate As String
+Dim vStopDate As String
 Dim vSystemId As String
 Dim vTestName As String
+
+
+Dim vDataSheetName As String
+
 '
 Dim objHwBins As New Collection
 Dim objSwBins As New Collection
@@ -64,6 +69,10 @@ End Property
 
 Public Property Get TestProgram() As String
     TestProgram = vTestProgram
+End Property
+
+Public Property Get TestProgramRev() As String
+    TestProgramRev = vTestProgramRev
 End Property
 
 Public Property Get Tested() As Double
@@ -235,6 +244,12 @@ On Error GoTo HasError
         vKey = "Program Name:"
         If textContain(vLineStr, vKey) Then getTestProgram vLineStr
         
+        vKey = "Program Revision:"
+        If textContain(vLineStr, vKey) Then getTestProgramRev vLineStr
+        
+        vKey = "Datasheet Name:"
+        If textContain(vLineStr, vKey) Then getDataSheetName vLineStr
+        
         'Tested
         vKey = "UNITS TESTED"
         If textContain(vLineStr, vKey) Then getTested vLineStr
@@ -302,6 +317,20 @@ Private Sub getTestProgram(vLineData As String)
     vData = Split(vLineData, "Program Name:")
     'Get Test Program name
     vTestProgram = vData(1)
+End Sub
+
+Private Sub getTestProgramRev(vLineData As String)
+    Dim vData() As String
+    vData = Split(vLineData, "Program Revision:")
+    'Get Test Program name
+    vTestProgramRev = vData(1)
+End Sub
+
+Private Sub getDataSheetName(vLineData As String)
+    Dim vData() As String
+    vData = Split(vLineData, "Datasheet Name:")
+    'Get Test Program name
+    vDataSheetName = vData(1)
 End Sub
 
 
@@ -622,7 +651,91 @@ Private Sub getHwBin(vLineData As String)
 End Sub
 
 
+Public Function get_report_header(Optional delimiter = ",") As String
+ Dim vColName As String
+ 
+    vColName = "Lot No,Seq,Test Name,Start Date,Stop Date,Total,GOOD,"
+
+    For i = 5 To 32
+        vColName = vColName & "SW_Bin" & Trim(Str(i)) & ","
+    Next
+    
+    vColName = vColName & "Tester no,TP Rev,Datasheet Name"
+
+    
+    get_report_header = vColName
+ 
+ End Function
+ 
+ Public Function get_all_detail(Optional delimiter = ",") As String
+    Dim vOutput As New Collection
+    Dim oUnitTest As clsBin
+    With vOutput
+        .Add vLot
+        .Add vSeq
+        .Add vTestName
+        .Add vStartDate
+        .Add vStopDate
+        .Add vTested
+        .Add vPassed
+    
+        
+        'Interface Bin (6 items) -- IBX
+        For i = 5 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objSwBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        .Add Trim(vTester)
+        .Add Trim(vTestProgramRev)
+        .Add Trim(vDataSheetName)
+    
+    End With
+    get_all_detail = merge_collection(vOutput, delimiter)
+ End Function
+ 
+ Function merge_collection(col As Collection, Optional delimeter = ",") As String
+    Dim vOut As String
+    For Each c In col
+        vOut = vOut & delimeter & Replace(c, delimeter, "")
+    Next
+    vOut = Mid(vOut, 2)
+    merge_collection = vOut
+ End Function
+
 'Common function for Class
+
+Private Function getCollection(key As String, col As Collection) As clsBin
+  On Error GoTo errhandler
+  For Each c In col
+        If c.Name = key Then
+            Set getCollection = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getCollection = Nothing
+End Function
+
+Private Function getSite(siteName As String, col As clsBin) As Object
+  On Error GoTo errhandler
+  For Each c In col.Sites
+        If c.Name = Trim(siteName) Then
+            Set getSite = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getSite = Nothing
+End Function
+
 Public Function getBin(key As String, col As Collection) As Object
   On Error GoTo errhandler
   For Each c In col

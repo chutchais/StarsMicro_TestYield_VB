@@ -37,12 +37,16 @@ Dim vDeviceName As String
 Dim vProgramName As String
 Dim vProgramRev As String
 Dim vLotSize As String
+Dim vTestType As String
 
 '
 Dim objUnitBins As New Collection
 Dim objFailureBins As New Collection
 Dim objIBBins As New Collection
 Dim objDBBins As New Collection
+
+Dim oIBins As New Collection 'Interface bin (%INTERFACE BINS)
+Dim oDBins As New Collection 'Databin bin (%DATA BINS)
 '
 'COntrol
 Dim vSiteTotal As Integer
@@ -129,6 +133,10 @@ End Property
 Public Property Get Tester() As String
     Tester = vTester
 End Property
+
+Public Property Get TestType() As String
+    TestType = vTestType
+End Property
 '
 'Public Property Get MostFailBin() As String
 '    MostFailBin = vMostFailBin
@@ -147,7 +155,11 @@ Public Property Get Handler() As String
 End Property
 '
 Public Property Get Yield() As Double
+On Error GoTo HasError
     Yield = Format((vPassed / vTested) * 100, "#0.00")
+    Exit Property
+HasError:
+    Yield = 0
 End Property
 
 Public Property Get StartDate() As String
@@ -216,6 +228,7 @@ Friend Sub Init(ByVal file_name As String)
   vSeq = Replace(vSeq, ".txt", "")
   vSeq = Mid(vSeq, 2)
   '----------------------------------
+  vTestType = Mid(vOnlyFileName, 1, 2)
   
   process_file
 End Sub
@@ -243,20 +256,26 @@ On Error GoTo HasError
             GoTo NextLine
         End If
         
-'        If textContain(vLineStr, "SW Bins") Or textContain(vLineStr, "HW Bins") Then vSwBinLineStart = True
-'        If textContain(vLineStr, "SW Site 1") Then vSwBinLineStart = False: vSwSiteLineStart = True
+        If textContain(vLineStr, "%INTERFACE BINS") Then
+                vInterfaceBinLineStart = True
+                GoTo NextLine
+        End If
+        If textContain(vLineStr, "%DATA BINS") Then
+                vInterfaceBinLineStart = False: vSwSiteLineStart = True
+                GoTo NextLine
+        End If
 '
-'        'Hardware Bin and Software Bin
-'        If vSwBinLineStart Then
-'            getSwAndHwBin vLineStr
-'            GoTo NextLine
-'        End If
+        'Hardware Bin and Software Bin
+        If vInterfaceBinLineStart Then
+            getInterfaceBin vLineStr
+            GoTo NextLine
+        End If
 '
 '        'Software Bin Site information
-'        If vSwSiteLineStart Then
-'            getSwSite vLineStr
-'            GoTo NextLine
-'        End If
+        If vSwSiteLineStart Then
+            getSoftwareBin vLineStr
+            GoTo NextLine
+        End If
         
         'Check How many SITE
         vKey = "%LOT RESULTS"
@@ -819,6 +838,200 @@ Private Sub getFailure(vLineData As String)
     Next
     objDBBins.Add objBin
  End Sub
+ 
+ Public Function get_report_header(Optional delimiter = ",") As String
+ Dim vColName As String
+    vColName = "Lot no,test Flow,Test Type,Device Name,Lot Size,test Count,Temperature,Program Name,Program Rev,Tester ID,Handler ID," & _
+    "UNITS Tested,UNITS Passed,UNITS Failed,test Yield,"
+    
+    For i = 1 To 8
+        vColName = vColName & "Test_SITE" & Trim(Str(i)) & "," & "Pass_SITE" & Trim(Str(i)) & "," & "Fail_SITE" & Trim(Str(i)) & ","
+    Next
+    For i = 1 To 8
+        vColName = vColName & "BIN" & Trim(Str(i)) & ","
+    Next
+    For i = 1 To 32
+        vColName = vColName & "DB" & Trim(Str(i)) & ","
+    Next
+    
+    For i = 1 To 8
+        vColName = vColName & "IBIN" & Trim(Str(i)) & ","
+    Next
+    
+    For i = 1 To 40
+        vColName = vColName & "DBIN" & Trim(Str(i)) & ","
+    Next
+    
+    vColName = vColName & "DialogTempCorrection,TempCorrection,start Time,End Time"
+
+    get_report_header = vColName
+ 
+ End Function
+ 
+ Public Function get_all_detail(Optional delimiter = ",") As String
+    Dim vOutput As New Collection
+    With vOutput
+        .Add vLot
+        .Add vTestFlow
+        .Add vTestType
+        .Add vDeviceName
+        .Add vLotSize
+        .Add vTestCount
+        .Add vTemperature
+        .Add vProgramName
+        .Add vProgramRev
+        .Add vTester
+        .Add vHandler
+        .Add vTested
+        .Add vPassed
+        .Add vFailed
+        .Add Yield
+        'Loop for 8 sites
+        Dim oUnitTest As clsBin
+        Dim oUnitPass As clsBin
+        Dim oUnitFail As clsBin
+        Dim oSite As Object
+        For i = 1 To 8
+            'UNITS TESTED
+            Set oUnitTest = getCollection("UNITS TESTED", objUnitBins)
+            Set oSite = getSite(Str(i), oUnitTest)
+            If oSite Is Nothing Then
+                .Add 0
+            Else
+                .Add oSite.Total
+            End If
+            'UNITS PASSED
+            Set oUnitPass = getCollection("UNITS PASSED", objUnitBins)
+            Set oSite = getSite(Str(i), oUnitPass)
+            If oSite Is Nothing Then
+                .Add 0
+            Else
+                .Add oSite.Total
+            End If
+            'UNITS FAILED
+            Set oUnitFail = getCollection("UNITS FAILED", objUnitBins)
+            Set oSite = getSite(Str(i), oUnitFail)
+            If oSite Is Nothing Then
+                .Add 0
+            Else
+                .Add oSite.Total
+            End If
+        Next
+        
+        'Interface Bin (8 items) -- BINXX
+        For i = 1 To 8
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objIBBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        'Data Bin (40 items) (DBXX)
+        For i = 1 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objDBBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        
+        'Interface Bin (8 items) (IBINXX)
+        For i = 1 To 8
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Format(Str(i), "00"), oIBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Description
+            End If
+        Next
+        
+        
+        'Data Bin (32 items) (DBINXX)
+        For i = 1 To 40
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), oDBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Description
+            End If
+        Next
+        
+        'DialogTempCorrection
+        .Add ""
+        'TempCorrection
+        .Add ""
+        'Start Time
+        .Add vStartDate
+        'End Time
+        .Add vStopDate
+    End With
+    get_all_detail = merge_collection(vOutput, delimiter)
+ End Function
+ 
+ Function merge_collection(col As Collection, Optional delimeter = ",") As String
+    Dim vOut As String
+    For Each c In col
+        vOut = vOut & delimeter & Replace(c, delimeter, "")
+    Next
+    vOut = Mid(vOut, 2)
+    merge_collection = vOut
+ End Function
+ 
+ Private Sub getInterfaceBin(vLineData As String)
+    Dim vData() As String
+    vData = Split(vLineData, ":")
+    If vData(0) = "" Then Exit Sub
+    
+    '    'Add SW Bin in to collection
+    Dim objBin As New clsBin
+    With objBin
+        .Name = Split(vData(0), " ")(1)
+        .Description = Trim(vData(1))
+        .Total = 0
+        .Yield = 0
+    End With
+    oIBins.Add objBin
+'    '---------------------------
+
+ End Sub
+ 
+  Private Sub getSoftwareBin(vLineData As String)
+    Dim vData() As String
+    
+    If Not (textContain(vLineData, "BIN") Or textContain(vLineData, "Bin")) Then
+        Exit Sub
+    End If
+    
+    If Not textContain(vLineData, ":") Then
+        Exit Sub
+    End If
+    
+    
+    
+    vData = Split(vLineData, ":")
+    If vData(0) = "" Then Exit Sub
+    Dim vName As String
+    vName = Val(Split(vData(0), " ")(UBound(Split(vData(0), " "))))
+    '    'Add SW Bin in to collection
+    Dim objBin As New clsBin
+    With objBin
+        .Name = vName
+        .Description = Trim(vData(1))
+        .Total = 0
+        .Yield = 0
+    End With
+    oDBins.Add objBin
+'    '---------------------------
+
+ End Sub
 '
 '
 'Private Sub getSwAndHwBin(vLineData As String)
@@ -894,6 +1107,8 @@ Private Sub getFailure(vLineData As String)
 '
 'End Sub
 '
+
+
 'Private Sub getSwSite(vLineData As String)
 '    Dim vData() As String
 '    vData = Split(vLineData, " ")
@@ -944,6 +1159,33 @@ Private Sub getFailure(vLineData As String)
 
 
 'Common function for Class
+
+Private Function getCollection(key As String, col As Collection) As clsBin
+  On Error GoTo errhandler
+  For Each c In col
+        If c.Name = key Then
+            Set getCollection = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getCollection = Nothing
+End Function
+
+Private Function getSite(siteName As String, col As clsBin) As Object
+  On Error GoTo errhandler
+  For Each c In col.Sites
+        If c.Name = Trim(siteName) Then
+            Set getSite = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getSite = Nothing
+End Function
+
 Public Function getBin(key As String, col As Collection) As Object
   On Error GoTo errhandler
   For Each c In col

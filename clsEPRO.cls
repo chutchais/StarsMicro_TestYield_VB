@@ -474,9 +474,119 @@ Private Sub getDataBin(vLineData As String)
 End Sub
 
 
+Public Function get_report_header(Optional delimiter = ",") As String
+ Dim vColName As String
+    vColName = "LOT NO,Lot ID,Operator,Temperature,Tester,Handler,Summary Address,Date,Time,SYSTEM ID,PROGRAM NAME,Total,Total Pass,Total Fail,Yield,"
+    
+    For i = 1 To 6
+        vColName = vColName & "IB" & Trim(Str(i)) & ","
+    Next
+    For i = 1 To 32
+        vColName = vColName & "DB" & Trim(Str(i)) & ","
+    Next
+    
+    For i = 1 To 32
+        vColName = vColName & "BIN" & Trim(Str(i)) & ","
+    Next
+    get_report_header = vColName
+ 
+ End Function
+ 
+ Public Function get_all_detail(Optional delimiter = ",") As String
+    Dim vOutput As New Collection
+    Dim oUnitTest As clsBin
+    With vOutput
+        .Add vLot
+        .Add vLot
+        .Add vOperator
+        .Add vTemperature
+        .Add vTester
+        .Add vHandler
+        .Add vSummaryName
+        .Add vStartDate
+        .Add vStartTime
+        .Add vSystemId
+        .Add vTestProgram
+        .Add vTested
+        .Add vPassed
+        .Add (vTested - vPassed)
+        .Add Yield
+        
+        
+        'Interface Bin (6 items) -- IBX
+        For i = 1 To 6
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objIBBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        'D Bin (32 items) -- DBX
+        For i = 1 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objDBBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        'D Bin (32 items) -- BINX
+        For i = 1 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objDataBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Description
+                
+            End If
+        Next
+    
+    End With
+    get_all_detail = merge_collection(vOutput, delimiter)
+ End Function
+ 
+ Function merge_collection(col As Collection, Optional delimeter = ",") As String
+    Dim vOut As String
+    For Each c In col
+        vOut = vOut & delimeter & Replace(c, delimeter, "")
+    Next
+    vOut = Mid(vOut, 2)
+    merge_collection = vOut
+ End Function
 
 
 'Common function for Class
+Private Function getCollection(key As String, col As Collection) As clsBin
+  On Error GoTo errhandler
+  For Each c In col
+        If c.Name = key Then
+            Set getCollection = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getCollection = Nothing
+End Function
+
+Private Function getSite(siteName As String, col As clsBin) As Object
+  On Error GoTo errhandler
+  For Each c In col.Sites
+        If c.Name = Trim(siteName) Then
+            Set getSite = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getSite = Nothing
+End Function
 
 Public Function getBin(key As String, col As Collection) As Object
   On Error GoTo errhandler

@@ -484,8 +484,152 @@ Private Sub getSwSite(vLineData As String)
     
 End Sub
 
+Public Function get_report_header(Optional delimiter = ",") As String
+ Dim vColName As String
+    vColName = "LOT NO,Lot ID,Operator,Computer,Handler,Test Program,Total,Total Pass,Total Fail,Yield,Most Fail Bin,Next Serial,Test date,"
+    
+    For i = 1 To 8
+        vColName = vColName & "HW Bins" & Trim(Str(i)) & ","
+    Next
+    For i = 1 To 32
+        vColName = vColName & "SW Bins" & Trim(Str(i)) & ","
+    Next
+    
+    
+    For i = 1 To 32
+        vColName = vColName & "Bins" & Trim(Str(i)) & " item,"
+    Next
+    
+    For i = 1 To 32
+        For x = 1 To 4
+            vColName = vColName & "SW" & Trim(Str(i)) & " Site " & Trim(Str(x)) & ","
+        Next
+    Next
+    
+    
+
+    get_report_header = vColName
+ 
+ End Function
+ 
+ Public Function get_all_detail(Optional delimiter = ",") As String
+    Dim vOutput As New Collection
+    Dim oUnitTest As clsBin
+    With vOutput
+        .Add vLot
+        .Add vLot
+        .Add vOperator
+        .Add vComputer
+        .Add vHandler
+        .Add vTestProgram
+        .Add vTested
+        .Add vPassed
+        .Add vFailed
+        .Add Yield
+        .Add vMostFailBin
+        .Add vNextSerial
+        .Add vStartDate
+        
+        'Harware Bin (4 items) -- HW BinsX
+        For i = 1 To 8
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objHwBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        'Software Bin (32 items) -- SW BinsX
+        For i = 1 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objSwBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Total
+            End If
+        Next
+        
+        
+        'Software Item (32 items) -- BinsX item
+        For i = 1 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objSwBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+            Else
+                .Add oUnitTest.Description
+            End If
+        Next
+        
+        'XXXX (32 items) -- BinsX item
+        
+        For i = 1 To 32
+            'UNITS TESTED
+            Set oUnitTest = getCollection(Trim(Str(i)), objSwBins)
+            If oUnitTest Is Nothing Then
+                .Add ""
+                .Add ""
+                .Add ""
+                .Add ""
+            Else
+                For x = 1 To 4
+                    Set oSite = getSite(Str(x), oUnitTest)
+                    If oSite Is Nothing Then
+                        .Add 0
+                    Else
+                        .Add oSite.Total
+                    End If
+                    
+                Next
+            End If
+        Next
+   
+    End With
+    get_all_detail = merge_collection(vOutput, delimiter)
+ End Function
+ 
+ Function merge_collection(col As Collection, Optional delimeter = ",") As String
+    Dim vOut As String
+    For Each c In col
+        vOut = vOut & delimeter & Replace(c, delimeter, "")
+    Next
+    vOut = Mid(vOut, 2)
+    merge_collection = vOut
+ End Function
+
 
 'Common function for Class
+
+Private Function getCollection(key As String, col As Collection) As clsBin
+  On Error GoTo errhandler
+  For Each c In col
+        If c.Name = key Then
+            Set getCollection = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getCollection = Nothing
+End Function
+
+Private Function getSite(siteName As String, col As clsBin) As Object
+  On Error GoTo errhandler
+  For Each c In col.Sites
+        If c.Name = Trim(siteName) Then
+            Set getSite = c
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getSite = Nothing
+End Function
+
+
 Public Function getBin(key As String, col As Collection) As Object
   On Error GoTo errhandler
   For Each c In col
