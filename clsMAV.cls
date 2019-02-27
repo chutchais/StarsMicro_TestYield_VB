@@ -841,7 +841,7 @@ Private Sub getFailure(vLineData As String)
  
  Public Function get_report_header(Optional delimiter = ",") As String
  Dim vColName As String
-    vColName = "Lot no,test Flow,Test Type,Device Name,Lot Size,test Count,Temperature,Program Name,Program Rev,Tester ID,Handler ID," & _
+    vColName = "FileName,Lot no,Seq,test Flow,Test Type,Device Name,Lot Size,test Count,Temperature,Program Name,Program Rev,Tester ID,Handler ID," & _
     "UNITS Tested,UNITS Passed,UNITS Failed,test Yield,"
     
     For i = 1 To 8
@@ -871,7 +871,9 @@ Private Sub getFailure(vLineData As String)
  Public Function get_all_detail(Optional delimiter = ",") As String
     Dim vOutput As New Collection
     With vOutput
+        .Add vLogfileName
         .Add vLot
+        .Add vSeq
         .Add vTestFlow
         .Add vTestType
         .Add vDeviceName
@@ -979,7 +981,7 @@ Private Sub getFailure(vLineData As String)
  Function merge_collection(col As Collection, Optional delimeter = ",") As String
     Dim vOut As String
     For Each c In col
-        vOut = vOut & delimeter & Replace(c, delimeter, "")
+        vOut = vOut & delimeter & Replace(c, delimeter, " ")
     Next
     vOut = Mid(vOut, 2)
     merge_collection = vOut

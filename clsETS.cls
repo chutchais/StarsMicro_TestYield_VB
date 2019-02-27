@@ -654,7 +654,7 @@ End Sub
 Public Function get_report_header(Optional delimiter = ",") As String
  Dim vColName As String
  
-    vColName = "Lot No,Seq,Test Name,Start Date,Stop Date,Total,GOOD,"
+    vColName = "FileName,Lot No,Seq,Test Name,Start Date,Stop Date,Total,GOOD,Fail,Yield,"
 
     For i = 5 To 32
         vColName = vColName & "SW_Bin" & Trim(Str(i)) & ","
@@ -671,6 +671,7 @@ Public Function get_report_header(Optional delimiter = ",") As String
     Dim vOutput As New Collection
     Dim oUnitTest As clsBin
     With vOutput
+        .Add vLogfileName
         .Add vLot
         .Add vSeq
         .Add vTestName
@@ -678,6 +679,8 @@ Public Function get_report_header(Optional delimiter = ",") As String
         .Add vStopDate
         .Add vTested
         .Add vPassed
+        .Add vFailed
+        .Add vYield
     
         
         'Interface Bin (6 items) -- IBX
@@ -702,7 +705,7 @@ Public Function get_report_header(Optional delimiter = ",") As String
  Function merge_collection(col As Collection, Optional delimeter = ",") As String
     Dim vOut As String
     For Each c In col
-        vOut = vOut & delimeter & Replace(c, delimeter, "")
+        vOut = vOut & delimeter & Replace(c, delimeter, " ")
     Next
     vOut = Mid(vOut, 2)
     merge_collection = vOut
