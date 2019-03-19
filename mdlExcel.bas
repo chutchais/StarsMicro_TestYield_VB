@@ -1,8 +1,10 @@
 Attribute VB_Name = "mdlExcel"
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hWnd As Long, _
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, _
                             ByVal lpOperation As String, ByVal lpFile As String, _
                             ByVal lpParameters As String, ByVal lpDirectory As String, _
                             Optional nShowCmd As Long) As Long
+
+
 
 Sub EPRO_Export_Excel(objEPRO As clsEPRO)
     Dim oExcel As Object
@@ -18,22 +20,22 @@ Sub EPRO_Export_Excel(objEPRO As clsEPRO)
    Set oSheet = oBook.Worksheets(1)
    'Add Column
    With oSheet
-        .Range("A1").Value = "Assy"
-        .Range("B1").Value = "Lot"
-        .Range("C1").Value = "Seq"
-        .Range("D1").Value = "Operator"
-        .Range("E1").Value = "Temperature"
-        .Range("F1").Value = "Tester"
-        .Range("G1").Value = "Handler"
-        .Range("H1").Value = "Summary"
-        .Range("I1").Value = "Date"
-        .Range("J1").Value = "Time"
-        .Range("K1").Value = "SystemID"
-        .Range("L1").Value = "ProgramName"
-        .Range("M1").Value = "Total"
-        .Range("N1").Value = "Pass"
-        .Range("O1").Value = "Fail"
-        .Range("P1").Value = "Yield"
+        .range("A1").Value = "Assy"
+        .range("B1").Value = "Lot"
+        .range("C1").Value = "Seq"
+        .range("D1").Value = "Operator"
+        .range("E1").Value = "Temperature"
+        .range("F1").Value = "Tester"
+        .range("G1").Value = "Handler"
+        .range("H1").Value = "Summary"
+        .range("I1").Value = "Date"
+        .range("J1").Value = "Time"
+        .range("K1").Value = "SystemID"
+        .range("L1").Value = "ProgramName"
+        .range("M1").Value = "Total"
+        .range("N1").Value = "Pass"
+        .range("O1").Value = "Fail"
+        .range("P1").Value = "Yield"
         Dim k As Integer
         k = 16
         'IB
@@ -54,22 +56,22 @@ Sub EPRO_Export_Excel(objEPRO As clsEPRO)
    End With
    'Add Data
     With oSheet
-        .Range("A2").Value = objEPRO.AssyNumber
-        .Range("B2").Value = objEPRO.Lot
-        .Range("C2").Value = objEPRO.Seq
-        .Range("D2").Value = objEPRO.Operator
-        .Range("E2").Value = objEPRO.Temperature
-        .Range("F2").Value = objEPRO.Tester
-        .Range("G2").Value = objEPRO.Handler
-        .Range("H2").Value = objEPRO.SummaryName
-        .Range("I2").Value = objEPRO.StartDate
-        .Range("J2").Value = objEPRO.StartTime
-        .Range("K2").Value = objEPRO.SystemId
-        .Range("L2").Value = objEPRO.TestProgram
-        .Range("M2").Value = objEPRO.Tested
-        .Range("N2").Value = objEPRO.Passed
-        .Range("O2").Value = objEPRO.Failed
-        .Range("P2").Value = objEPRO.Yield
+        .range("A2").Value = objEPRO.AssyNumber
+        .range("B2").Value = objEPRO.Lot
+        .range("C2").Value = objEPRO.Seq
+        .range("D2").Value = objEPRO.Operator
+        .range("E2").Value = objEPRO.Temperature
+        .range("F2").Value = objEPRO.Tester
+        .range("G2").Value = objEPRO.Handler
+        .range("H2").Value = objEPRO.SummaryName
+        .range("I2").Value = objEPRO.StartDate
+        .range("J2").Value = objEPRO.StartTime
+        .range("K2").Value = objEPRO.SystemId
+        .range("L2").Value = objEPRO.TestProgram
+        .range("M2").Value = objEPRO.Tested
+        .range("N2").Value = objEPRO.Passed
+        .range("O2").Value = objEPRO.Failed
+        .range("P2").Value = objEPRO.Yield
         'Dim k As Integer
         'IB
         k = 16
@@ -111,9 +113,9 @@ Sub EPRO_Export_Excel(objEPRO As clsEPRO)
     
     oSheet.Columns.AutoFit
    'Save the Workbook and Quit Excel
-   oBook.SaveAs App.Path & "\EPRO_report.xls"
-   oExcel.Quit
-   ShellExecute hWnd, "open", App.Path & "\EPRO_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
+   oBook.SaveAs App.path & "\EPRO_report.xls"
+   oExcel.quit
+   ShellExecute hwnd, "open", App.path & "\EPRO_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
 End Sub
 
 Sub ETS_Export_Excel(objETS As clsETS)
@@ -181,9 +183,9 @@ Sub ETS_Export_Excel(objETS As clsETS)
     
     oSheet.Columns.AutoFit
    'Save the Workbook and Quit Excel
-   oBook.SaveAs App.Path & "\ETS_report.xls"
-   oExcel.Quit
-   ShellExecute hWnd, "open", App.Path & "\ETS_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
+   oBook.SaveAs App.path & "\ETS_report.xls"
+   oExcel.quit
+   ShellExecute hwnd, "open", App.path & "\ETS_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
 End Sub
 
 Sub MAV_Export_Excel(objMAV As clsMAV)
@@ -298,9 +300,9 @@ Sub MAV_Export_Excel(objMAV As clsMAV)
     
     oSheet.Columns.AutoFit
    'Save the Workbook and Quit Excel
-   oBook.SaveAs App.Path & "\MAV_report.xls"
-   oExcel.Quit
-   ShellExecute hWnd, "open", App.Path & "\MAV_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
+   oBook.SaveAs App.path & "\MAV_report.xls"
+   oExcel.quit
+   ShellExecute hwnd, "open", App.path & "\MAV_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
 End Sub
 
 
@@ -428,9 +430,9 @@ Sub TMT_Export_Excel(objTMT As clsTMT)
     
     oSheet.Columns.AutoFit
    'Save the Workbook and Quit Excel
-   oBook.SaveAs App.Path & "\TMT_report.xls"
-   oExcel.Quit
-   ShellExecute hWnd, "open", App.Path & "\TMT_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
+   oBook.SaveAs App.path & "\TMT_report.xls"
+   oExcel.quit
+   ShellExecute hwnd, "open", App.path & "\TMT_report.xls", vbNullString, vbNullString, SW_SHOWNORMAL
 End Sub
 
 Function getBin(key As String, col As Collection) As Object

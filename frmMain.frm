@@ -12,18 +12,36 @@ Begin VB.Form frmMain
    ScaleHeight     =   9195
    ScaleWidth      =   16890
    StartUpPosition =   2  'CenterScreen
+   Begin VB.ComboBox cbTestStep 
+      Height          =   315
+      ItemData        =   "frmMain.frx":0000
+      Left            =   5265
+      List            =   "frmMain.frx":0010
+      Style           =   2  'Dropdown List
+      TabIndex        =   21
+      Top             =   990
+      Width           =   810
+   End
+   Begin VB.TextBox txtPartId 
+      Enabled         =   0   'False
+      Height          =   375
+      Left            =   1170
+      TabIndex        =   20
+      Top             =   945
+      Width           =   3210
+   End
    Begin VB.CheckBox chkUpdateIndex 
       Caption         =   "update index"
       Height          =   285
       Left            =   8460
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   135
       Width           =   1455
    End
    Begin TabDlg.SSTab SSTab1 
       Height          =   7755
       Left            =   90
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   1350
       Width           =   16740
       _ExtentX        =   29528
@@ -33,7 +51,7 @@ Begin VB.Form frmMain
       TabsPerRow      =   5
       TabHeight       =   520
       TabCaption(0)   =   "Summary Report"
-      TabPicture(0)   =   "frmMain.frx":0000
+      TabPicture(0)   =   "frmMain.frx":0020
       Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Frame1"
       Tab(0).Control(0).Enabled=   0   'False
@@ -43,7 +61,7 @@ Begin VB.Form frmMain
       Tab(0).Control(2).Enabled=   0   'False
       Tab(0).ControlCount=   3
       TabCaption(1)   =   "File list"
-      TabPicture(1)   =   "frmMain.frx":001C
+      TabPicture(1)   =   "frmMain.frx":003C
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lstFile"
       Tab(1).ControlCount=   1
@@ -51,13 +69,13 @@ Begin VB.Form frmMain
          Caption         =   "QA Summarize"
          Height          =   1635
          Left            =   135
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   2205
          Width           =   16620
          Begin MSFlexGridLib.MSFlexGrid fGridQa 
             Height          =   1185
             Left            =   135
-            TabIndex        =   17
+            TabIndex        =   16
             Top             =   360
             Width           =   16440
             _ExtentX        =   28998
@@ -69,13 +87,13 @@ Begin VB.Form frmMain
          Caption         =   "FT Summarize"
          Height          =   1635
          Left            =   135
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   495
          Width           =   16620
          Begin MSFlexGridLib.MSFlexGrid fGridFT 
             Height          =   1185
             Left            =   135
-            TabIndex        =   16
+            TabIndex        =   15
             Top             =   360
             Width           =   16440
             _ExtentX        =   28998
@@ -86,7 +104,7 @@ Begin VB.Form frmMain
       Begin VB.ListBox lstFile 
          Height          =   6495
          Left            =   -74775
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   495
          Width           =   16305
       End
@@ -94,13 +112,13 @@ Begin VB.Form frmMain
          Caption         =   "Summary Table"
          Height          =   3660
          Left            =   135
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   3960
          Width           =   16665
          Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
             Height          =   3300
             Left            =   135
-            TabIndex        =   13
+            TabIndex        =   12
             Top             =   270
             Width           =   16440
             _ExtentX        =   28998
@@ -143,9 +161,9 @@ Begin VB.Form frmMain
    End
    Begin VB.ComboBox cbTester 
       Height          =   315
-      ItemData        =   "frmMain.frx":0038
+      ItemData        =   "frmMain.frx":0058
       Left            =   1185
-      List            =   "frmMain.frx":0048
+      List            =   "frmMain.frx":0068
       Style           =   2  'Dropdown List
       TabIndex        =   3
       Top             =   120
@@ -166,21 +184,61 @@ Begin VB.Form frmMain
       Top             =   450
       Width           =   1455
    End
+   Begin VB.Label lblTempStep4 
+      Caption         =   "Temp4"
+      Height          =   240
+      Left            =   11295
+      TabIndex        =   26
+      Top             =   990
+      Width           =   1860
+   End
+   Begin VB.Label lblTempStep3 
+      Caption         =   "Temp3"
+      Height          =   240
+      Left            =   9405
+      TabIndex        =   25
+      Top             =   990
+      Width           =   1770
+   End
+   Begin VB.Label lblTempStep2 
+      Caption         =   "Temp2"
+      Height          =   240
+      Left            =   7650
+      TabIndex        =   24
+      Top             =   990
+      Width           =   1680
+   End
+   Begin VB.Label lblTempStep1 
+      Caption         =   "Temp1"
+      Height          =   240
+      Left            =   6165
+      TabIndex        =   23
+      Top             =   990
+      Width           =   1410
+   End
+   Begin VB.Label lblTestStep 
+      Caption         =   "Test Step :"
+      Height          =   255
+      Left            =   4455
+      TabIndex        =   22
+      Top             =   1035
+      Width           =   810
+   End
+   Begin VB.Label lblPartId 
+      Caption         =   "PART ID :"
+      Height          =   255
+      Left            =   180
+      TabIndex        =   19
+      Top             =   990
+      Width           =   810
+   End
    Begin VB.Label lblSearchBy 
       Caption         =   "..."
       Height          =   195
       Left            =   9990
-      TabIndex        =   18
+      TabIndex        =   17
       Top             =   180
-      Width           =   4830
-   End
-   Begin VB.Label lblFilesCount 
-      Caption         =   "0 File(s)"
-      Height          =   255
-      Left            =   1170
-      TabIndex        =   9
-      Top             =   945
-      Width           =   3195
+      Width           =   3885
    End
    Begin VB.Label Label3 
       Caption         =   "STARs Lot no :"
@@ -245,32 +303,57 @@ Dim vReportFolder As String
 
 Dim objFileReport As New Collection
 
+'Added on version 1.0.13
+Dim vFoundMatrixFile As Boolean
+Dim vMatrixFileName As String
+Dim iRowCount As Long
+Dim oExcel As Object
+Dim oBook As Object
+Dim oSheet As Object
+
+Dim vTempStep1 As String
+Dim vTempStep2 As String
+Dim vTempStep3 As String
+Dim vTempStep4 As String
+
+Dim vTempStep1_Result As Boolean
+Dim vTempStep2_Result As Boolean
+Dim vTempStep3_Result As Boolean
+Dim vTempStep4_Result As Boolean
+
+
 Private Sub cbTester_Change()
     cmdExport.Enabled = False
-    
+    txtPartId.Text = ""
 End Sub
 
 Private Sub cbTester_Click()
 
     Me.MousePointer = 11
     clearContains
-    
+    txtPartId.Text = ""
     
     vCurrentFolder = getSectionString(cbTester.Text, "path")
     vCurrentFileExt = getSectionString(cbTester.Text, "file ext")
     txtFolder.Text = vCurrentFolder
 '    showFileCountInFolder vCurrentFolder, vCurrentFileExt
     Me.MousePointer = 0
+    
+    lblTempStep1.Caption = "Temp1(" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
+    lblTempStep2.Caption = "Temp2(" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+    lblTempStep3.Caption = "Temp3(" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+    lblTempStep4.Caption = "Temp4(" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+    
 End Sub
 
 Sub showFileCountInFolder(folderName As String, Optional extFile As String = "*.*")
-    Dim oFs As New FileSystemObject
-    If oFs.FolderExists(folderName) Then
-        lblFilesCount.Caption = "Found " & CountFiles(folderName, extFile) & " File(s)"
-    Else
-        lblFilesCount.Caption = "Folder or File doesn't exist"
-    End If
-    
+'    Dim oFs As New FileSystemObject
+'    If oFs.FolderExists(folderName) Then
+'        lblFilesCount.Caption = "Found " & CountFiles(folderName, extFile) & " File(s)"
+'    Else
+'        lblFilesCount.Caption = "Folder or File doesn't exist"
+'    End If
+'
 End Sub
 
 
@@ -287,6 +370,15 @@ Sub clearContains()
 '    lblPassed.Caption = "0"
 '    lblFailed.Caption = "0"
 '    lblYield.Caption = "0"
+End Sub
+
+Private Sub cbTestStep_Click()
+    get_PartId_Matrix_Configuration Trim(UCase(txtPartId.Text)), Trim(cbTestStep.Text)
+    
+    If objFileReport.Count > 0 Then
+        checkTempStep objFileReport
+    End If
+    
 End Sub
 
 Private Sub cmdBrowse_Click()
@@ -918,8 +1010,103 @@ End Select
             add_data_to_QA_Grid_Summary objFileReport
     cmdExport.Enabled = True
  Me.MousePointer = 0
+    'to check temp
+    checkTempStep objFileReport
 End Sub
 
+'Added on version 1.0.13 , March 18,2019
+Sub checkTempStep(objs As Collection)
+    
+    
+    Dim iFileNumber As Integer
+    Dim vReportFileName As String
+    vReportFileName = vReportFolder & "\" & cbTester.Text & "\judgment_" & txtLotNumber & ".txt"
+    iFileNumber = FreeFile
+    Open vReportFileName For Output As iFileNumber
+    
+    Dim vResultStrTemp1 As String
+    Dim vResultStrTemp2 As String
+    Dim vResultStrTemp3 As String
+    Dim vResultStrTemp4 As String
+    
+    
+    vTempStep1_Result = False
+    vTempStep2_Result = False
+    vTempStep3_Result = False
+    vTempStep4_Result = False
+    
+    Dim colTemp As Collection
+    Set colTemp = getTemperatureCol(objs)
+    
+    If vTempStep1 <> "" And vTempStep1 <> "NA" Then
+        'Check temp in FT summary grid
+        vTempStep1_Result = findTemperature(vTempStep1, colTemp)
+        lblTempStep1.Caption = lblTempStep1.Caption & " " & IIf(vTempStep1_Result, "G", "NG")
+        lblTempStep1.ForeColor = IIf(vTempStep1_Result, vbBlue, vbRed)
+        
+        vResultStrTemp1 = "Temperature step1 = " & vTempStep1 & ", Test summary Temperature = " & IIf(vTempStep1_Result, vTempStep1, "Not Found") & " --> " & IIf(vTempStep1_Result, "G", "NG")
+    Else
+        vTempStep1_Result = True
+    End If
+    If vTempStep2 <> "" And vTempStep2 <> "NA" Then
+        'Check temp in FT summary grid
+        vTempStep2_Result = findTemperature(vTempStep2, colTemp)
+        lblTempStep2.Caption = lblTempStep2.Caption & " " & IIf(vTempStep2_Result, "G", "NG")
+        lblTempStep2.ForeColor = IIf(vTempStep2_Result, vbBlue, vbRed)
+        
+        vResultStrTemp2 = "Temperature step2 = " & vTempStep2 & ", Test summary Temperature = " & IIf(vTempStep2_Result, vTempStep2, "Not Found") & " --> " & IIf(vTempStep2_Result, "G", "NG")
+     Else
+        vTempStep2_Result = True
+    End If
+    If vTempStep3 <> "" And vTempStep3 <> "NA" Then
+        'Check temp in FT summary grid
+        vTempStep3_Result = findTemperature(vTempStep3, colTemp)
+        lblTempStep3.Caption = lblTempStep3.Caption & " " & IIf(vTempStep3_Result, "G", "NG")
+        lblTempStep3.ForeColor = IIf(vTempStep3_Result, vbBlue, vbRed)
+        
+        vResultStrTemp3 = "Temperature step3 = " & vTempStep3 & ", Test summary Temperature = " & IIf(vTempStep3_Result, vTempStep3, "Not Found") & " --> " & IIf(vTempStep3_Result, "G", "NG")
+     Else
+        vTempStep3_Result = True
+    End If
+    If vTempStep4 <> "" And vTempStep4 <> "NA" Then
+        'Check temp in FT summary grid
+        vTempStep4_Result = findTemperature(vTempStep4, colTemp)
+        lblTempStep4.Caption = lblTempStep4.Caption & " " & IIf(vTempStep4_Result, "G", "NG")
+        lblTempStep4.ForeColor = IIf(vTempStep4_Result, vbBlue, vbRed)
+        
+        vResultStrTemp4 = "Temperature step4 = " & vTempStep4 & ", Test summary Temperature = " & IIf(vTempStep4_Result, vTempStep4, "Not Found") & " --> " & IIf(vTempStep4_Result, "G", "NG")
+     Else
+        vTempStep4_Result = True
+    End If
+    
+    Print #iFileNumber, "Lot teperature judgment = " & IIf(vTempStep1_Result And vTempStep2_Result And _
+                                                    vTempStep3_Result And vTempStep4_Result, "G", "NG")
+    Print #iFileNumber, vResultStrTemp1
+    Print #iFileNumber, vResultStrTemp2
+    Print #iFileNumber, vResultStrTemp3
+    Print #iFileNumber, vResultStrTemp4
+    Close #iFileNumber
+End Sub
+
+Private Function findTemperature(siteName As String, col As Collection) As Boolean
+  On Error GoTo errhandler
+  For Each c In col
+        'remove C
+        c = Replace(c, "° C", "")
+        c = Replace(c, "°C", "")
+        c = Replace(c, "°c", "")
+        c = Replace(c, "° c", "")
+        c = IIf(c = "", "25", c)
+        'c = Int(c)
+        If c = Trim(siteName) Then
+            findTemperature = True
+            Exit For
+        End If
+  Next
+  Exit Function
+errhandler:
+  Set getSite = Nothing
+End Function
 
 Function get_only_fileName(vFullPath As String) As String
     Dim vFileArray() As String
@@ -998,8 +1185,115 @@ Private Sub Form_Load()
             oFs.CreateFolder (vReportFolder & "\EPRO")
         End If
     '-----------------------
+    'Version 1.0.13 -- Add Test Step Temperature Validation
+    Set xFolder = oFs.GetFolder(App.path)
+    Dim f As Object
+        For Each f In xFolder.Files
+            '--add to index file--
+            If f.Name Like "*.xlsx" Then
+                'MsgBox "Found Xlsx file : " & f.Name
+                vFoundMatrixFile = True
+                vMatrixFileName = f.Name
+                Exit For
+            End If
+        Next
+
+        lblPartId.Enabled = vFoundMatrixFile
+        lblTestStep.Enabled = vFoundMatrixFile
+        txtPartId.Enabled = vFoundMatrixFile
+        cbTestStep.Enabled = vFoundMatrixFile
+        If txtPartId.Enabled = False Then
+            txtPartId.Text = "Not found Matrix file (xlsx)"
+        Else
+            txtPartId.Text = ""
+        End If
+        
+       ' get_PartId_Matrix_Configuration "CAT4002ASD-GT3"
     
 End Sub
+
+Function get_PartId_Matrix_Configuration(PartId As String, _
+            Optional TestStep As String = "1") As String
+            
+            If PartId = "" Then
+                Exit Function
+            End If
+            vTempStep1 = ""
+            vTempStep2 = ""
+            vTempStep3 = ""
+            vTempStep4 = ""
+            
+            lblTempStep1.Caption = "Temp1": lblTempStep1.ForeColor = vbDefault
+            lblTempStep2.Caption = "Temp2": lblTempStep2.ForeColor = vbDefault
+            lblTempStep3.Caption = "Temp3": lblTempStep3.ForeColor = vbDefault
+            lblTempStep4.Caption = "Temp4": lblTempStep4.ForeColor = vbDefault
+            
+            'Start a new workbook in Excel
+           Set oExcel = CreateObject("Excel.Application")
+          ' Set oBook = oExcel.Load(App.path & "\" & vMatrixFileName)
+           Set oBook = oExcel.Workbooks.Open(App.path & "\" & vMatrixFileName, , True)
+           On Error Resume Next
+           Set oSheet = oBook.Worksheets("Consumption Factor")
+           If oSheet Is Nothing Then
+                 oBook.Close
+                oExcel.quit
+                Set oBook = Nothing
+                Set oExcel = Nothing
+                MsgBox "Not found sheet name :  Consumption Factor", vbExclamation, "Not found Matrix sheet"
+           Else
+           
+            iRowCount = oSheet.UsedRange.Rows.Count
+            Dim rng1 As Object
+            Dim cells As Object
+            Set rng1 = oSheet.range("C1:C" & Trim(Str(iRowCount)))
+            Set cells = rng1.Find(PartId)
+            If Not cells Is Nothing Then
+                
+                Dim firstCellAddress As String
+                firstCellAddress = cells.Address
+            
+                ' Find all cells containing Elli
+                Dim vTestStepData As String
+                Do
+                    Debug.Print "Found: " & cells.Address
+                    vTestStepData = oSheet.range("AN" & Trim(Str(cells.row))).Value
+                    If TestStep = vTestStepData Then
+                        Debug.Print "Found!!!!!!!!!!!!!!!!"
+                        vTempStep1 = oSheet.range("AO" & Trim(Str(cells.row))).Value
+                        vTempStep2 = oSheet.range("AP" & Trim(Str(cells.row))).Value
+                        vTempStep3 = oSheet.range("AQ" & Trim(Str(cells.row))).Value
+                        vTempStep4 = oSheet.range("AR" & Trim(Str(cells.row))).Value
+                        
+                        lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")"
+                        lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")"
+                        lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")"
+                        lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")"
+            
+                        Exit Do
+                    End If
+                    Set cells = rng1.FindNext(cells)
+                Loop While firstCellAddress <> cells.Address
+    
+              
+            Else
+                MsgBox PartId & " not found"
+            End If
+    
+
+           End If
+           
+            oSheet.Close
+            oBook.Close
+           oExcel.quit
+           Set oSheet = Nothing
+           Set oBook = Nothing
+           Set oExcel = Nothing
+           
+End Function
+
+
+
+
 Sub initial_Grid_Summary()
         With MSFlexGrid1
     
@@ -1793,16 +2087,51 @@ Sub add_data_to_QA_each_Temp(Temperature As String, objs As Collection, Optional
     End With
 End Sub
 
+Private Sub Form_Unload(Cancel As Integer)
+    On Error Resume Next
+            oSheet.Close
+            oBook.Close
+           oExcel.quit
+           Set oSheet = Nothing
+           Set oBook = Nothing
+           Set oExcel = Nothing
+End Sub
+
 Private Sub txtLotNumber_Change()
     lstFile.Clear
     initial_Grid_Summary
     initial_Grid_FT
     initial_Grid_QA
+    
+    lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
+    lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+    lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+    lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+                        
 End Sub
 
 Private Sub txtLotNumber_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         filterFileByLot txtLotNumber.Text
         cmdGenerate_Click
+    End If
+End Sub
+
+Private Sub txtPartId_Change()
+            vTempStep1 = ""
+            vTempStep2 = ""
+            vTempStep3 = ""
+            vTempStep4 = ""
+            
+            lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
+    lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+    lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+    lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+End Sub
+
+Private Sub txtPartId_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 13 Then
+        get_PartId_Matrix_Configuration Trim(UCase(txtPartId.Text)), Trim(cbTestStep.Text)
+        
     End If
 End Sub
