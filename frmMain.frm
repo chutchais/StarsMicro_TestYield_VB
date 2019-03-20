@@ -1190,7 +1190,7 @@ Private Sub Form_Load()
     Dim f As Object
         For Each f In xFolder.Files
             '--add to index file--
-            If f.Name Like "*.xlsx" Then
+            If f.Name Like "*.xls*" Then
                 'MsgBox "Found Xlsx file : " & f.Name
                 vFoundMatrixFile = True
                 vMatrixFileName = f.Name
