@@ -111,9 +111,9 @@ Begin VB.Form frmMain
       Begin VB.Frame Frame1 
          Caption         =   "Summary Table"
          Height          =   3660
-         Left            =   135
+         Left            =   90
          TabIndex        =   10
-         Top             =   3960
+         Top             =   3825
          Width           =   16665
          Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
             Height          =   3300
@@ -183,6 +183,394 @@ Begin VB.Form frmMain
       TabIndex        =   0
       Top             =   450
       Width           =   1455
+   End
+   Begin VB.Label lblLeakActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   3
+      Left            =   16470
+      TabIndex        =   50
+      Top             =   1080
+      Width           =   360
+   End
+   Begin VB.Label lblkelvinActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   3
+      Left            =   16470
+      TabIndex        =   49
+      Top             =   765
+      Width           =   360
+   End
+   Begin VB.Label lblOSActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   3
+      Left            =   16470
+      TabIndex        =   48
+      Top             =   450
+      Width           =   360
+   End
+   Begin VB.Label lblTriggerActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   3
+      Left            =   16470
+      TabIndex        =   47
+      Top             =   135
+      Width           =   360
+   End
+   Begin VB.Label lblLeakActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   2
+      Left            =   16155
+      TabIndex        =   46
+      Top             =   1080
+      Width           =   360
+   End
+   Begin VB.Label lblkelvinActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   2
+      Left            =   16155
+      TabIndex        =   45
+      Top             =   765
+      Width           =   360
+   End
+   Begin VB.Label lblOSActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   2
+      Left            =   16155
+      TabIndex        =   44
+      Top             =   450
+      Width           =   360
+   End
+   Begin VB.Label lblTriggerActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   2
+      Left            =   16155
+      TabIndex        =   43
+      Top             =   135
+      Width           =   360
+   End
+   Begin VB.Label lblLeakActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   1
+      Left            =   15795
+      TabIndex        =   42
+      Top             =   1080
+      Width           =   360
+   End
+   Begin VB.Label lblkelvinActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   1
+      Left            =   15795
+      TabIndex        =   41
+      Top             =   765
+      Width           =   360
+   End
+   Begin VB.Label lblOSActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   1
+      Left            =   15795
+      TabIndex        =   40
+      Top             =   450
+      Width           =   360
+   End
+   Begin VB.Label lblTriggerActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   1
+      Left            =   15795
+      TabIndex        =   39
+      Top             =   135
+      Width           =   360
+   End
+   Begin VB.Label lblLeakActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   0
+      Left            =   15435
+      TabIndex        =   38
+      Top             =   1080
+      Width           =   360
+   End
+   Begin VB.Label lblkelvinActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   0
+      Left            =   15435
+      TabIndex        =   37
+      Top             =   765
+      Width           =   360
+   End
+   Begin VB.Label lblOSActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   0
+      Left            =   15435
+      TabIndex        =   36
+      Top             =   450
+      Width           =   360
+   End
+   Begin VB.Label lblTriggerActualYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Index           =   0
+      Left            =   15435
+      TabIndex        =   35
+      Top             =   135
+      Width           =   360
+   End
+   Begin VB.Label lblLeakYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   15075
+      TabIndex        =   34
+      Top             =   1080
+      Width           =   360
+   End
+   Begin VB.Label lblkelvinYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   15075
+      TabIndex        =   33
+      Top             =   765
+      Width           =   360
+   End
+   Begin VB.Label lblOSYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   15075
+      TabIndex        =   32
+      Top             =   450
+      Width           =   360
+   End
+   Begin VB.Label lblTriggerYield 
+      Caption         =   "0"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   15075
+      TabIndex        =   31
+      Top             =   135
+      Width           =   360
+   End
+   Begin VB.Label Label7 
+      Caption         =   "Leak Yield :"
+      Height          =   255
+      Left            =   14175
+      TabIndex        =   30
+      Top             =   1080
+      Width           =   900
+   End
+   Begin VB.Label Label6 
+      Caption         =   "Kelvin Yield :"
+      Height          =   255
+      Left            =   14085
+      TabIndex        =   29
+      Top             =   765
+      Width           =   975
+   End
+   Begin VB.Label Label5 
+      Caption         =   "O/S Yield :"
+      Height          =   255
+      Left            =   14220
+      TabIndex        =   28
+      Top             =   450
+      Width           =   855
+   End
+   Begin VB.Label Label4 
+      Caption         =   "Trigger Yield :"
+      Height          =   255
+      Left            =   14040
+      TabIndex        =   27
+      Top             =   135
+      Width           =   1035
    End
    Begin VB.Label lblTempStep4 
       Caption         =   "Temp4"
@@ -320,6 +708,24 @@ Dim vTempStep1_Result As Boolean
 Dim vTempStep2_Result As Boolean
 Dim vTempStep3_Result As Boolean
 Dim vTempStep4_Result As Boolean
+
+'Added by Chutchai on March 25,2019 (version 1.0.15)
+'To validate Trigger yield,O/S,Kelvin and Leak Yield
+Dim vTriggerYieldValue As Double
+Dim vTriggerOpenShortYieldValue As Double
+Dim vTriggerKelvinYieldValue As Double
+Dim vTriggerLeakYieldValue As Double
+
+Dim vTriggerOpenShortBin As String
+Dim vTriggerKelvinBin As String
+Dim vTriggerLeakBin As String
+
+Dim Matrix_Array() As String
+Dim vFTSummaryReport As New Collection
+
+
+
+
 
 
 Private Sub cbTester_Change()
@@ -884,6 +1290,7 @@ lngTime = GetTickCount
 initial_Grid_Summary
 initial_Grid_FT
 initial_Grid_QA
+clear_all_yield
 
 Set objFileReport = New Collection
 
@@ -1006,11 +1413,14 @@ Select Case cbTester.Text
             Next
 End Select
  'summary file
+            Set vFTSummaryReport = New Collection
             add_data_to_FT_Grid_Summary objFileReport
             add_data_to_QA_Grid_Summary objFileReport
     cmdExport.Enabled = True
  Me.MousePointer = 0
-    'to check temp
+    
+    
+    'Check temperture
     checkTempStep objFileReport
 End Sub
 
@@ -1023,6 +1433,114 @@ Sub checkTempStep(objs As Collection)
     vReportFileName = vReportFolder & "\" & cbTester.Text & "\judgment_" & txtLotNumber & ".txt"
     iFileNumber = FreeFile
     Open vReportFileName For Output As iFileNumber
+    
+    
+    'Validate with Matrix
+    Dim objTmpSwBin As Object
+    Dim vActualYied As Double
+    
+    clear_all_yield
+    
+    Dim ixTemperature As Integer
+    Dim vResult As Boolean
+    Dim vLotJudgmentResult As Boolean
+    Dim txt As String
+    ixTemperature = 0
+    
+    For Each b In vFTSummaryReport
+        vLotJudgmentResult = True
+        Print #iFileNumber, "Yield Trigger of temperature : " & IIf(b.Temperature = "", "25", b.Temperature)
+        
+        lblTriggerActualYield(ixTemperature).Visible = True
+        lblOSActualYield(ixTemperature).Visible = True
+        lblkelvinActualYield(ixTemperature).Visible = True
+        lblLeakActualYield(ixTemperature).Visible = True
+        
+        lblTriggerActualYield(ixTemperature).Caption = Format(b.Yield, "##.0")
+        If b.Yield < vTriggerYieldValue Then
+            'Low yield
+            lblTriggerActualYield(ixTemperature).ForeColor = vbRed
+            vResult = False
+            vLotJudgmentResult = False
+        Else
+            lblTriggerActualYield(ixTemperature).ForeColor = vbBlue
+            vResult = True
+        End If
+        txt = "1.Trigger Yield " & vTriggerYieldValue & " , Lot  Yield = " & Format(b.Yield, "##.0") & _
+            " --> Yield = " & IIf(vResult, "G", "NG") & " (LOT Yield > Trigger Yield = " & IIf(vResult, "G", "NG") & " )"
+        Print #iFileNumber, txt
+        
+        'Open short Bin
+        If vTriggerOpenShortBin <> "" And vTriggerOpenShortBin <> "NA" Then
+            Set objTmpSwBin = b.getBin(vTriggerOpenShortBin, b.SwBinSums)
+            If objTmpSwBin Is Nothing Then
+                GoTo bypass_Os
+            End If
+            vActualYied = (objTmpSwBin.Total / b.Total) * 100
+            lblOSActualYield(ixTemperature).Caption = Format(vActualYied, ".000")
+            If vActualYied > vTriggerOpenShortYieldValue Then
+                lblOSActualYield(ixTemperature).ForeColor = vbRed
+                vResult = False
+                vLotJudgmentResult = False
+            Else
+                lblOSActualYield(ixTemperature).ForeColor = vbBlue
+                vResult = True
+            End If
+            txt = "2.Trigger O/S Bin " & vTriggerOpenShortBin & " , Trigger  value = " & vTriggerOpenShortYieldValue & _
+                " , Lot Bin " & vTriggerOpenShortBin & " = " & Format(vActualYied, "0.000") & " --> " & IIf(vResult, "G", "NG") & _
+                "  (O/S Lot > Trigger value = " & IIf(vResult, "G", "NG") & " )"
+            Print #iFileNumber, txt
+        End If
+bypass_Os:
+        'KelVin
+        If vTriggerKelvinBin <> "" And vTriggerKelvinBin <> "NA" Then
+            Set objTmpSwBin = b.getBin(vTriggerKelvinBin, b.SwBinSums)
+            If objTmpSwBin Is Nothing Then
+                GoTo bypass_kelvin
+            End If
+            vActualYied = (objTmpSwBin.Total / b.Total) * 100
+            lblkelvinActualYield(ixTemperature).Caption = Format(vActualYied, "#.00")
+            If vActualYied > vTriggerKelvinYieldValue Then
+                lblkelvinActualYield(ixTemperature).ForeColor = vbRed
+                vResult = False
+                vLotJudgmentResult = False
+            Else
+                lblkelvinActualYield(ixTemperature).ForeColor = vbBlue
+                vResult = True
+            End If
+            txt = "3.Trigger Kelvin Bin " & vTriggerKelvinBin & " , Trigger  value = " & vTriggerKelvinYieldValue & _
+                " , Lot Bin " & vTriggerKelvinBin & " = " & Format(vActualYied, "0.000") & " --> " & IIf(vResult, "G", "NG") & _
+                "  (Kelvin Lot > Trigger value = " & IIf(vResult, "G", "NG") & " )"
+            Print #iFileNumber, txt
+        End If
+bypass_kelvin:
+        'Leak
+        If vTriggerLeakBin <> "" And vTriggerLeakBin <> "NA" Then
+            Set objTmpSwBin = b.getBin(vTriggerLeakBin, b.SwBinSums)
+            If objTmpSwBin Is Nothing Then
+                GoTo bypass_leak
+            End If
+            vActualYied = (objTmpSwBin.Total / b.Total) * 100
+            lblLeakActualYield(ixTemperature).Caption = Format(vActualYied, "#.00")
+            If vActualYied > vTriggerLeakYieldValue Then
+                lblLeakActualYield(ixTemperature).ForeColor = vbRed
+                vResult = False
+                vLotJudgmentResult = False
+            Else
+                vResult = True
+                lblLeakActualYield(ixTemperature).ForeColor = vbBlue
+            End If
+            txt = "4.Trigger Leak Bin " & vTriggerLeakBin & " , Trigger  value = " & vTriggerLeakYieldValue & _
+                " , Lot Bin " & vTriggerLeakBin & " = " & Format(vActualYied, "0.000") & " --> " & IIf(vResult, "G", "NG") & _
+                "  (Leak Lot > Trigger value = " & IIf(vResult, "G", "NG") & " )"
+            Print #iFileNumber, txt
+        End If
+bypass_leak:
+        Print #iFileNumber, "Lot judgment : " & IIf(vLotJudgmentResult, "G", "NG")
+        Print #iFileNumber, ""
+    Next 'Next Temperature
+    
+    'End Trigger Yield
     
     Dim vResultStrTemp1 As String
     Dim vResultStrTemp2 As String
@@ -1137,6 +1655,8 @@ Private Sub Form_Load()
     initial_Grid_FT
     initial_Grid_QA
     
+    clear_all_yield
+    
     'set default Tester
     Dim vDefaultTester As String
     vDefaultTester = getSectionString("default", "tester")
@@ -1190,7 +1710,7 @@ Private Sub Form_Load()
     Dim f As Object
         For Each f In xFolder.Files
             '--add to index file--
-            If f.Name Like "*.xls*" Then
+            If f.Name Like "*.csv*" Then
                 'MsgBox "Found Xlsx file : " & f.Name
                 vFoundMatrixFile = True
                 vMatrixFileName = f.Name
@@ -1203,9 +1723,39 @@ Private Sub Form_Load()
         txtPartId.Enabled = vFoundMatrixFile
         cbTestStep.Enabled = vFoundMatrixFile
         If txtPartId.Enabled = False Then
-            txtPartId.Text = "Not found Matrix file (xlsx)"
+            txtPartId.Text = "Not found Matrix file (csv)"
         Else
             txtPartId.Text = ""
+        End If
+        
+        If vFoundMatrixFile Then
+            ' Load the file.
+            Dim file_name As String
+            file_name = App.path & "\" & vMatrixFileName
+            fnum = FreeFile
+            Open file_name For Input As fnum
+            whole_file = Input$(LOF(fnum), #fnum)
+            Close fnum
+        
+            ' Break the file into lines.
+            lines = Split(whole_file, vbCrLf)
+        
+            ' Dimension the array.
+            num_rows = UBound(lines)
+            one_line = Split(lines(0), ",")
+            num_cols = UBound(one_line)
+            ReDim Matrix_Array(num_rows, num_cols)
+        
+            ' Copy the data into the array.
+            For R = 0 To num_rows
+                If Len(lines(R)) > 0 Then
+                    one_line = Split(lines(R), ",")
+                    For c = 0 To num_cols
+                        Matrix_Array(R, c) = one_line(c)
+                    Next c
+                End If
+            Next R
+        
         End If
         
        ' get_PartId_Matrix_Configuration "CAT4002ASD-GT3"
@@ -1228,66 +1778,182 @@ Function get_PartId_Matrix_Configuration(PartId As String, _
             lblTempStep3.Caption = "Temp3": lblTempStep3.ForeColor = vbDefault
             lblTempStep4.Caption = "Temp4": lblTempStep4.ForeColor = vbDefault
             
-            'Start a new workbook in Excel
-           Set oExcel = CreateObject("Excel.Application")
-          ' Set oBook = oExcel.Load(App.path & "\" & vMatrixFileName)
-           Set oBook = oExcel.Workbooks.Open(App.path & "\" & vMatrixFileName, , True)
-           On Error Resume Next
-           Set oSheet = oBook.Worksheets("Consumption Factor")
-           If oSheet Is Nothing Then
-                 oBook.Close
-                oExcel.quit
-                Set oBook = Nothing
-                Set oExcel = Nothing
-                MsgBox "Not found sheet name :  Consumption Factor", vbExclamation, "Not found Matrix sheet"
-           Else
-           
-            iRowCount = oSheet.UsedRange.Rows.Count
-            Dim rng1 As Object
-            Dim cells As Object
-            Set rng1 = oSheet.range("C1:C" & Trim(Str(iRowCount)))
-            Set cells = rng1.Find(PartId)
-            If Not cells Is Nothing Then
-                
-                Dim firstCellAddress As String
-                firstCellAddress = cells.Address
+            vTriggerYieldValue = 0
+            vTriggerOpenShortYieldValue = 0
+            vTriggerKelvinYieldValue = 0
+            vTriggerLeakYieldValue = 0
             
-                ' Find all cells containing Elli
-                Dim vTestStepData As String
-                Do
-                    Debug.Print "Found: " & cells.Address
-                    vTestStepData = oSheet.range("AN" & Trim(Str(cells.row))).Value
-                    If TestStep = vTestStepData Then
-                        Debug.Print "Found!!!!!!!!!!!!!!!!"
-                        vTempStep1 = oSheet.range("AO" & Trim(Str(cells.row))).Value
-                        vTempStep2 = oSheet.range("AP" & Trim(Str(cells.row))).Value
-                        vTempStep3 = oSheet.range("AQ" & Trim(Str(cells.row))).Value
-                        vTempStep4 = oSheet.range("AR" & Trim(Str(cells.row))).Value
-                        
+            vTriggerOpenShortBin = 0
+            vTriggerKelvinBin = 0
+            vTriggerLeakBin = 0
+            
+            Dim strProductId As String
+            Dim strStep As String
+            For i = 0 To UBound(Matrix_Array)
+                strProductId = Matrix_Array(i, 2)
+                strStep = Matrix_Array(i, 39) 'AN
+                    If PartId = strProductId And strStep = TestStep Then
+                        vTempStep1 = Matrix_Array(i, 40) 'AO
+                        vTempStep2 = Matrix_Array(i, 41) 'AP
+                        vTempStep3 = Matrix_Array(i, 42) 'AQ
+                        vTempStep4 = Matrix_Array(i, 43) 'AR
+
                         lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")"
                         lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")"
                         lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")"
                         lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")"
-            
-                        Exit Do
+
+
+                        'Fill all Yield Trigger value
+                        Dim vTmpStr As String
+                        vTmpStr = Matrix_Array(i, 32) 'oSheet.range("AG" & Trim(Str(cells.row))).Value
+                        If IsNumeric(vTmpStr) Then
+                            vTriggerYieldValue = Val(vTmpStr)
+                        End If
+
+                        vTmpStr = Matrix_Array(i, 33) 'oSheet.range("AH" & Trim(Str(cells.row))).Value
+                        vTriggerOpenShortBin = vTmpStr
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerOpenShortBin = vTmpStr
+'                        End If
+
+                        vTmpStr = Matrix_Array(i, 34) 'oSheet.range("AI" & Trim(Str(cells.row))).Value
+                        vTriggerOpenShortYieldValue = vTmpStr
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerOpenShortYieldValue = vTmpStr
+'                        End If
+
+                        vTmpStr = Matrix_Array(i, 35) 'oSheet.range("AJ" & Trim(Str(cells.row))).Value
+                        vTriggerKelvinBin = vTmpStr
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerKelvinBin = vTmpStr
+'                        End If
+
+                        vTmpStr = Matrix_Array(i, 36) 'oSheet.range("AK" & Trim(Str(cells.row))).Value
+                        If IsNumeric(vTmpStr) Then
+                             vTriggerKelvinYieldValue = Val(vTmpStr)
+                        End If
+
+                        vTmpStr = Matrix_Array(i, 37) 'oSheet.range("AL" & Trim(Str(cells.row))).Value
+                        If IsNumeric(vTmpStr) Then
+                             vTriggerLeakBin = Val(vTmpStr)
+                        End If
+
+                        vTmpStr = Matrix_Array(i, 38) 'oSheet.range("AM" & Trim(Str(cells.row))).Value
+                        If IsNumeric(vTmpStr) Then
+                             vTriggerLeakYieldValue = Val(vTmpStr)
+                        End If
+                        Exit For
                     End If
-                    Set cells = rng1.FindNext(cells)
-                Loop While firstCellAddress <> cells.Address
+                
+            Next
+    
+            'Start a new workbook in Excel
+'           Set oExcel = CreateObject("Excel.Application")
+'           Set oBook = oExcel.Workbooks.Open(App.path & "\" & vMatrixFileName, , True)
+'           On Error Resume Next
+'           Set oSheet = oBook.Worksheets("Consumption Factor")
+'           If oSheet Is Nothing Then
+'                 oBook.Close
+'                oExcel.quit
+'                Set oBook = Nothing
+'                Set oExcel = Nothing
+'                MsgBox "Not found sheet name :  Consumption Factor", vbExclamation, "Not found Matrix sheet"
+'           Else
+'
+'            iRowCount = oSheet.UsedRange.Rows.Count
+'            Dim rng1 As Object
+'            Dim cells As Object
+'            Set rng1 = oSheet.range("C1:C" & Trim(Str(iRowCount)))
+'            Set cells = rng1.Find(PartId)
+'            If Not cells Is Nothing Then
+'
+'                Dim firstCellAddress As String
+'                firstCellAddress = cells.Address
+'
+'                ' Find all cells containing Elli
+'                Dim vTestStepData As String
+'                Do
+'                    Debug.Print "Found: " & cells.Address
+'                    vTestStepData = oSheet.range("AN" & Trim(Str(cells.row))).Value
+'                    If TestStep = vTestStepData Then
+'                        Debug.Print "Found!!!!!!!!!!!!!!!!"
+'                        vTempStep1 = oSheet.range("AO" & Trim(Str(cells.row))).Value
+'                        vTempStep2 = oSheet.range("AP" & Trim(Str(cells.row))).Value
+'                        vTempStep3 = oSheet.range("AQ" & Trim(Str(cells.row))).Value
+'                        vTempStep4 = oSheet.range("AR" & Trim(Str(cells.row))).Value
+'
+'                        lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")"
+'                        lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")"
+'                        lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")"
+'                        lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")"
+'
+'
+'                        'Fill all Yield Trigger value
+'                        Dim vTmpStr As String
+'                        vTmpStr = oSheet.range("AG" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                            vTriggerYieldValue = Val(vTmpStr)
+'                        End If
+'
+'                        vTmpStr = oSheet.range("AH" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerOpenShortBin = Val(vTmpStr)
+'                        End If
+'
+'                        vTmpStr = oSheet.range("AI" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerOpenShortYieldValue = Val(vTmpStr)
+'                        End If
+'
+'                        vTmpStr = oSheet.range("AJ" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerKelvinBin = Val(vTmpStr)
+'                        End If
+'
+'                        vTmpStr = oSheet.range("AK" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerKelvinYieldValue = Val(vTmpStr)
+'                        End If
+'
+'                        vTmpStr = oSheet.range("AL" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerLeakBin = Val(vTmpStr)
+'                        End If
+'
+'                        vTmpStr = oSheet.range("AM" & Trim(Str(cells.row))).Value
+'                        If IsNumeric(vTmpStr) Then
+'                             vTriggerLeakYieldValue = Val(vTmpStr)
+'                        End If
+'
+'
+'
+'
+'
+'                        Exit Do
+'                    End If
+'                    Set cells = rng1.FindNext(cells)
+'                Loop While firstCellAddress <> cells.Address
+            
     
               
-            Else
-                MsgBox PartId & " not found"
-            End If
-    
+'            Else
+'                MsgBox PartId & " not found"
+'            End If
+            
+            lblTriggerYield.Caption = Str(vTriggerYieldValue)
+                        lblOSYield.Caption = Str(vTriggerOpenShortYieldValue)
+                        lblkelvinYield.Caption = Str(vTriggerKelvinYieldValue)
+                        lblLeakYield.Caption = Str(vTriggerLeakYieldValue)
 
-           End If
+'           End If
            
-            oSheet.Close
-            oBook.Close
-           oExcel.quit
-           Set oSheet = Nothing
-           Set oBook = Nothing
-           Set oExcel = Nothing
+'            oSheet.Close
+'            oBook.Close
+'           oExcel.quit
+'           Set oSheet = Nothing
+'           Set oBook = Nothing
+'           Set oExcel = Nothing
            
 End Function
 
@@ -1601,22 +2267,21 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 
     Dim vBinNumberCol As New Collection
     
+    
+    '-----To Keep SW bin summary----
+    Dim objSummaryReport As New clsFTsummary
+    objSummaryReport.Temperature = Temperature
+    
+    'vFTSummaryReport.Add ""
+    
+    
+    
     For Each obj In objs
         Dim vSeq As String
         vSeq = obj.Seq
         vLot = obj.Lot
         
-'        Dim vSeqArry() As String
-'        Dim vBinNumber As Integer
-'        vSeqArry = Split(obj.Seq, "_")
-'        If UBound(vSeqArry) > 0 Then
-'            If vSeqArry(0) Like "R*" Then
-'                If vSeqArry(1) Like "B*" Then
-'                    vBinNumber = Val(Replace(vSeqArry(1), "B", ""))
-'                End If
-'            End If
-'        End If
-        
+       
         If vBinNumberCol.Count = 0 Then
         Dim vSeqArry() As String
         Dim vBinNumber As Integer
@@ -1638,6 +2303,30 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
         Dim vFunctionTest As Boolean
         vFunctionTest = IIf(Mid(vSeq, 1, 1) = "F", True, False)
         If (Len(vSeq) = 2 And Mid(vSeq, 1, 1) = "F") Or Mid(vSeq, 1, 1) = "R" Then
+            
+            '//TODO
+            Dim objTmpSwBin As Object
+            Dim tmpSite As clsSite
+            
+            For Each y In obj.SoftwareBins
+                Set tmpSite = New clsSite
+                Set objTmpSwBin = obj.getBin(y.Name, objSummaryReport.SwBinSums)
+                tmpSite.Name = y.Name
+                tmpSite.Total = y.Total
+                tmpSite.Description = y.Description
+                
+                If objTmpSwBin Is Nothing Then
+                    objSummaryReport.SwBinSums.Add tmpSite
+                Else
+                    
+                    If Mid(vSeq, 1, 1) = "R" Then
+                        objTmpSwBin.Total = y.Total
+                    Else
+                        objTmpSwBin.Total = objTmpSwBin.Total + y.Total
+                    End If
+                End If
+            Next
+            
             
             'sum all FCT and Retest
             vPassed = vPassed + obj.Passed
@@ -1764,6 +2453,13 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
     
     fGridFT.Rows = fGridFT.Rows + 1
     
+    '--Add report summary
+    objSummaryReport.Total = vTested
+    objSummaryReport.Pass = vPassed
+    objSummaryReport.Fail = vTested - vPassed
+    '-------------------
+    
+    
     With fGridFT
     'If .row = 0 Then
         .row = fGridFT.Rows - 1
@@ -1783,8 +2479,10 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
         .col = 6
         If vPassed <> 0 And vTested <> 0 Then
             .Text = Format((vPassed / vTested) * 100, "#0.00") 'obj.Failed
+            objSummaryReport.Yield = (vPassed / vTested) * 100
         Else
             .Text = "0"
+            objSummaryReport.Yield = 0
         End If
         'Hardware Bin (start bin2)
         .col = 7
@@ -1840,30 +2538,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
             Next
    ' End If
     
-'    Dim ixCol As Integer
-'    Dim objFind As Object
-'    'Hardware Bin
-'    ixCol = 2
-'    For i = 6 To 12
-'        .col = i
-'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.HardwareBins)
-'        If Not objFind Is Nothing Then
-'            .Text = objFind.Total
-'        End If
-'        ixCol = ixCol + 1
-'    Next
-'
-'    'Software Bin
-'    ixCol = 1
-'    For i = 13 To 18
-'        .col = i
-'        Set objFind = obj.getBin(Trim(Str(ixCol)), obj.SoftwareBins)
-'        If Not objFind Is Nothing Then
-'            .Text = objFind.Total
-'        End If
-'        ixCol = ixCol + 1
-'    Next
-    
+
+        vFTSummaryReport.Add objSummaryReport
     
     End With
 End Sub
@@ -2097,11 +2773,39 @@ Private Sub Form_Unload(Cancel As Integer)
            Set oExcel = Nothing
 End Sub
 
+
+
+
+Private Sub clear_all_yield()
+
+    For i = 0 To 3
+        With lblTriggerActualYield(i)
+            .Visible = False
+            .Caption = ""
+        End With
+        With lblOSActualYield(i)
+            .Visible = False
+            .Caption = ""
+        End With
+        With lblkelvinActualYield(i)
+            .Visible = False
+            .Caption = ""
+        End With
+        With lblLeakActualYield(i)
+            .Visible = False
+            .Caption = ""
+        End With
+    Next
+End Sub
+
+
+
 Private Sub txtLotNumber_Change()
     lstFile.Clear
     initial_Grid_Summary
     initial_Grid_FT
     initial_Grid_QA
+    clear_all_yield
     
     lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
     lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
@@ -2123,10 +2827,23 @@ Private Sub txtPartId_Change()
             vTempStep3 = ""
             vTempStep4 = ""
             
+            vTriggerYieldValue = 0
+            vTriggerOpenShortYieldValue = 0
+            vTriggerKelvinYieldValue = 0
+            vTriggerLeakYieldValue = 0
+            
+            vTriggerOpenShortBin = 0
+            vTriggerKelvinBin = 0
+            vTriggerLeakBin = 0
+            lblTriggerYield.Caption = Str(vTriggerYieldValue)
+            lblOSYield.Caption = Str(vTriggerOpenShortYieldValue)
+            lblkelvinYield.Caption = Str(vTriggerKelvinYieldValue)
+            lblLeakYield.Caption = Str(vTriggerLeakYieldValue)
+            
             lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
-    lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
-    lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
-    lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+            lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+            lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+            lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
 End Sub
 
 Private Sub txtPartId_KeyPress(KeyAscii As Integer)

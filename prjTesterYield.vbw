@@ -9,3 +9,4 @@ clsMAV = 0, 0, 791, 435, C
 mdlExcel = 25, 25, 832, 476, C
 clsIniFile = 0, 0, 807, 451, C
 mdlFolder = 75, 75, 882, 526, C
+clsFTsummary = 175, 175, 1100, 626, C
