@@ -7,10 +7,10 @@ Begin VB.Form frmMain
    ClientHeight    =   9195
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   16890
+   ClientWidth     =   16845
    LinkTopic       =   "Form1"
    ScaleHeight     =   9195
-   ScaleWidth      =   16890
+   ScaleWidth      =   16845
    StartUpPosition =   2  'CenterScreen
    Begin VB.ComboBox cbTestStep 
       Height          =   315
@@ -35,7 +35,7 @@ Begin VB.Form frmMain
       Height          =   285
       Left            =   8460
       TabIndex        =   18
-      Top             =   135
+      Top             =   45
       Width           =   1455
    End
    Begin TabDlg.SSTab SSTab1 
@@ -71,32 +71,32 @@ Begin VB.Form frmMain
          Left            =   135
          TabIndex        =   14
          Top             =   2205
-         Width           =   16620
+         Width           =   16485
          Begin MSFlexGridLib.MSFlexGrid fGridQa 
             Height          =   1185
-            Left            =   135
+            Left            =   90
             TabIndex        =   16
             Top             =   360
-            Width           =   16440
-            _ExtentX        =   28998
+            Width           =   16350
+            _ExtentX        =   28840
             _ExtentY        =   2090
             _Version        =   393216
          End
       End
       Begin VB.Frame Frame2 
          Caption         =   "FT Summarize"
-         Height          =   1635
+         Height          =   1680
          Left            =   135
          TabIndex        =   13
          Top             =   495
-         Width           =   16620
+         Width           =   16440
          Begin MSFlexGridLib.MSFlexGrid fGridFT 
             Height          =   1185
             Left            =   135
             TabIndex        =   15
             Top             =   360
-            Width           =   16440
-            _ExtentX        =   28998
+            Width           =   16260
+            _ExtentX        =   28681
             _ExtentY        =   2090
             _Version        =   393216
          End
@@ -111,17 +111,17 @@ Begin VB.Form frmMain
       Begin VB.Frame Frame1 
          Caption         =   "Summary Table"
          Height          =   3660
-         Left            =   90
+         Left            =   135
          TabIndex        =   10
          Top             =   3825
-         Width           =   16665
+         Width           =   16485
          Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
             Height          =   3300
             Left            =   135
             TabIndex        =   12
             Top             =   270
-            Width           =   16440
-            _ExtentX        =   28998
+            Width           =   16305
+            _ExtentX        =   28760
             _ExtentY        =   5821
             _Version        =   393216
          End
@@ -141,7 +141,7 @@ Begin VB.Form frmMain
       Left            =   1170
       TabIndex        =   7
       Top             =   540
-      Width           =   9780
+      Width           =   7260
    End
    Begin VB.TextBox txtLotNumber 
       Height          =   375
@@ -153,10 +153,10 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdExport 
       Caption         =   "Export Excel"
       Enabled         =   0   'False
-      Height          =   495
-      Left            =   12510
+      Height          =   405
+      Left            =   8955
       TabIndex        =   4
-      Top             =   450
+      Top             =   540
       Width           =   1455
    End
    Begin VB.ComboBox cbTester 
@@ -177,12 +177,12 @@ Begin VB.Form frmMain
       _Version        =   393216
    End
    Begin VB.CommandButton cmdBrowse 
-      Caption         =   "Select Folder"
-      Height          =   495
-      Left            =   11025
+      Caption         =   "..."
+      Height          =   405
+      Left            =   8460
       TabIndex        =   0
-      Top             =   450
-      Width           =   1455
+      Top             =   540
+      Width           =   465
    End
    Begin VB.Label lblLeakActualYield 
       Caption         =   "0"
@@ -197,10 +197,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   3
-      Left            =   16470
+      Left            =   14445
       TabIndex        =   50
-      Top             =   1080
-      Width           =   360
+      Top             =   1035
+      Width           =   450
    End
    Begin VB.Label lblkelvinActualYield 
       Caption         =   "0"
@@ -215,10 +215,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   3
-      Left            =   16470
+      Left            =   14445
       TabIndex        =   49
-      Top             =   765
-      Width           =   360
+      Top             =   720
+      Width           =   450
    End
    Begin VB.Label lblOSActualYield 
       Caption         =   "0"
@@ -233,10 +233,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   3
-      Left            =   16470
+      Left            =   14445
       TabIndex        =   48
-      Top             =   450
-      Width           =   360
+      Top             =   405
+      Width           =   450
    End
    Begin VB.Label lblTriggerActualYield 
       Caption         =   "0"
@@ -251,10 +251,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   3
-      Left            =   16470
+      Left            =   14445
       TabIndex        =   47
-      Top             =   135
-      Width           =   360
+      Top             =   90
+      Width           =   450
    End
    Begin VB.Label lblLeakActualYield 
       Caption         =   "0"
@@ -269,10 +269,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   2
-      Left            =   16155
+      Left            =   13950
       TabIndex        =   46
-      Top             =   1080
-      Width           =   360
+      Top             =   1035
+      Width           =   450
    End
    Begin VB.Label lblkelvinActualYield 
       Caption         =   "0"
@@ -287,10 +287,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   2
-      Left            =   16155
+      Left            =   13950
       TabIndex        =   45
-      Top             =   765
-      Width           =   360
+      Top             =   720
+      Width           =   450
    End
    Begin VB.Label lblOSActualYield 
       Caption         =   "0"
@@ -305,10 +305,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   2
-      Left            =   16155
+      Left            =   13950
       TabIndex        =   44
-      Top             =   450
-      Width           =   360
+      Top             =   405
+      Width           =   450
    End
    Begin VB.Label lblTriggerActualYield 
       Caption         =   "0"
@@ -323,10 +323,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   2
-      Left            =   16155
+      Left            =   13950
       TabIndex        =   43
-      Top             =   135
-      Width           =   360
+      Top             =   90
+      Width           =   450
    End
    Begin VB.Label lblLeakActualYield 
       Caption         =   "0"
@@ -341,10 +341,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   1
-      Left            =   15795
+      Left            =   13455
       TabIndex        =   42
-      Top             =   1080
-      Width           =   360
+      Top             =   1035
+      Width           =   450
    End
    Begin VB.Label lblkelvinActualYield 
       Caption         =   "0"
@@ -359,10 +359,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   1
-      Left            =   15795
+      Left            =   13455
       TabIndex        =   41
-      Top             =   765
-      Width           =   360
+      Top             =   720
+      Width           =   450
    End
    Begin VB.Label lblOSActualYield 
       Caption         =   "0"
@@ -377,10 +377,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   1
-      Left            =   15795
+      Left            =   13455
       TabIndex        =   40
-      Top             =   450
-      Width           =   360
+      Top             =   405
+      Width           =   450
    End
    Begin VB.Label lblTriggerActualYield 
       Caption         =   "0"
@@ -395,10 +395,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   1
-      Left            =   15795
+      Left            =   13455
       TabIndex        =   39
-      Top             =   135
-      Width           =   360
+      Top             =   90
+      Width           =   450
    End
    Begin VB.Label lblLeakActualYield 
       Caption         =   "0"
@@ -413,10 +413,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   0
-      Left            =   15435
+      Left            =   12960
       TabIndex        =   38
-      Top             =   1080
-      Width           =   360
+      Top             =   1035
+      Width           =   450
    End
    Begin VB.Label lblkelvinActualYield 
       Caption         =   "0"
@@ -431,10 +431,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   0
-      Left            =   15435
+      Left            =   12960
       TabIndex        =   37
-      Top             =   765
-      Width           =   360
+      Top             =   720
+      Width           =   450
    End
    Begin VB.Label lblOSActualYield 
       Caption         =   "0"
@@ -449,10 +449,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   0
-      Left            =   15435
+      Left            =   12960
       TabIndex        =   36
-      Top             =   450
-      Width           =   360
+      Top             =   405
+      Width           =   450
    End
    Begin VB.Label lblTriggerActualYield 
       Caption         =   "0"
@@ -467,10 +467,10 @@ Begin VB.Form frmMain
       EndProperty
       Height          =   255
       Index           =   0
-      Left            =   15435
+      Left            =   12960
       TabIndex        =   35
-      Top             =   135
-      Width           =   360
+      Top             =   90
+      Width           =   450
    End
    Begin VB.Label lblLeakYield 
       Caption         =   "0"
@@ -484,10 +484,10 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   15075
+      Left            =   12465
       TabIndex        =   34
-      Top             =   1080
-      Width           =   360
+      Top             =   1035
+      Width           =   450
    End
    Begin VB.Label lblkelvinYield 
       Caption         =   "0"
@@ -501,10 +501,10 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   15075
+      Left            =   12465
       TabIndex        =   33
-      Top             =   765
-      Width           =   360
+      Top             =   720
+      Width           =   450
    End
    Begin VB.Label lblOSYield 
       Caption         =   "0"
@@ -518,10 +518,10 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   15075
+      Left            =   12465
       TabIndex        =   32
-      Top             =   450
-      Width           =   360
+      Top             =   405
+      Width           =   450
    End
    Begin VB.Label lblTriggerYield 
       Caption         =   "0"
@@ -535,66 +535,66 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   15075
+      Left            =   12465
       TabIndex        =   31
-      Top             =   135
-      Width           =   360
+      Top             =   90
+      Width           =   450
    End
    Begin VB.Label Label7 
       Caption         =   "Leak Yield :"
       Height          =   255
-      Left            =   14175
+      Left            =   11520
       TabIndex        =   30
-      Top             =   1080
+      Top             =   1035
       Width           =   900
    End
    Begin VB.Label Label6 
       Caption         =   "Kelvin Yield :"
       Height          =   255
-      Left            =   14085
+      Left            =   11430
       TabIndex        =   29
-      Top             =   765
+      Top             =   720
       Width           =   975
    End
    Begin VB.Label Label5 
       Caption         =   "O/S Yield :"
       Height          =   255
-      Left            =   14220
+      Left            =   11565
       TabIndex        =   28
-      Top             =   450
+      Top             =   405
       Width           =   855
    End
    Begin VB.Label Label4 
       Caption         =   "Trigger Yield :"
       Height          =   255
-      Left            =   14040
+      Left            =   11385
       TabIndex        =   27
-      Top             =   135
+      Top             =   90
       Width           =   1035
    End
    Begin VB.Label lblTempStep4 
       Caption         =   "Temp4"
       Height          =   240
-      Left            =   11295
+      Left            =   9810
       TabIndex        =   26
       Top             =   990
-      Width           =   1860
+      Width           =   1275
    End
    Begin VB.Label lblTempStep3 
       Caption         =   "Temp3"
       Height          =   240
-      Left            =   9405
+      Left            =   8550
       TabIndex        =   25
       Top             =   990
-      Width           =   1770
+      Width           =   1185
    End
    Begin VB.Label lblTempStep2 
       Caption         =   "Temp2"
       Height          =   240
-      Left            =   7650
+      Left            =   7335
       TabIndex        =   24
       Top             =   990
-      Width           =   1680
+      Width           =   1140
    End
    Begin VB.Label lblTempStep1 
       Caption         =   "Temp1"
@@ -602,7 +602,7 @@ Begin VB.Form frmMain
       Left            =   6165
       TabIndex        =   23
       Top             =   990
-      Width           =   1410
+      Width           =   1050
    End
    Begin VB.Label lblTestStep 
       Caption         =   "Test Step :"
@@ -623,10 +623,10 @@ Begin VB.Form frmMain
    Begin VB.Label lblSearchBy 
       Caption         =   "..."
       Height          =   195
-      Left            =   9990
+      Left            =   8460
       TabIndex        =   17
-      Top             =   180
-      Width           =   3885
+      Top             =   315
+      Width           =   2310
    End
    Begin VB.Label Label3 
       Caption         =   "STARs Lot no :"
@@ -723,6 +723,9 @@ Dim vTriggerLeakBin As String
 Dim Matrix_Array() As String
 Dim vFTSummaryReport As New Collection
 
+'--version 1.0.16 - Matrix configuration path
+Dim vMatrixPath As String
+
 
 
 
@@ -742,13 +745,16 @@ Private Sub cbTester_Click()
     vCurrentFolder = getSectionString(cbTester.Text, "path")
     vCurrentFileExt = getSectionString(cbTester.Text, "file ext")
     txtFolder.Text = vCurrentFolder
+    If Len(txtFolder.Text) > 50 Then
+        txtFolder.Text = "..." & Mid(txtFolder.Text, 20)
+    End If
 '    showFileCountInFolder vCurrentFolder, vCurrentFileExt
     Me.MousePointer = 0
     
-    lblTempStep1.Caption = "Temp1(" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
-    lblTempStep2.Caption = "Temp2(" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
-    lblTempStep3.Caption = "Temp3(" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
-    lblTempStep4.Caption = "Temp4(" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+    lblTempStep1.Caption = "T1(" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
+    lblTempStep2.Caption = "T2(" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+    lblTempStep3.Caption = "T3(" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+    lblTempStep4.Caption = "T4(" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
     
 End Sub
 
@@ -795,8 +801,12 @@ Private Sub cmdBrowse_Click()
      
      Me.MousePointer = 11
     clearContains
-    txtFolder.Text = BrowseForFolder(hwnd, "Please select a Server folder.")
-    vCurrentFolder = txtFolder.Text
+    vCurrentFolder = BrowseForFolder(hwnd, "Please select a Server folder.")
+    'txtFolder.Text = BrowseForFolder(hwnd, "Please select a Server folder.")
+    txtFolder.Text = vCurrentFolder
+    If Len(txtFolder.Text) > 50 Then
+        txtFolder.Text = "..." & Mid(txtFolder.Text, 20)
+    End If
 '    showFileCountInFolder txtFolder.Text, vCurrentFileExt
     Me.MousePointer = 0
 End Sub
@@ -1616,7 +1626,7 @@ Private Function findTemperature(siteName As String, col As Collection) As Boole
         c = Replace(c, "° c", "")
         c = IIf(c = "", "25", c)
         'c = Int(c)
-        If c = Trim(siteName) Then
+        If c = Trim(siteName) Or c Like Trim(siteName) & "*" Then
             findTemperature = True
             Exit For
         End If
@@ -1706,7 +1716,15 @@ Private Sub Form_Load()
         End If
     '-----------------------
     'Version 1.0.13 -- Add Test Step Temperature Validation
-    Set xFolder = oFs.GetFolder(App.path)
+    
+    'version 1.0.16 -- Add configuraiton path for Matrix file
+    vMatrixPath = getSectionString("matrix", "path")
+    vMatrixPath = IIf(vMatrixPath = "", App.path, vMatrixPath)
+    txtPartId.ToolTipText = vMatrixPath
+    '--------------------------------------------------------
+    
+    
+    Set xFolder = oFs.GetFolder(vMatrixPath)
     Dim f As Object
         For Each f In xFolder.Files
             '--add to index file--
@@ -1731,7 +1749,7 @@ Private Sub Form_Load()
         If vFoundMatrixFile Then
             ' Load the file.
             Dim file_name As String
-            file_name = App.path & "\" & vMatrixFileName
+            file_name = vMatrixPath & "\" & vMatrixFileName
             fnum = FreeFile
             Open file_name For Input As fnum
             whole_file = Input$(LOF(fnum), #fnum)
@@ -1773,10 +1791,10 @@ Function get_PartId_Matrix_Configuration(PartId As String, _
             vTempStep3 = ""
             vTempStep4 = ""
             
-            lblTempStep1.Caption = "Temp1": lblTempStep1.ForeColor = vbDefault
-            lblTempStep2.Caption = "Temp2": lblTempStep2.ForeColor = vbDefault
-            lblTempStep3.Caption = "Temp3": lblTempStep3.ForeColor = vbDefault
-            lblTempStep4.Caption = "Temp4": lblTempStep4.ForeColor = vbDefault
+            lblTempStep1.Caption = "T1": lblTempStep1.ForeColor = vbDefault
+            lblTempStep2.Caption = "T2": lblTempStep2.ForeColor = vbDefault
+            lblTempStep3.Caption = "T3": lblTempStep3.ForeColor = vbDefault
+            lblTempStep4.Caption = "T4": lblTempStep4.ForeColor = vbDefault
             
             vTriggerYieldValue = 0
             vTriggerOpenShortYieldValue = 0
@@ -1798,10 +1816,10 @@ Function get_PartId_Matrix_Configuration(PartId As String, _
                         vTempStep3 = Matrix_Array(i, 42) 'AQ
                         vTempStep4 = Matrix_Array(i, 43) 'AR
 
-                        lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")"
-                        lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")"
-                        lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")"
-                        lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")"
+                        lblTempStep1.Caption = "T1 (" & vTempStep1 & ")"
+                        lblTempStep2.Caption = "T2 (" & vTempStep2 & ")"
+                        lblTempStep3.Caption = "T3 (" & vTempStep3 & ")"
+                        lblTempStep4.Caption = "T4 (" & vTempStep4 & ")"
 
 
                         'Fill all Yield Trigger value
@@ -2807,10 +2825,10 @@ Private Sub txtLotNumber_Change()
     initial_Grid_QA
     clear_all_yield
     
-    lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
-    lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
-    lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
-    lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+    lblTempStep1.Caption = "T1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
+    lblTempStep2.Caption = "T2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+    lblTempStep3.Caption = "T3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+    lblTempStep4.Caption = "T4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
                         
 End Sub
 
@@ -2840,10 +2858,10 @@ Private Sub txtPartId_Change()
             lblkelvinYield.Caption = Str(vTriggerKelvinYieldValue)
             lblLeakYield.Caption = Str(vTriggerLeakYieldValue)
             
-            lblTempStep1.Caption = "Temp1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
-            lblTempStep2.Caption = "Temp2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
-            lblTempStep3.Caption = "Temp3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
-            lblTempStep4.Caption = "Temp4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
+            lblTempStep1.Caption = "T1 (" & vTempStep1 & ")": lblTempStep1.ForeColor = vbDefault
+            lblTempStep2.Caption = "T2 (" & vTempStep2 & ")": lblTempStep2.ForeColor = vbDefault
+            lblTempStep3.Caption = "T3 (" & vTempStep3 & ")": lblTempStep3.ForeColor = vbDefault
+            lblTempStep4.Caption = "T4 (" & vTempStep4 & ")": lblTempStep4.ForeColor = vbDefault
 End Sub
 
 Private Sub txtPartId_KeyPress(KeyAscii As Integer)
