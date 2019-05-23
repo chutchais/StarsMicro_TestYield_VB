@@ -832,7 +832,12 @@ Dim obj As Object
     '[lot].csv file format
     Dim iFileNumber As Integer
     Dim vReportFileName As String
-    vReportFileName = vReportFolder & "\" & cbTester.Text & "\" & txtLotNumber & ".csv"
+    'vReportFileName = vReportFolder & "\" & cbTester.Text & "\" & txtLotNumber & ".csv"
+    'Change on May 23,2019 -- on version 1.0.17
+    Dim vNewLotName As String
+    vNewLotName = IIf(cbTester.Text = "EPRO", Replace(txtLotNumber, "-", "."), txtLotNumber)
+    
+    vReportFileName = vReportFolder & "\" & vNewLotName & ".csv"
     iFileNumber = FreeFile
     Open vReportFileName For Output As iFileNumber
     
@@ -1440,7 +1445,12 @@ Sub checkTempStep(objs As Collection)
     
     Dim iFileNumber As Integer
     Dim vReportFileName As String
-    vReportFileName = vReportFolder & "\" & cbTester.Text & "\judgment_" & txtLotNumber & ".txt"
+    'vReportFileName = vReportFolder & "\" & cbTester.Text & "\judgment_" & txtLotNumber & ".txt"
+    Dim vNewLotName As String
+    vNewLotName = IIf(cbTester.Text = "EPRO", Replace(txtLotNumber, "-", "."), txtLotNumber)
+    
+    'Change on May 23,2019 -- on version 1.0.17
+    vReportFileName = vReportFolder & "\" & vNewLotName & ".txt"
     iFileNumber = FreeFile
     Open vReportFileName For Output As iFileNumber
     
@@ -1456,6 +1466,10 @@ Sub checkTempStep(objs As Collection)
     Dim vLotJudgmentResult As Boolean
     Dim txt As String
     ixTemperature = 0
+    
+    Dim vLotFinalJudgmentResult As Boolean
+    vLotFinalJudgmentResult = True
+    
     
     For Each b In vFTSummaryReport
         vLotJudgmentResult = True
@@ -1546,8 +1560,12 @@ bypass_kelvin:
             Print #iFileNumber, txt
         End If
 bypass_leak:
-        Print #iFileNumber, "Lot judgment : " & IIf(vLotJudgmentResult, "G", "NG")
+        Print #iFileNumber, "SYL/SBL judgment : " & IIf(vLotJudgmentResult, "G", "NG")
         Print #iFileNumber, ""
+        
+        If vLotJudgmentResult Then
+            vLotFinalJudgmentResult = False
+        End If
     Next 'Next Temperature
     
     'End Trigger Yield
@@ -1613,20 +1631,27 @@ bypass_leak:
     Print #iFileNumber, vResultStrTemp2
     Print #iFileNumber, vResultStrTemp3
     Print #iFileNumber, vResultStrTemp4
+    
+    
+    'Add on May 23,2019 ---version 1.0.17
+    Print #iFileNumber, ""
+    Print #iFileNumber, "Final Lot judgment = " & IIf(vLotFinalJudgmentResult And vTempStep1_Result And vTempStep2_Result And _
+                                                    vTempStep3_Result And vTempStep4_Result, "G", "NG")
+    
     Close #iFileNumber
 End Sub
 
 Private Function findTemperature(siteName As String, col As Collection) As Boolean
   On Error GoTo errhandler
-  For Each c In col
+  For Each C In col
         'remove C
-        c = Replace(c, "° C", "")
-        c = Replace(c, "°C", "")
-        c = Replace(c, "°c", "")
-        c = Replace(c, "° c", "")
-        c = IIf(c = "", "25", c)
+        C = Replace(C, "° C", "")
+        C = Replace(C, "°C", "")
+        C = Replace(C, "°c", "")
+        C = Replace(C, "° c", "")
+        C = IIf(C = "", "25", C)
         'c = Int(c)
-        If c = Trim(siteName) Or c Like Trim(siteName) & "*" Then
+        If C = Trim(siteName) Or C Like Trim(siteName) & "*" Then
             findTemperature = True
             Exit For
         End If
@@ -1702,18 +1727,19 @@ Private Sub Form_Load()
     End If
     
     'create sub folder
-        If Not oFs.FolderExists(vReportFolder & "\ETS") Then
-            oFs.CreateFolder (vReportFolder & "\ETS")
-        End If
-        If Not oFs.FolderExists(vReportFolder & "\TMT") Then
-            oFs.CreateFolder (vReportFolder & "\TMT")
-        End If
-        If Not oFs.FolderExists(vReportFolder & "\MAV") Then
-            oFs.CreateFolder (vReportFolder & "\MAV")
-        End If
-        If Not oFs.FolderExists(vReportFolder & "\EPRO") Then
-            oFs.CreateFolder (vReportFolder & "\EPRO")
-        End If
+    'Remove on version 1.0.17  May 23,2019
+'        If Not oFs.FolderExists(vReportFolder & "\ETS") Then
+'            oFs.CreateFolder (vReportFolder & "\ETS")
+'        End If
+'        If Not oFs.FolderExists(vReportFolder & "\TMT") Then
+'            oFs.CreateFolder (vReportFolder & "\TMT")
+'        End If
+'        If Not oFs.FolderExists(vReportFolder & "\MAV") Then
+'            oFs.CreateFolder (vReportFolder & "\MAV")
+'        End If
+'        If Not oFs.FolderExists(vReportFolder & "\EPRO") Then
+'            oFs.CreateFolder (vReportFolder & "\EPRO")
+'        End If
     '-----------------------
     'Version 1.0.13 -- Add Test Step Temperature Validation
     
@@ -1768,9 +1794,9 @@ Private Sub Form_Load()
             For R = 0 To num_rows
                 If Len(lines(R)) > 0 Then
                     one_line = Split(lines(R), ",")
-                    For c = 0 To num_cols
-                        Matrix_Array(R, c) = one_line(c)
-                    Next c
+                    For C = 0 To num_cols
+                        Matrix_Array(R, C) = one_line(C)
+                    Next C
                 End If
             Next R
         
@@ -2212,8 +2238,8 @@ Sub add_data_to_Grid_Summary(obj As Object, vFileName As String)
 '                .CellBackColor = vbGreen
 '        End If
         If Not vBinNumberCol Is Nothing Then
-            For Each c In vBinNumberCol
-                If c = i - 4 Then
+            For Each C In vBinNumberCol
+                If C = i - 4 Then
                     .CellBackColor = vbGreen
                 End If
             Next
@@ -2248,9 +2274,9 @@ Sub add_data_to_FT_Grid_Summary(objs As Collection)
     Dim vRow As Integer
     vRow = 1
     Dim objTemp As Collection
-    For Each c In colTemp
-        Set objTemp = getCollectionByTemperature(CStr(c), objs)
-        add_data_to_FT_each_Temperature CStr(c), objTemp, vRow
+    For Each C In colTemp
+        Set objTemp = getCollectionByTemperature(CStr(C), objs)
+        add_data_to_FT_each_Temperature CStr(C), objTemp, vRow
         vRow = vRow + 1
     Next
 End Sub
@@ -2376,8 +2402,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 '                If vBinNumber = 2 Then
 '                    vHWBin2 = objHWBin.Total
 '                End If
-                For Each c In vBinNumberCol
-                    If c = 2 Then
+                For Each C In vBinNumberCol
+                    If C = 2 Then
                         vHWBin2 = objHWBin.Total
                     End If
                 Next
@@ -2390,8 +2416,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 '                    vHWBin3 = vHWBin3 + objHWBin.Total
 '                End If
                 vHWBin3 = vHWBin3 + objHWBin.Total
-                For Each c In vBinNumberCol
-                    If c = 3 Then
+                For Each C In vBinNumberCol
+                    If C = 3 Then
                         vHWBin3 = objHWBin.Total
                     End If
                 Next
@@ -2403,8 +2429,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 '                    vHWBin4 = vHWBin4 + objHWBin.Total
 '                End If
                 vHWBin4 = vHWBin4 + objHWBin.Total
-                For Each c In vBinNumberCol
-                    If c = 4 Then
+                For Each C In vBinNumberCol
+                    If C = 4 Then
                         vHWBin4 = objHWBin.Total
                     End If
                 Next
@@ -2416,8 +2442,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 '                    vHWBin5 = vHWBin5 + objHWBin.Total
 '                End If
                 vHWBin5 = vHWBin5 + objHWBin.Total
-                For Each c In vBinNumberCol
-                    If c = 5 Then
+                For Each C In vBinNumberCol
+                    If C = 5 Then
                         vHWBin5 = objHWBin.Total
                     End If
                 Next
@@ -2429,8 +2455,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 '                    vHWBin6 = vHWBin6 + objHWBin.Total
 '                End If
                 vHWBin6 = vHWBin6 + objHWBin.Total
-                For Each c In vBinNumberCol
-                    If c = 6 Then
+                For Each C In vBinNumberCol
+                    If C = 6 Then
                         vHWBin6 = objHWBin.Total
                     End If
                 Next
@@ -2442,8 +2468,8 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
 '                    vHWBin7 = vHWBin7 + objHWBin.Total
 '                End If
                 vHWBin7 = vHWBin7 + objHWBin.Total
-                For Each c In vBinNumberCol
-                    If c = 7 Then
+                For Each C In vBinNumberCol
+                    If C = 7 Then
                         vHWBin7 = objHWBin.Total
                     End If
                 Next
@@ -2505,52 +2531,52 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
         'Hardware Bin (start bin2)
         .col = 7
         .Text = vHWBin2
-            For Each c In vBinNumberCol
-                If c = 2 Then
+            For Each C In vBinNumberCol
+                If C = 2 Then
                 .CellBackColor = vbGreen
             End If
             Next
             
         .col = 8
         .Text = vHWBin3
-            For Each c In vBinNumberCol
-                If c = 3 Then
+            For Each C In vBinNumberCol
+                If C = 3 Then
                     .CellBackColor = vbGreen
                 End If
             Next
         .col = 9
         .Text = vHWBin4
-            For Each c In vBinNumberCol
-                If c = 4 Then
+            For Each C In vBinNumberCol
+                If C = 4 Then
                     .CellBackColor = vbGreen
                 End If
             Next
         .col = 10
         .Text = vHWBin5
-            For Each c In vBinNumberCol
-                If c = 5 Then
+            For Each C In vBinNumberCol
+                If C = 5 Then
                     .CellBackColor = vbGreen
                 End If
             Next
         .col = 11
         .Text = vHWBin6
-            For Each c In vBinNumberCol
-                If c = 6 Then
+            For Each C In vBinNumberCol
+                If C = 6 Then
                     .CellBackColor = vbGreen
                 End If
             Next
         .col = 12
         .Text = vHWBin7
-            For Each c In vBinNumberCol
-                If c = 7 Then
+            For Each C In vBinNumberCol
+                If C = 7 Then
                     .CellBackColor = vbGreen
                 End If
             Next
         
         .col = 13
         .Text = vHWBin8
-            For Each c In vBinNumberCol
-                If c = 8 Then
+            For Each C In vBinNumberCol
+                If C = 8 Then
                     .CellBackColor = vbGreen
                 End If
             Next
@@ -2564,8 +2590,8 @@ End Sub
 
 
 Function temperatureExistInCol(Temperature As String, cols As Collection) As Boolean
-    For Each c In cols
-        If c = Temperature Then
+    For Each C In cols
+        If C = Temperature Then
             temperatureExistInCol = True
             Exit Function
         End If
@@ -2603,10 +2629,10 @@ Sub add_data_to_QA_Grid_Summary(objs As Collection)
     Dim vRow As Integer
     vRow = 1
     Dim objTemp As Collection
-    For Each c In colTemp
-        Set objTemp = getCollectionByTemperature(CStr(c), objs)
+    For Each C In colTemp
+        Set objTemp = getCollectionByTemperature(CStr(C), objs)
         
-        add_data_to_QA_each_Temp CStr(c), objTemp, vRow
+        add_data_to_QA_each_Temp CStr(C), objTemp, vRow
         vRow = vRow + 1
     Next
 End Sub
