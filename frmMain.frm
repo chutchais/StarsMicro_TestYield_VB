@@ -1563,9 +1563,11 @@ bypass_leak:
         Print #iFileNumber, "SYL/SBL judgment : " & IIf(vLotJudgmentResult, "G", "NG")
         Print #iFileNumber, ""
         
-        If vLotJudgmentResult Then
-            vLotFinalJudgmentResult = False
-        End If
+'        If Not vLotJudgmentResult Then
+'            vLotFinalJudgmentResult = False
+'        End If
+        'Fix wrong final result , on version 1.0.18 (May 25,2019)
+        vLotFinalJudgmentResult = vLotJudgmentResult
     Next 'Next Temperature
     
     'End Trigger Yield
@@ -1625,7 +1627,7 @@ bypass_leak:
         vTempStep4_Result = True
     End If
     
-    Print #iFileNumber, "Lot teperature judgment = " & IIf(vTempStep1_Result And vTempStep2_Result And _
+    Print #iFileNumber, "Lot temperature judgment = " & IIf(vTempStep1_Result And vTempStep2_Result And _
                                                     vTempStep3_Result And vTempStep4_Result, "G", "NG")
     Print #iFileNumber, vResultStrTemp1
     Print #iFileNumber, vResultStrTemp2
