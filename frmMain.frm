@@ -1567,7 +1567,13 @@ bypass_leak:
 '            vLotFinalJudgmentResult = False
 '        End If
         'Fix wrong final result , on version 1.0.18 (May 25,2019)
-        vLotFinalJudgmentResult = vLotJudgmentResult
+        'vLotFinalJudgmentResult = vLotJudgmentResult
+        
+        'Fix wrong final result , on version 1.0.19 (May 28,2019)
+        If Not vLotJudgmentResult Then
+            vLotFinalJudgmentResult = False
+        End If
+
     Next 'Next Temperature
     
     'End Trigger Yield
