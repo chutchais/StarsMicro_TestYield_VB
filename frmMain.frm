@@ -1496,7 +1496,11 @@ Sub checkTempStep(objs As Collection)
         
         'Open short Bin
         If vTriggerOpenShortBin <> "" And vTriggerOpenShortBin <> "NA" Then
-            Set objTmpSwBin = b.getBin(vTriggerOpenShortBin, b.SwBinSums)
+            '1.0.19
+            'Set objTmpSwBin = b.getBin(vTriggerOpenShortBin, b.SwBinSums)
+            '1.0.20 - change from DB to HW
+            Set objTmpSwBin = b.getBin(vTriggerOpenShortBin, b.HwBinSums)
+            
             If objTmpSwBin Is Nothing Then
                 GoTo bypass_Os
             End If
@@ -1518,7 +1522,10 @@ Sub checkTempStep(objs As Collection)
 bypass_Os:
         'KelVin
         If vTriggerKelvinBin <> "" And vTriggerKelvinBin <> "NA" Then
-            Set objTmpSwBin = b.getBin(vTriggerKelvinBin, b.SwBinSums)
+            'Set objTmpSwBin = b.getBin(vTriggerKelvinBin, b.SwBinSums)
+            '1.0.20 - change from DB to HW
+            Set objTmpSwBin = b.getBin(vTriggerKelvinBin, b.HwBinSums)
+            
             If objTmpSwBin Is Nothing Then
                 GoTo bypass_kelvin
             End If
@@ -1540,7 +1547,9 @@ bypass_Os:
 bypass_kelvin:
         'Leak
         If vTriggerLeakBin <> "" And vTriggerLeakBin <> "NA" Then
-            Set objTmpSwBin = b.getBin(vTriggerLeakBin, b.SwBinSums)
+            'Set objTmpSwBin = b.getBin(vTriggerLeakBin, b.SwBinSums)
+            '1.0.20 - change from DB to HW
+            Set objTmpSwBin = b.getBin(vTriggerLeakBin, b.HwBinSums)
             If objTmpSwBin Is Nothing Then
                 GoTo bypass_leak
             End If
@@ -2393,92 +2402,92 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
             End If
             
             Dim objHwBins As Object
-            Set objHWBin = obj.getBin("1", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("1", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin1 = vHWBin1 + objHWBin.Total
 '                End If
-                vHWBin1 = vHWBin1 + objHWBin.Total
+                vHWBin1 = vHWBin1 + objHwBin.Total
             End If
             
-            Set objHWBin = obj.getBin("2", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("2", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin2 = vHWBin2 + objHWBin.Total
 '                End If
-                vHWBin2 = vHWBin2 + objHWBin.Total
+                vHWBin2 = vHWBin2 + objHwBin.Total
 '                If vBinNumber = 2 Then
 '                    vHWBin2 = objHWBin.Total
 '                End If
                 For Each C In vBinNumberCol
                     If C = 2 Then
-                        vHWBin2 = objHWBin.Total
+                        vHWBin2 = objHwBin.Total
                     End If
                 Next
                 
             End If
             
-            Set objHWBin = obj.getBin("3", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("3", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin3 = vHWBin3 + objHWBin.Total
 '                End If
-                vHWBin3 = vHWBin3 + objHWBin.Total
+                vHWBin3 = vHWBin3 + objHwBin.Total
                 For Each C In vBinNumberCol
                     If C = 3 Then
-                        vHWBin3 = objHWBin.Total
+                        vHWBin3 = objHwBin.Total
                     End If
                 Next
             End If
             
-            Set objHWBin = obj.getBin("4", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("4", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin4 = vHWBin4 + objHWBin.Total
 '                End If
-                vHWBin4 = vHWBin4 + objHWBin.Total
+                vHWBin4 = vHWBin4 + objHwBin.Total
                 For Each C In vBinNumberCol
                     If C = 4 Then
-                        vHWBin4 = objHWBin.Total
+                        vHWBin4 = objHwBin.Total
                     End If
                 Next
             End If
             
-            Set objHWBin = obj.getBin("5", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("5", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin5 = vHWBin5 + objHWBin.Total
 '                End If
-                vHWBin5 = vHWBin5 + objHWBin.Total
+                vHWBin5 = vHWBin5 + objHwBin.Total
                 For Each C In vBinNumberCol
                     If C = 5 Then
-                        vHWBin5 = objHWBin.Total
+                        vHWBin5 = objHwBin.Total
                     End If
                 Next
             End If
             
-            Set objHWBin = obj.getBin("6", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("6", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin6 = vHWBin6 + objHWBin.Total
 '                End If
-                vHWBin6 = vHWBin6 + objHWBin.Total
+                vHWBin6 = vHWBin6 + objHwBin.Total
                 For Each C In vBinNumberCol
                     If C = 6 Then
-                        vHWBin6 = objHWBin.Total
+                        vHWBin6 = objHwBin.Total
                     End If
                 Next
             End If
             
-            Set objHWBin = obj.getBin("7", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
+            Set objHwBin = obj.getBin("7", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
 '                If vFunctionTest Then
 '                    vHWBin7 = vHWBin7 + objHWBin.Total
 '                End If
-                vHWBin7 = vHWBin7 + objHWBin.Total
+                vHWBin7 = vHWBin7 + objHwBin.Total
                 For Each C In vBinNumberCol
                     If C = 7 Then
-                        vHWBin7 = objHWBin.Total
+                        vHWBin7 = objHwBin.Total
                     End If
                 Next
             End If
@@ -2491,8 +2500,83 @@ Sub add_data_to_FT_each_Temperature(Temperature As String, objs As Collection, O
         End If
         
         vTemp = obj.Temperature
+        
+                    
+            
                 
     Next
+    
+    'version 1.0.20 -JUne 19,2019
+            'to add HWBin to FT summary Object
+            Dim objTotalHwBin As Object
+            Set objTotalHwBin = objs.Item(1).getBin("1", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "1"
+                    tmpSite.Total = vHWBin1
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+            Set objTotalHwBin = objs.Item(1).getBin("2", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "2"
+                    tmpSite.Total = vHWBin2
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+            Set objTotalHwBin = objs.Item(1).getBin("3", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "3"
+                    tmpSite.Total = vHWBin3
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+            Set objTotalHwBin = objs.Item(1).getBin("4", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "4"
+                    tmpSite.Total = vHWBin4
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+            Set objTotalHwBin = objs.Item(1).getBin("5", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "5"
+                    tmpSite.Total = vHWBin5
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+            Set objTotalHwBin = objs.Item(1).getBin("6", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "6"
+                    tmpSite.Total = vHWBin6
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+            Set objTotalHwBin = objs.Item(1).getBin("7", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "7"
+                    tmpSite.Total = vHWBin7
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+
+            Set objTotalHwBin = objs.Item(1).getBin("8", objs.Item(1).HardwareBins)
+                If Not objTotalHwBin Is Nothing Then
+                    Set tmpSite = New clsSite
+                    tmpSite.Name = "8"
+                    tmpSite.Total = vHWBin8
+                    tmpSite.Description = objTotalHwBin.Description
+                    objSummaryReport.HwBinSums.Add tmpSite
+                End If
+           
+
+                
     
     'comment for 1.0.7 ,Feb 13,2019
     'vPassed = vPassed + vRetestPassed
@@ -2701,63 +2785,63 @@ Sub add_data_to_QA_each_Temp(Temperature As String, objs As Collection, Optional
             vPassed = vPassed + obj.Passed
 
             Dim objHwBins As Object
-            Set objHWBin = obj.getBin("1", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                vHWBin1 = vHWBin1 + objHWBin.Total
+            Set objHwBin = obj.getBin("1", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                vHWBin1 = vHWBin1 + objHwBin.Total
             End If
             
-            Set objHWBin = obj.getBin("2", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin2 < objHWBin.Total Then
-                    vHWBin2 = objHWBin.Total
+            Set objHwBin = obj.getBin("2", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin2 < objHwBin.Total Then
+                    vHWBin2 = objHwBin.Total
                     vPreviousHWBin2 = vHWBin2
                 End If
             End If
             
-            Set objHWBin = obj.getBin("3", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin3 < objHWBin.Total Then
-                    vHWBin3 = objHWBin.Total
+            Set objHwBin = obj.getBin("3", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin3 < objHwBin.Total Then
+                    vHWBin3 = objHwBin.Total
                     vPreviousHWBin3 = vHWBin3
                 End If
             End If
             
-            Set objHWBin = obj.getBin("4", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin4 < objHWBin.Total Then
-                    vHWBin4 = objHWBin.Total
+            Set objHwBin = obj.getBin("4", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin4 < objHwBin.Total Then
+                    vHWBin4 = objHwBin.Total
                     vPreviousHWBin4 = vHWBin4
                 End If
             End If
             
-            Set objHWBin = obj.getBin("5", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin5 < objHWBin.Total Then
-                    vHWBin5 = objHWBin.Total
+            Set objHwBin = obj.getBin("5", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin5 < objHwBin.Total Then
+                    vHWBin5 = objHwBin.Total
                     vPreviousHWBin5 = vHWBin5
                 End If
             End If
             
-            Set objHWBin = obj.getBin("6", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin6 < objHWBin.Total Then
-                    vHWBin6 = objHWBin.Total
+            Set objHwBin = obj.getBin("6", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin6 < objHwBin.Total Then
+                    vHWBin6 = objHwBin.Total
                     vPreviousHWBin6 = vHWBin6
                 End If
             End If
             
-            Set objHWBin = obj.getBin("7", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin7 < objHWBin.Total Then
-                    vHWBin7 = objHWBin.Total
+            Set objHwBin = obj.getBin("7", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin7 < objHwBin.Total Then
+                    vHWBin7 = objHwBin.Total
                     vPreviousHWBin7 = vHWBin7
                 End If
             End If
             
-            Set objHWBin = obj.getBin("8", obj.HardwareBins)
-            If Not objHWBin Is Nothing Then
-                If vPreviousHWBin8 < objHWBin.Total Then
-                    vHWBin8 = objHWBin.Total
+            Set objHwBin = obj.getBin("8", obj.HardwareBins)
+            If Not objHwBin Is Nothing Then
+                If vPreviousHWBin8 < objHwBin.Total Then
+                    vHWBin8 = objHwBin.Total
                     vPreviousHWBin8 = vHWBin8
                 End If
             End If

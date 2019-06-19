@@ -19,9 +19,18 @@ Public Fail As Double
 Public Yield As Double
 Private objSwBins As New Collection
 
+'Add on version 1.0.20 -- June 19,2019
+Private objHwBins As New Collection
+
 Public Property Get SwBinSums() As Collection
     Set SwBinSums = objSwBins
 End Property
+
+'Add on version 1.0.20 -- June 19,2019
+Public Property Get HwBinSums() As Collection
+    Set HwBinSums = objHwBins
+End Property
+
 
 Public Function getBin(key As String, col As Collection) As Object
   On Error GoTo errhandler
