@@ -1,12 +1,12 @@
-frmMain = 25, 25, 989, 260, Z, 75, 75, 939, 526, C
+frmMain = 25, 25, 989, 260, C, 75, 75, 939, 526, C
 clsTMT = 0, 0, 0, 0, C
 mdlsystem = 0, 0, 0, 0, C
 clsBin = 0, 0, 0, 0, C
 clsSite = 0, 0, 0, 0, C
 clsEPRO = 0, 0, 0, 0, C
-clsETS = 175, 175, 1039, 626, 
+clsETS = 175, 175, 1039, 626, C
 clsMAV = 0, 0, 0, 0, C
 mdlExcel = 0, 0, 0, 0, C
 clsIniFile = 0, 0, 0, 0, C
 mdlFolder = 0, 0, 0, 0, C
-clsFTsummary = 75, 75, 1039, 310, 
+clsFTsummary = 75, 75, 1039, 310, C
